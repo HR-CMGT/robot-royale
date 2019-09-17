@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./style.css">
+    <title>Awkward Robotics</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+</head>
+<body class="site">
+    <section class="header">
+        <h1>Awkward Robotics</h1>
+        <h3 id="field">Robot Creator</h3>
+    </section>
+    
+
+    <section class="middle">  
+        <div class="options">
+            <select id="move" class="select-css">
+                <option id="option-1">Move to nearest enemy</option>
+                <option id="option-2">Move away from nearest enemy</option>
+                <option id="option-3">Find Health</option>
+            </select>
+  
+            <select id="power" class="select-css">
+                <option id="option-1">Fireball</option>
+                <option id="option-2">Teleport</option>
+                <option id="option-3">Invulnerable</option>
+                <option id="option-4">Repair</option>
+            </select>
+
+            <select id="armor" class="select-css">
+                <option id="option-1">High Armor Low Speed</option>
+                <option id="option-2">Medium Armor, Speed</option>
+                <option id="option-3">Low Armor High Speed</option>
+            </select>
+        </div>
+        <div class="submitmessage disabled">
+            <p>Check how your robot is doing on the big screen.</p>
+            <p>Use your special power at the best moment!</p>
+        </div>
+    </section>
+
+    <section class="buttonrow">
+        <button id="randomize">Randomize</button>
+        <button id="sendrobot">Add Robot To Game</button>
+    </section>
+
+    <section class="shootbuttonrow disabled">
+        <button id="powerbutton">Special Power</button>
+    </section>
+
+    <script type="module" src="./js/words.js"></script>
+    <script type="module" src="./js/generator.js"></script>
+    <script type="module" src="./js/app.js"></script>
+</body>
+</html>

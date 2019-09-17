@@ -1,0 +1,100 @@
+div, statusbar, robot {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font: 16px Helvetica, Arial;
+    background-color:lightblue;
+    height:100vh;
+}
+
+h1,h2,h3,h4 {
+    margin-top:0;
+}
+
+#title {
+    position: absolute;
+    padding:15px;
+}
+
+.view {
+    display: flex;
+    height:100vh;
+}
+
+.view > div:nth-child(odd) {
+  flex: 1;
+  background-color:white;
+}
+
+.view > div:nth-child(even) {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis:200px;
+  background-color:lightgray;
+}
+
+#robotlist {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+statusbar {
+    width:200px;
+    display: block;
+    margin-bottom:2px;
+    overflow: hidden;
+    position: relative;
+}
+
+statusbar > div {
+   width:100%;
+   position: absolute;
+}
+
+.damage {
+    background-color:rgba(255, 255, 255, 0.35);
+    height:100%;
+    right:0px;
+    transition: width 0.2s linear;
+}
+
+statusbar > div:last-child {
+    padding:4px;
+    font-size:12px;
+}
+
+robot {
+    display:block;
+    position: absolute;
+    width:125px;
+    height:100px;
+    /* border-radius: 8px; */
+    /* padding:4px; */
+    overflow: hidden;
+    left:0; top:0;
+    background-image: url("./images/tanks.png");
+}
+bullet {
+    display:block;
+    position: absolute;
+    width:24px;
+    height:6px;
+    /* border-radius: 8px; */
+    /* padding:4px; */
+    overflow: hidden;
+    left:0; top:0;
+    /* background-color: black; */
+    background-image: url("./images/bullet.gif");
+}
+ammo {
+    display:block;
+    position: absolute;
+    width:24px;
+    height:18px;
+    overflow: hidden;
+    left:0; top:0;
+    background-image: url("./images/ammobox.png");
+}

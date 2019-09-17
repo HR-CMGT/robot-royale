@@ -1,0 +1,24 @@
+{
+  "name": "awkward-robots",
+  "version": "1.0.0",
+  "description": "Multiplayer game for programming awkward robots. The game is projected on a large floor space. Visitors can open a url on their phone to participate in the game. In the game, users program a robot. The robot battles the other robots according to its program.",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KokoDoko/awkward-robots.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KokoDoko/awkward-robots/issues"
+  },
+  "homepage": "https://github.com/KokoDoko/awkward-robots#readme"
+}
