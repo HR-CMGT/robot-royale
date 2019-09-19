@@ -1,6 +1,6 @@
 {
-  "name": "awkward-robots",
-  "version": "1.0.0",
+  "name": "robot-royale",
+  "version": "1.0.1",
   "description": "Multiplayer game for programming awkward robots. The game is projected on a large floor space. Visitors can open a url on their phone to participate in the game. In the game, users program a robot. The robot battles the other robots according to its program.",
   "main": "index.js",
   "dependencies": {
@@ -13,12 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KokoDoko/awkward-robots.git"
+    "url": "git+https://github.com/HR-CMGT/robot-royale.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/KokoDoko/awkward-robots/issues"
+    "url": "https://github.com/HR-CMGT/robot-royale/issues"
   },
-  "homepage": "https://github.com/KokoDoko/awkward-robots#readme"
+  "homepage": "https://github.com/HR-CMGT/robot-royale#readme"
 }
