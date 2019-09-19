@@ -1,4 +1,4 @@
-import { Robot } from "./robot.js";
+import { Tank } from "./tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
 import { AmmoBox } from "./ammobox.js";
 export class Game {
@@ -15,11 +15,16 @@ export class Game {
             console.log("special power for: " + id);
         });
         for (let i = 0; i < 5; i++) {
-            this.ammoBoxes.push(new AmmoBox());
+            this.gameObjects.push(new AmmoBox());
         }
+        setInterval(() => {
+            this.gameObjects.push(new AmmoBox());
+        }, 5000);
         this.update();
     }
-    get AmmoBoxes() { return this.ammoBoxes; }
+    get AmmoBoxes() {
+        return this.gameObjects.filter(o => { return o instanceof AmmoBox; });
+    }
     static get Instance() {
         if (!this.instance)
             this.instance = new Game();
@@ -52,7 +57,7 @@ export class Game {
             let objs = this.gameObjects.splice(index, 1);
             objs[0].destroy();
         }
-        if (gameObject instanceof Robot) {
+        if (gameObject instanceof Tank) {
             this.socket.emit('robot destroyed', gameObject.Data.id);
         }
     }

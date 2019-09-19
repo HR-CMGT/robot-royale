@@ -3,7 +3,7 @@ import { Forward } from "./behaviors/forward.js";
 import { Vector2 } from "./vector.js";
 import { Bullet } from "./bullet.js";
 import { AmmoBox } from "./ammobox.js";
-export class Robot extends BehavioralObject {
+export class Tank extends BehavioralObject {
     constructor(data, status) {
         super("robot");
         this.health = 100;
@@ -30,7 +30,7 @@ export class Robot extends BehavioralObject {
     collide(collider) {
         if (collider instanceof Bullet) {
             if (collider.Parent != this) {
-                console.log("Robot got hit!");
+                console.log("Tank got hit!");
                 this.health -= collider.Damage;
                 this.data.health = this.health;
                 this.status.update(this.data.health);
@@ -47,7 +47,7 @@ export class Robot extends BehavioralObject {
         super.update();
     }
     destroy() {
-        console.log("Robot died");
+        console.log("Tank died");
         this.status.remove();
         super.destroy();
     }

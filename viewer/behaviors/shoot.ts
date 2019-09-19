@@ -2,26 +2,25 @@ import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
 import { Game } from "../game.js";
 import { Bullet } from "../bullet.js";
-import { Robot } from "../robot.js";
+import { Tank } from "../tank.js";
 
 export class Shoot extends Behavior{
     
     private fireRate : number = 40
-    private robot : Robot
+    private robot : Tank
 
     constructor(behavioralObject : BehavioralObject) {
         super(behavioralObject)
 
         this.lifeTime = 100
-        this.robot = behavioralObject as Robot
+        this.robot = behavioralObject as Tank
     }
 
     performUpdate(): void {
-        super.performUpdate()
-
         if(this.timer % this.fireRate === 0 && this.robot.Ammo > 0) {
             this.shoot()
         }
+        super.performUpdate()
     }
 
     private shoot() : void {

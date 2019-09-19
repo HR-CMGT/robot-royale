@@ -23,6 +23,7 @@ export class MoveTowardsAmmo extends Behavior{
         let closest : number = 0
         
         let boxes = Game.Instance.AmmoBoxes
+        
         for (const ammoBox of boxes) {
             let iets : Vector2 = ammoBox.Position.difference(this.BehavioralObject.Position)
             let dist = iets.magnitude()

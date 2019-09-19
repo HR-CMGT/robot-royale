@@ -51,7 +51,7 @@ export abstract class GameObject {
         gameview.appendChild(this.div)
     }
 
-    public collide(collider : GameObject) {
+    public collide(collider : GameObject) : void {
 
     }
 

@@ -1,5 +1,5 @@
 export class StatusBar {
-    set Ammo(v) { this.ammo.innerHTML = v; }
+    set Ammo(v) { this.ammo.innerHTML = "Projectiles " + v; }
     constructor(data) {
         let list = document.querySelector("#robotlist");
         this.bar = document.createElement("statusbar");

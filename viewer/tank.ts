@@ -4,8 +4,9 @@ import { Forward } from "./behaviors/forward.js";
 import { Vector2 } from "./vector.js";
 import { GameObject } from "./gameobject.js";
 import { Bullet } from "./bullet.js";
+import { AmmoBox } from "./ammobox.js";
 
-export class Robot extends BehavioralObject{
+export class Tank extends BehavioralObject{
     
     // Fields
     private data    : RobotData
@@ -22,7 +23,7 @@ export class Robot extends BehavioralObject{
     public get Ammo() : number      { return this.ammo      }
     public set Ammo(v : number)     { 
         this.ammo = v;        
-        this.status.Ammo = "Bullets "+this.ammo
+        this.status.Ammo = this.ammo
     }
     
     constructor(data : RobotData, status : StatusBar) {
@@ -53,22 +54,19 @@ export class Robot extends BehavioralObject{
         this.update()
     }
 
-    public collide(collider : GameObject){
+    public collide(collider : GameObject) : void {
         if(collider instanceof Bullet) {
             if(collider.Parent != this) {
-                console.log("Robot got hit!")
+                console.log("Tank got hit!")
                 this.health -= collider.Damage
                 this.data.health = this.health
                 this.status.update(this.data.health)
 
                 if(this.health <= 0) this.CanDestroy = true
-                // just to test the healthbar animation
-                // if (this.data.health <= 0) {
-                //     console.log("Robot died")
-                //     this.status.remove()
-                //     Game.Instance.removeGameObject(this)
-                // }
             }
+        }
+        if(collider instanceof AmmoBox) {
+            this.Ammo += collider.Ammo
         }
     }
 
@@ -79,7 +77,7 @@ export class Robot extends BehavioralObject{
     }
     
     public destroy() {
-        console.log("Robot died")
+        console.log("Tank died")
         this.status.remove()
         super.destroy()
     }

@@ -1,4 +1,4 @@
-import { Robot } from "./robot.js";
+import { Tank } from "./tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
 import { GameObject } from "./gameobject.js";
 import { AmmoBox } from "./ammobox.js";
@@ -13,8 +13,11 @@ export class Game {
     private socket      : SocketIOClient.Socket
 
     public gameover : boolean = false
+    
     // Properties
-    public get AmmoBoxes() : AmmoBox[] { return this.ammoBoxes }
+    public get AmmoBoxes() : AmmoBox[] { 
+        return this.gameObjects.filter(o => { return o instanceof AmmoBox}) as AmmoBox[]
+    }
     
     public static get Instance() : Game {
         if(!this.instance) this.instance = new Game()
@@ -34,8 +37,13 @@ export class Game {
         })
 
         for (let i = 0; i < 5; i++) {
-            this.ammoBoxes.push(new AmmoBox())
+            // this.ammoBoxes.push(new AmmoBox())
+            this.gameObjects.push(new AmmoBox())
         }
+
+        setInterval(() => {
+            this.gameObjects.push(new AmmoBox())
+        }, 5000);
 
         this.update()
     }
@@ -85,7 +93,7 @@ export class Game {
         }
         
         // let the player know that this robot has died
-        if(gameObject instanceof Robot) {
+        if(gameObject instanceof Tank) {
             this.socket.emit('robot destroyed', gameObject.Data.id)
         }
     }

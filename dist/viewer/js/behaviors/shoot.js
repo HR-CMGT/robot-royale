@@ -9,10 +9,10 @@ export class Shoot extends Behavior {
         this.robot = behavioralObject;
     }
     performUpdate() {
-        super.performUpdate();
         if (this.timer % this.fireRate === 0 && this.robot.Ammo > 0) {
             this.shoot();
         }
+        super.performUpdate();
     }
     shoot() {
         this.robot.Ammo--;

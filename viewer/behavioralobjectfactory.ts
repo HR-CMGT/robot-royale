@@ -1,5 +1,5 @@
 import { BehavioralObject } from "./interface/behavioralObject.js";
-import { Robot } from "./robot.js";
+import { Tank } from "./tank.js";
 import { StatusBar } from "./ui/statusbar.js";
 import { Forward } from "./behaviors/forward.js";
 import { Rotate } from "./behaviors/rotate.js";
@@ -13,7 +13,7 @@ export class BehavioralObjectFactory {
 
         switch (type) {
             case "robot":
-                behavioralObject = new Robot(data, new StatusBar(data))
+                behavioralObject = new Tank(data, new StatusBar(data))
                 break;
             default:
                 break;
@@ -21,11 +21,11 @@ export class BehavioralObjectFactory {
 
         // behavioralObject.AddBehavior(new Rotate(behavioralObject, 45))
         // behavioralObject.AddBehavior(new Forward(behavioralObject))
-        // behavioralObject.AddBehavior(new Shoot(behavioralObject))
+        behavioralObject.AddBehavior(new Shoot(behavioralObject))
         // behavioralObject.AddBehavior(new Forward(behavioralObject))
         // behavioralObject.AddBehavior(new Forward(behavioralObject))
         behavioralObject.AddBehavior(new MoveTowardsAmmo(behavioralObject))
-        // behavioralObject.AddBehavior(new Forward(behavioralObject))
+        behavioralObject.AddBehavior(new Forward(behavioralObject))
 
         return behavioralObject
     }
