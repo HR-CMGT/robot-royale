@@ -1,5 +1,5 @@
 import { words1, words2 } from "./words.js";
-export class Generator {
+export class Randomizer {
     static generateName() {
         return this.capFirst(words1[this.getRandomInt(words1.length)]) + ' ' + this.capFirst(words2[this.getRandomInt(words2.length)]);
     }
@@ -9,7 +9,7 @@ export class Generator {
     static getRandomInt(max) {
         return Math.floor(Math.random() * max);
     }
-    static generateColor() {
+    static generateHexcolor() {
         const letters = '0123456789ABCDEF';
         let color = '#';
         for (let i = 0; i < 6; i++) {

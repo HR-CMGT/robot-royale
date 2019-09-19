@@ -1,4 +1,4 @@
-# Awkward Robotics Inc.
+# Robot Royale
 
 Multiplayer game for programming awkward robots. The game is projected on a large floor space. Visitors can open a url on their phone to participate in the game. In the game, users program a robot. The robot battles the other robots according to its program.
 
@@ -22,11 +22,19 @@ Page where all created robots battle according to their settings. The robots mov
 
 ### Robots
 
-Robots have the following settings:
+Robots have these settings:
 
-- move priority: move towards or away from the nearest enemy, or move to health packs.
-- armor priority: lots of armor with slow speed, medium, or low armor with high speed.
-- special power: when the player presses the special power button in the creator window: fireball, teleport, invulnerable or repair
+- Armor : heavy, medium, slow. This affects bullet damage and speed. Each armor has its own PNG image.
+- Color : Use a CSS filter on the PNG image to colorize it.
+- ID
+- Name
+
+Robots have program blocks that can be rearranged while the game is running:
+
+- Turn towards nearest enemy
+- Drive forward and shoot
+- Turn towards nearest ammo box
+- Turn towards nearest health kit
 
 ## Start the server
 
@@ -36,7 +44,7 @@ node server.js
 ```
 ## Creator and Viewer Code
 
-Typescript code for the creator and viewer pages is in `creator` and `viewer` folders. Open these folders in a separate VS Code window or in a VS Code workspace. Press CMD+SHIFT+B to compile to the `dist/creator` and `dist/viewer` folders. Code is loaded as native modules, so you can use `import` and `export` without a module bundler. `import` statements need the `.js` extension for this to work.
+Typescript code for the creator and viewer pages is in `creator` and `viewer` folders. *Open these folders in a separate VS Code window or in a VS Code workspace*. Press CMD+SHIFT+B to compile to the `dist/creator` and `dist/viewer` folders. Code is loaded as native modules, so you can use `import` and `export` without a module bundler. `import` statements need the `.js` extension for this to work.
 
 Edit HTML and CSS directly in the DIST folders.
 
