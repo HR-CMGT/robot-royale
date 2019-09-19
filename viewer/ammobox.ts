@@ -8,7 +8,7 @@ export class AmmoBox extends GameObject{
         this.Position = new Vector2(
             Math.random() * (window.innerWidth - 200 - this.Width), 
             Math.random() * (window.innerHeight - this.Height))
-
+  
         this.update()
     }
 }

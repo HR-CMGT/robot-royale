@@ -12,6 +12,7 @@ export class Game {
     private ammoBoxes   : AmmoBox[]     = []
     private socket      : SocketIOClient.Socket
 
+    public gameover : boolean = false
     // Properties
     public get AmmoBoxes() : AmmoBox[] { return this.ammoBoxes }
     
@@ -32,7 +33,7 @@ export class Game {
             console.log("special power for: " + id)
         })
 
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 5; i++) {
             this.ammoBoxes.push(new AmmoBox())
         }
 
@@ -71,7 +72,7 @@ export class Game {
         for (let obj of this.gameObjects) {
             if(obj.CanDestroy) this.removeGameObject(obj)
         }
-        requestAnimationFrame(() => this.update())
+        if(!this.gameover) requestAnimationFrame(() => this.update())
     }
 
     // if a robot is destroyed here, also update the list on the server

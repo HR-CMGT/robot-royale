@@ -43,12 +43,13 @@ export class Robot extends BehavioralObject{
             Math.random() * (window.innerWidth - 300), 
             Math.random() * (window.innerHeight - 100))
         
-        this.Rotation = Math.round(Math.random() * 360)
-        // this.Rotation = 0
+            
+        // let rad = this.Rotation / (180/Math.PI)
+        this.Direction = new Vector2(Math.random(), Math.random())
+        this.Rotation = this.Direction.angle();
         
         this.Speed  = (Math.random() * 4) + 1 // todo dependent on armor
-        this.Speed = 4
-
+        
         this.update()
     }
 

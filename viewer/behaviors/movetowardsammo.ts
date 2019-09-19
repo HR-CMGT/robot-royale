@@ -4,24 +4,18 @@ import { Game } from "../game.js";
 import { AmmoBox } from "../ammobox.js";
 import { Vector2 } from "../vector.js";
 import { RotateAndMoveComposite } from "./rotatemovecomposite.js";
+import { GameObject } from "../gameobject.js";
 
 export class MoveTowardsAmmo extends Behavior{
     
-    private targetBox : AmmoBox
+    private activeBehavior : Behavior
 
     constructor(behavioralObject : BehavioralObject) {
         super(behavioralObject)
-
-        this.targetBox = this.getNearestAmmoBox()
     }
 
     performUpdate(): void {
-        if(this.targetBox) {
-            this.BehavioralObject.Behavior = new RotateAndMoveComposite(this.BehavioralObject)
-        } else {
-            console.log("No target found in MoveTowardsAmmo")
-            this.BehavioralObject.activateNextBehavior()
-        }
+        if(this.activeBehavior) this.activeBehavior.performUpdate()
     }
 
     private getNearestAmmoBox() {
@@ -31,9 +25,7 @@ export class MoveTowardsAmmo extends Behavior{
         let boxes = Game.Instance.AmmoBoxes
         for (const ammoBox of boxes) {
             let iets : Vector2 = ammoBox.Position.difference(this.BehavioralObject.Position)
-            // console.log(iets)
             let dist = iets.magnitude()
-            // console.log(dist)
             
             if(dist < closest || closest == 0) { 
                 closest = dist
@@ -42,5 +34,22 @@ export class MoveTowardsAmmo extends Behavior{
         }
 
         return targetBox
+    }
+
+    public gotoNextBehavior() {
+        this.activeBehavior.gotoNextBehavior()
+    }
+
+    public onActivateBehavior() : void {
+        let targetObject : GameObject = this.getNearestAmmoBox()
+        
+        if(targetObject) {
+            let nextBehavior = new RotateAndMoveComposite(this.BehavioralObject, targetObject)
+            nextBehavior.onActivateBehavior()
+            this.activeBehavior = nextBehavior
+        } else {
+            console.log("No target found in MoveTowardsAmmo")
+            this.BehavioralObject.activateNextBehavior()
+        }
     }
 }

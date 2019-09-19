@@ -1,16 +1,18 @@
 import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
-import { Game } from "../game.js";
 
 export class Rotate extends Behavior{
     
     private rotateClockWise : boolean = true;
 
-    constructor(behavioralObject : BehavioralObject, degrees : number) {
-        super(behavioralObject)
-        console.log("Behavior: rotate")
+    private targetAngle: number;
 
-        this.onActivateBehavior()
+    constructor(behavioralObject : BehavioralObject, angle : number, rotateClockWise : boolean) {
+        super(behavioralObject)
+
+        this.lifeTime           = angle
+        this.targetAngle        = angle
+        this.rotateClockWise    = rotateClockWise
     }
 
     performUpdate(): void {
@@ -20,32 +22,38 @@ export class Rotate extends Behavior{
         else this.BehavioralObject.Rotation--
     }
 
-    protected gotoNextBehavior() : void {
-        // console.log("gotoNextBehavior Rotate")
+    public gotoNextBehavior() : void {
+        this.BehavioralObject.Rotation = (this.targetAngle + 360) % 360;
         super.gotoNextBehavior()
     }
 
-    public onActivateBehavior() : void {
-        // console.log("onActivateBehavior rotate")
-        let ammoBox = Game.Instance.AmmoBoxes[0]
-        // let degrees = ammoBox.Position.angle(this.BehavioralObject.Position) + this.BehavioralObject.Rotation
+    // public onActivateBehavior() : void {
 
-        // angle in degrees between two points (-180, 180)
-        let angle = ammoBox.Position.angle(this.BehavioralObject.Position)
-        // the angle from 0 - 360
-        if(angle < 0) angle = 360 - (-angle) 
-        // the angle minus the orientation
-        angle = (angle - this.BehavioralObject.Rotation) % 360
-        // get acute angle (shortest angle)
-        if (360 - angle < angle) angle = 360 - angle
+    //     let ammoBox = Game.Instance.AmmoBoxes[0]
 
-        if(angle < 0) this.rotateClockWise = false
-        this.lifeTime = Math.abs(angle)
+    //     // Calculate new Direction (tank to ammo)
+    //     let diff = ammoBox.Position.difference(this.BehavioralObject.Position)
+    //     let total = diff.magnitude()
+    //     this.BehavioralObject.Direction = new Vector2(diff.X/total, diff.Y/total)
 
-        console.log("Robot rotation: "+this.BehavioralObject.Rotation)
-        console.log("Angle "+ ammoBox.Position.angle(this.BehavioralObject.Position))
-        console.log("richting: "+this.rotateClockWise)
-        console.log("Lifetime "+this.lifeTime)
+    //     // Get direction angle (-180, 180)
+    //     let angle = this.BehavioralObject.Direction.angle()
+
+    //     // Calculate angle to rotate (0-360)
+    //     angle = (angle - this.BehavioralObject.Rotation + 720) % 360
         
-    }
+    //     // // get acute angle and choose rotation direction (shortest angle, 0 - 180)
+    //     if (angle > 180) {
+    //         angle = 360 - angle
+    //         this.rotateClockWise = false
+    //         this.targetAngle = this.BehavioralObject.Rotation - angle;
+    //     } else {
+    //         this.rotateClockWise = true
+    //         this.targetAngle = this.BehavioralObject.Rotation + angle;
+    //     }
+
+    //     this.lifeTime = angle
+    // }
+
+    
 }

@@ -13,9 +13,9 @@ export class Robot extends BehavioralObject {
         this.Ammo = 10;
         this.Div.innerHTML = data.name;
         this.Position = new Vector2(Math.random() * (window.innerWidth - 300), Math.random() * (window.innerHeight - 100));
-        this.Rotation = Math.round(Math.random() * 360);
+        this.Direction = new Vector2(Math.random(), Math.random());
+        this.Rotation = this.Direction.angle();
         this.Speed = (Math.random() * 4) + 1;
-        this.Speed = 4;
         this.update();
     }
     get Data() { return this.data; }

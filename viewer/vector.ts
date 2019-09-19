@@ -29,6 +29,9 @@ export class Vector2 {
         return new Vector2(this.x * n, this.y * n)
     }
 
+    /**
+     * The length of the vector
+     */
     public magnitude(): number {
         return Math.sqrt(this.x * this.x + this.y * this.y)
     }
@@ -52,9 +55,16 @@ export class Vector2 {
     }
 
     /**
-     * The angle between two vectors.
+     * The angle between two vectors in degrees
      */
-    public angle(vector1 : Vector2) : number {
-        return Math.atan2(this.y - vector1.y, this.x - vector1.x) * 180 / Math.PI
+    public angleBetweenVectors(vector1 : Vector2) : number {
+        return Math.atan2(this.y - vector1.y, this.x - vector1.x) * (180 / Math.PI)
+    }
+
+    /**
+     * The angle from a vector in degrees
+     */
+    public angle() : number {
+        return Math.atan2(this.Y, this.X) * (180 / Math.PI)
     }
 }

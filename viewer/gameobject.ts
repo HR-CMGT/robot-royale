@@ -33,13 +33,11 @@ export abstract class GameObject {
      * Rotation in degrees
      */
     public get Rotation() : number      { return this.rotation }
-    public set Rotation(degrees : number) { 
-        // used for visual rotation (CSS)
-        this.rotation = degrees
-        
-        let rad = degrees * (Math.PI/180)
-        this.direction = new Vector2(Math.cos(rad), Math.sin(rad))
-    }
+    /**
+     * Rotation is used to visually rotate the object (Css)
+     * @param rotation in degrees (360)
+     */
+    public set Rotation(deg : number)   { this.rotation = deg }
 
     public get Rectangle() {
         return this.div.getBoundingClientRect()

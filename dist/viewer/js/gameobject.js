@@ -1,4 +1,3 @@
-import { Vector2 } from "./vector.js";
 export class GameObject {
     constructor(tag) {
         this.speed = 0;
@@ -23,11 +22,7 @@ export class GameObject {
     get CanDestroy() { return this.canDestroy; }
     set CanDestroy(v) { this.canDestroy = v; }
     get Rotation() { return this.rotation; }
-    set Rotation(degrees) {
-        this.rotation = degrees;
-        let rad = degrees * (Math.PI / 180);
-        this.direction = new Vector2(Math.cos(rad), Math.sin(rad));
-    }
+    set Rotation(deg) { this.rotation = deg; }
     get Rectangle() {
         return this.div.getBoundingClientRect();
     }

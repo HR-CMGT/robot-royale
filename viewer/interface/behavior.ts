@@ -24,9 +24,7 @@ export abstract class Behavior {
         }
     }
 
-    protected gotoNextBehavior() : void {
-        // console.log("Go to next behavior.")
-        // console.log(this.BehavioralObject.Behavior)
+    public gotoNextBehavior() : void {
         this.behavioralObject.activateNextBehavior()
     }
 

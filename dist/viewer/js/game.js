@@ -5,6 +5,7 @@ export class Game {
     constructor() {
         this.gameObjects = [];
         this.ammoBoxes = [];
+        this.gameover = false;
         this.socket = io();
         this.socket.on('new robot', (json) => {
             let data = JSON.parse(json);
@@ -13,7 +14,7 @@ export class Game {
         this.socket.on('robot power', (id) => {
             console.log("special power for: " + id);
         });
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 5; i++) {
             this.ammoBoxes.push(new AmmoBox());
         }
         this.update();
@@ -42,7 +43,8 @@ export class Game {
             if (obj.CanDestroy)
                 this.removeGameObject(obj);
         }
-        requestAnimationFrame(() => this.update());
+        if (!this.gameover)
+            requestAnimationFrame(() => this.update());
     }
     removeGameObject(gameObject) {
         let index = this.gameObjects.indexOf(gameObject);

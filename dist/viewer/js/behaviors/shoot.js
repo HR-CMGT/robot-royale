@@ -5,7 +5,6 @@ export class Shoot extends Behavior {
     constructor(behavioralObject) {
         super(behavioralObject);
         this.fireRate = 40;
-        console.log("Behavior: rotate");
         this.lifeTime = 100;
         this.robot = behavioralObject;
     }
@@ -20,7 +19,6 @@ export class Shoot extends Behavior {
         Game.Instance.addBullet(new Bullet(this.BehavioralObject));
     }
     gotoNextBehavior() {
-        console.log("activateNextBehavior Shoot");
         super.gotoNextBehavior();
     }
 }

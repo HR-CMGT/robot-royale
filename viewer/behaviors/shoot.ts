@@ -11,7 +11,6 @@ export class Shoot extends Behavior{
 
     constructor(behavioralObject : BehavioralObject) {
         super(behavioralObject)
-        console.log("Behavior: rotate")
 
         this.lifeTime = 100
         this.robot = behavioralObject as Robot
@@ -26,14 +25,12 @@ export class Shoot extends Behavior{
     }
 
     private shoot() : void {
-        // console.log("Fire")
         // TODO solve 
         this.robot.Ammo--
         Game.Instance.addBullet(new Bullet(this.BehavioralObject))
     }
 
-    protected gotoNextBehavior() : void {
-        console.log("activateNextBehavior Shoot")
+    public gotoNextBehavior() : void {
         super.gotoNextBehavior()
     }
 }
