@@ -9,9 +9,9 @@ export class Game {
         this.socket = io();
         this.socket.on('new robot', (json) => {
             let data = JSON.parse(json);
-            this.addRobot(data);
+            this.addTank(data);
         });
-        this.addRobot({
+        this.addTank({
             id: "1",
             connectionid: "1",
             color: "string",
@@ -41,9 +41,9 @@ export class Game {
             this.instance = new Game();
         return this.instance;
     }
-    addRobot(data) {
-        let robot = BehavioralObjectFactory.CreateObject("robot", data);
-        this.gameObjects.push(robot);
+    addTank(data) {
+        let tank = BehavioralObjectFactory.CreateObject("tank", data);
+        this.gameObjects.push(tank);
     }
     update() {
         for (let object1 of this.gameObjects) {

@@ -8,7 +8,7 @@ export class StatusBar {
     // Properties
     public set Ammo(v : number)     { this.ammo.innerHTML = "Projectiles "+v  }
 
-    constructor(data : RobotData) {
+    constructor(data : TankData) {
         let list = document.querySelector("#robotlist")
         this.bar = document.createElement("statusbar")
 

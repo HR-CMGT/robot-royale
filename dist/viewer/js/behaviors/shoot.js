@@ -6,16 +6,16 @@ export class Shoot extends Behavior {
         super(behavioralObject);
         this.fireRate = 40;
         this.lifeTime = 100;
-        this.robot = behavioralObject;
+        this.tank = behavioralObject;
     }
     performUpdate() {
-        if (this.timer % this.fireRate === 0 && this.robot.Ammo > 0) {
+        if (this.timer % this.fireRate === 0 && this.tank.Ammo > 0) {
             this.shoot();
         }
         super.performUpdate();
     }
     shoot() {
-        this.robot.Ammo--;
+        this.tank.Ammo--;
         Game.Instance.addBullet(new Bullet(this.BehavioralObject));
     }
     gotoNextBehavior() {

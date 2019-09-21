@@ -28,13 +28,13 @@ export class Game {
         this.socket = io()
 
         this.socket.on('new robot', (json : string) => {
-            let data : RobotData = JSON.parse(json)
-            this.addRobot(data)
+            let data : TankData = JSON.parse(json)
+            this.addTank(data)
         })
 
         // todo delete
         // -- DEBUG!! --
-        this.addRobot({
+        this.addTank({
             id: "1",
             connectionid : "1",
             color: "string",
@@ -62,23 +62,23 @@ export class Game {
         this.update()
     }
 
-    private addRobot(data : RobotData) {
+    private addTank(data : TankData) {
         // status bar on the right receives data
         // let bar = new StatusBar(data)
 
-        // actual moving robot, receives its corresponding data and status bar
-        let robot : GameObject = BehavioralObjectFactory.CreateObject("robot", data)
+        // actual moving tank, receives its corresponding data and status bar
+        let tank : GameObject = BehavioralObjectFactory.CreateObject("tank", data)
 
         
-        // ROBOT KRIJGT NU DRIE INDEXES BINNEN
+        // Tank KRIJGT NU DRIE INDEXES BINNEN
         // ARMOR
         // SPECIAL POWER
         // MOVE
-        this.gameObjects.push(robot)
+        this.gameObjects.push(tank)
     }
 
     private update(){
-        // Todo when adding a lot of robots on runtime. error in update loop
+        // Todo when adding a lot of tanks on runtime. error in update loop
 
         for (let object1 of this.gameObjects) {
             object1.update()

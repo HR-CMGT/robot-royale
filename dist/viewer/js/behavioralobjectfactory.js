@@ -7,7 +7,7 @@ export class BehavioralObjectFactory {
     static CreateObject(type, data) {
         let behavioralObject;
         switch (type) {
-            case "robot":
+            case "tank":
                 behavioralObject = new Tank(data, new StatusBar(data));
                 break;
             default:

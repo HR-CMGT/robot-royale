@@ -10,14 +10,14 @@ import { Turret } from "./turret.js";
 export class Tank extends BehavioralObject{
     
     // Fields
-    private data    : RobotData
+    private data    : TankData
     private status  : StatusBar
     private health  : number = 100
     private ammo    : number = 0
     private turret  : Turret
 
     // Properties
-    public get Data() : RobotData   { return this.data      }
+    public get Data() : TankData   { return this.data      }
 
     public get Health() : number    { return this.health    }
     public set Health(v:number)     { this.health = v       }
@@ -28,7 +28,7 @@ export class Tank extends BehavioralObject{
         this.status.Ammo = this.ammo
     }
     
-    constructor(data : RobotData, status : StatusBar) {
+    constructor(data : TankData, status : StatusBar) {
         super("tank-body")
         
         // Default

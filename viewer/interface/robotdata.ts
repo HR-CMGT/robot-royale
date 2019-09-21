@@ -1,4 +1,4 @@
-interface RobotData {
+interface TankData {
     id: string
     connectionid : string
     color: string

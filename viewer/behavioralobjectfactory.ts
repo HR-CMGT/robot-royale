@@ -8,11 +8,11 @@ import { MoveTowardsAmmo } from "./behaviors/movetowardsammo.js";
 
 export class BehavioralObjectFactory {
 
-    public static CreateObject(type: string, data : RobotData) : BehavioralObject {
+    public static CreateObject(type: string, data : TankData) : BehavioralObject {
         let behavioralObject : BehavioralObject
 
         switch (type) {
-            case "robot":
+            case "tank":
                 behavioralObject = new Tank(data, new StatusBar(data))
                 break;
             default:

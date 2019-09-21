@@ -7,17 +7,17 @@ import { Tank } from "../tank.js";
 export class Shoot extends Behavior{
     
     private fireRate : number = 40
-    private robot : Tank
+    private tank : Tank
 
     constructor(behavioralObject : BehavioralObject) {
         super(behavioralObject)
 
         this.lifeTime = 100
-        this.robot = behavioralObject as Tank
+        this.tank = behavioralObject as Tank
     }
 
     performUpdate(): void {
-        if(this.timer % this.fireRate === 0 && this.robot.Ammo > 0) {
+        if(this.timer % this.fireRate === 0 && this.tank.Ammo > 0) {
             this.shoot()
         }
         super.performUpdate()
@@ -25,7 +25,7 @@ export class Shoot extends Behavior{
 
     private shoot() : void {
         // TODO solve 
-        this.robot.Ammo--
+        this.tank.Ammo--
         Game.Instance.addBullet(new Bullet(this.BehavioralObject))
     }
 
