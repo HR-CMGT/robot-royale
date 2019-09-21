@@ -11,6 +11,17 @@ export class Game {
             let data = JSON.parse(json);
             this.addRobot(data);
         });
+        this.addRobot({
+            id: "1",
+            connectionid: "1",
+            color: "string",
+            name: "string",
+            health: 1,
+            ammo: 1,
+            speed: 1,
+            armor: 1,
+            damage: 1
+        });
         this.socket.on('robot power', (id) => {
             console.log("special power for: " + id);
         });

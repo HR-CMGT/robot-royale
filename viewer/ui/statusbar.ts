@@ -6,7 +6,7 @@ export class StatusBar {
     private ammo        : HTMLElement
 
     // Properties
-    public set Ammo(v : number)     { this.ammo.innerHTML = "Projectiles "+v; }
+    public set Ammo(v : number)     { this.ammo.innerHTML = "Projectiles "+v  }
 
     constructor(data : RobotData) {
         let list = document.querySelector("#robotlist")

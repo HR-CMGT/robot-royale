@@ -40,4 +40,8 @@ export class Vector2 {
     angle() {
         return Math.atan2(this.Y, this.X) * (180 / Math.PI);
     }
+    static getVectorFromAngle(angle) {
+        let rad = angle * Math.PI / 180;
+        return new Vector2(Math.cos(rad), Math.sin(rad));
+    }
 }

@@ -1,11 +1,12 @@
 import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
+import { Vector2 } from "../vector.js";
 
 export class Rotate extends Behavior{
     
-    private rotateClockWise : boolean = true;
+    private rotateClockWise : boolean = true
 
-    private targetAngle: number;
+    private targetAngle: number
 
     constructor(behavioralObject : BehavioralObject, angle : number, rotateClockWise : boolean) {
         super(behavioralObject)
@@ -23,10 +24,12 @@ export class Rotate extends Behavior{
     }
 
     public gotoNextBehavior() : void {
-        this.BehavioralObject.Rotation = (this.targetAngle + 360) % 360;
+        
+        this.BehavioralObject.Direction = Vector2.getVectorFromAngle(this.BehavioralObject.Rotation)
+        
         super.gotoNextBehavior()
     }
-
+    
     // public onActivateBehavior() : void {
 
     //     let ammoBox = Game.Instance.AmmoBoxes[0]
@@ -46,10 +49,10 @@ export class Rotate extends Behavior{
     //     if (angle > 180) {
     //         angle = 360 - angle
     //         this.rotateClockWise = false
-    //         this.targetAngle = this.BehavioralObject.Rotation - angle;
+    //         this.targetAngle = this.BehavioralObject.Rotation - angle
     //     } else {
     //         this.rotateClockWise = true
-    //         this.targetAngle = this.BehavioralObject.Rotation + angle;
+    //         this.targetAngle = this.BehavioralObject.Rotation + angle
     //     }
 
     //     this.lifeTime = angle

@@ -1,4 +1,5 @@
 import { Behavior } from "../interface/behavior.js";
+import { Vector2 } from "../vector.js";
 export class Rotate extends Behavior {
     constructor(behavioralObject, angle, rotateClockWise) {
         super(behavioralObject);
@@ -15,7 +16,7 @@ export class Rotate extends Behavior {
             this.BehavioralObject.Rotation--;
     }
     gotoNextBehavior() {
-        this.BehavioralObject.Rotation = (this.targetAngle + 360) % 360;
+        this.BehavioralObject.Direction = Vector2.getVectorFromAngle(this.BehavioralObject.Rotation);
         super.gotoNextBehavior();
     }
 }

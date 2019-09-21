@@ -3,9 +3,10 @@ import { Forward } from "./behaviors/forward.js";
 import { Vector2 } from "./vector.js";
 import { Bullet } from "./bullet.js";
 import { AmmoBox } from "./ammobox.js";
+import { Turret } from "./turret.js";
 export class Tank extends BehavioralObject {
     constructor(data, status) {
-        super("robot");
+        super("tank-body");
         this.health = 100;
         this.ammo = 0;
         this.Behavior = new Forward(this);
@@ -17,6 +18,7 @@ export class Tank extends BehavioralObject {
         this.Direction = new Vector2(Math.random(), Math.random());
         this.Rotation = this.Direction.angle();
         this.Speed = (Math.random() * 4) + 1;
+        this.turret = new Turret(this);
         this.update();
     }
     get Data() { return this.data; }
@@ -43,8 +45,9 @@ export class Tank extends BehavioralObject {
         }
     }
     update() {
-        this.Behavior.performUpdate();
         super.update();
+        this.Behavior.performUpdate();
+        this.turret.update();
     }
     destroy() {
         console.log("Tank died");

@@ -25,7 +25,7 @@ export class RotateAndMoveComposite extends Behavior {
     public onActivateBehavior() : void {
         this.BehavioralObject.Direction = this.getDirectionToObject(this.targetObject)
 
-        let rotationOptions : RotationOptions = this.getAngleToDirection()
+        let rotationOptions : RotationOptions = this.getAngleToDirection(this.BehavioralObject.Direction)
 
         this.behaviors.push(new Rotate(this.BehavioralObject, rotationOptions.angle, rotationOptions.rotateClockWise))
         this.behaviors.push(new Forward(this.BehavioralObject))
@@ -42,9 +42,9 @@ export class RotateAndMoveComposite extends Behavior {
         }
     }
 
-    private getAngleToDirection() : RotationOptions {
+    private getAngleToDirection(direction : Vector2) : RotationOptions {
         // Get direction angle (-180, 180)
-        let angle = this.BehavioralObject.Direction.angle()
+        let angle = direction.angle()
 
         // Calculate angle to rotate (0-360)
         angle = (angle - this.BehavioralObject.Rotation + 720) % 360

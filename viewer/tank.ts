@@ -5,6 +5,7 @@ import { Vector2 } from "./vector.js";
 import { GameObject } from "./gameobject.js";
 import { Bullet } from "./bullet.js";
 import { AmmoBox } from "./ammobox.js";
+import { Turret } from "./turret.js";
 
 export class Tank extends BehavioralObject{
     
@@ -13,7 +14,8 @@ export class Tank extends BehavioralObject{
     private status  : StatusBar
     private health  : number = 100
     private ammo    : number = 0
-    
+    private turret  : Turret
+
     // Properties
     public get Data() : RobotData   { return this.data      }
 
@@ -22,13 +24,13 @@ export class Tank extends BehavioralObject{
     
     public get Ammo() : number      { return this.ammo      }
     public set Ammo(v : number)     { 
-        this.ammo = v;        
+        this.ammo = v        
         this.status.Ammo = this.ammo
     }
     
     constructor(data : RobotData, status : StatusBar) {
-        super("robot")
-
+        super("tank-body")
+        
         // Default
         // Todo how to handle this?
         this.Behavior = new Forward(this)
@@ -47,10 +49,12 @@ export class Tank extends BehavioralObject{
             
         // let rad = this.Rotation / (180/Math.PI)
         this.Direction = new Vector2(Math.random(), Math.random())
-        this.Rotation = this.Direction.angle();
+        this.Rotation = this.Direction.angle()
         
         this.Speed  = (Math.random() * 4) + 1 // todo dependent on armor
         
+        this.turret = new Turret(this)
+
         this.update()
     }
 
@@ -71,9 +75,10 @@ export class Tank extends BehavioralObject{
     }
 
     public update(){
-        this.Behavior.performUpdate()
-
         super.update()
+        this.Behavior.performUpdate()
+        
+        this.turret.update()
     }
     
     public destroy() {

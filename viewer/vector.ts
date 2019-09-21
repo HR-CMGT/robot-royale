@@ -4,11 +4,11 @@ export class Vector2 {
     private y : number = 0
 
     //Properties
-    public get X(): number          { return this.x;        }
-    public set X(value: number)     { this.x = value;       }
+    public get X(): number          { return this.x         }
+    public set X(value: number)     { this.x = value        }
 
-    public get Y(): number          { return this.y;        }
-    public set Y(value: number)     { this.y = value;       }
+    public get Y(): number          { return this.y         }
+    public set Y(value: number)     { this.y = value        }
     
     constructor(x:number, y:number) {
         this.x = x
@@ -66,5 +66,13 @@ export class Vector2 {
      */
     public angle() : number {
         return Math.atan2(this.Y, this.X) * (180 / Math.PI)
+    }
+
+    /**
+     * @param angle is in degrees
+     */
+    public static getVectorFromAngle(angle : number) : Vector2 {
+        let rad = angle * Math.PI / 180
+        return new Vector2(Math.cos(rad), Math.sin(rad))
     }
 }
