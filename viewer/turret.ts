@@ -5,11 +5,13 @@ import { Rotate } from "./behaviors/rotate.js";
 import { Forward } from "./behaviors/forward.js";
 
 export class Turret extends BehavioralObject {
-    // 23
-    // 31 
-    // private offsetLeft : number = 23
+    
+    // Fields
     private tank : Tank
 
+    // Properties
+    public get ParentTank() : Tank { return this.tank }
+    
     constructor(tank : Tank) {
         super("tank-turret")
 

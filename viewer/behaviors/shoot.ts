@@ -26,7 +26,7 @@ export class Shoot extends Behavior{
     private shoot() : void {
         // TODO solve 
         this.tank.Ammo--
-        Game.Instance.addBullet(new Bullet(this.BehavioralObject))
+        Game.Instance.addBullet(new Bullet((this.BehavioralObject as Tank).Turret))
     }
 
     public gotoNextBehavior() : void {

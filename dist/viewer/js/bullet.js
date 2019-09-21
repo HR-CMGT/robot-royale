@@ -1,17 +1,19 @@
 import { GameObject } from "./gameobject.js";
+import { Tank } from "./tank.js";
+import { Vector2 } from "./vector.js";
 export class Bullet extends GameObject {
     constructor(parent) {
         super("bullet");
         this.damage = 20;
         this.Position = parent.Position;
-        this.Direction = parent.Direction;
         this.Rotation = parent.Rotation;
+        this.Direction = Vector2.getVectorFromAngle(parent.Rotation);
         this.Speed = 5;
-        this.parent = parent;
+        this.parentTurret = parent;
         this.update();
     }
     get Damage() { return this.damage; }
-    get Parent() { return this.parent; }
+    get ParentTurret() { return this.parentTurret; }
     update() {
         this.Position = this.Position.add(this.Direction.scale(this.Speed));
         if (this.isInvisible())
@@ -19,9 +21,11 @@ export class Bullet extends GameObject {
         super.update();
     }
     collide(collider) {
-        if (this.parent != collider) {
-            console.log("Bullet hit");
-            this.CanDestroy = true;
+        if (collider instanceof Tank) {
+            if (this.parentTurret != collider.Turret) {
+                console.log("Bullet hit");
+                this.CanDestroy = true;
+            }
         }
     }
     isInvisible() {

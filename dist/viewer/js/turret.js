@@ -2,6 +2,7 @@ import { BehavioralObject } from "./interface/behavioralObject.js";
 import { Vector2 } from "./vector.js";
 import { Rotate } from "./behaviors/rotate.js";
 export class Turret extends BehavioralObject {
+    get ParentTank() { return this.tank; }
     constructor(tank) {
         super("tank-turret");
         this.tank = tank;

@@ -28,6 +28,10 @@ export class Tank extends BehavioralObject{
         this.status.Ammo = this.ammo
     }
     
+    
+    public get Turret() : Turret    { return this.turret    }
+    
+
     constructor(data : TankData, status : StatusBar) {
         super("tank-body")
         
@@ -60,13 +64,15 @@ export class Tank extends BehavioralObject{
 
     public collide(collider : GameObject) : void {
         if(collider instanceof Bullet) {
-            if(collider.Parent != this) {
-                console.log("Tank got hit!")
-                this.health -= collider.Damage
-                this.data.health = this.health
-                this.status.update(this.data.health)
-
-                if(this.health <= 0) this.CanDestroy = true
+            if (collider.ParentTurret instanceof Turret) {
+                if(collider.ParentTurret != this.Turret) {
+                    console.log("Tank got hit!")
+                    this.health -= collider.Damage
+                    this.data.health = this.health
+                    this.status.update(this.data.health)
+    
+                    if(this.health <= 0) this.CanDestroy = true
+                }
             }
         }
         if(collider instanceof AmmoBox) {

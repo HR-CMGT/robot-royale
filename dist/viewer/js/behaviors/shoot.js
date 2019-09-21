@@ -16,7 +16,7 @@ export class Shoot extends Behavior {
     }
     shoot() {
         this.tank.Ammo--;
-        Game.Instance.addBullet(new Bullet(this.BehavioralObject));
+        Game.Instance.addBullet(new Bullet(this.BehavioralObject.Turret));
     }
     gotoNextBehavior() {
         super.gotoNextBehavior();

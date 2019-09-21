@@ -1,24 +1,27 @@
 import { GameObject } from "./gameobject.js";
 import { Game } from "./game.js";
+import { Turret } from "./turret.js";
+import { Tank } from "./tank.js";
+import { Vector2 } from "./vector.js";
 
 export class Bullet extends GameObject {
     
     // Field 
     private damage : number = 20
-    private parent : GameObject
+    private parentTurret : Turret
 
     // Properties
     public get Damage() : number        { return this.damage }
-    public get Parent() : GameObject    { return this.parent }
+    public get ParentTurret() : GameObject    { return this.parentTurret }
     
-    constructor(parent : GameObject) {
+    constructor(parent : Turret) {
         super("bullet")
         
-        this.Position   = parent.Position
-        this.Direction  = parent.Direction
-        this.Rotation   = parent.Rotation 
-        this.Speed      = 5
-        this.parent     = parent
+        this.Position     = parent.Position
+        this.Rotation     = parent.Rotation 
+        this.Direction    = Vector2.getVectorFromAngle(parent.Rotation)
+        this.Speed        = 5
+        this.parentTurret = parent
 
         this.update()
     }
@@ -32,9 +35,11 @@ export class Bullet extends GameObject {
     }
 
     public collide(collider : GameObject){
-        if(this.parent != collider) {
-            console.log("Bullet hit")
-            this.CanDestroy = true
+        if (collider instanceof Tank) {
+            if(this.parentTurret != collider.Turret) {
+                console.log("Bullet hit")
+                this.CanDestroy = true
+            }
         }
     }
 
