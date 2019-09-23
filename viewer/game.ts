@@ -1,4 +1,4 @@
-import { Robot } from "./robot.js";
+import { Tank } from "./tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
 import { GameObject } from "./gameobject.js";
 import { AmmoBox } from "./ammobox.js";
@@ -12,8 +12,12 @@ export class Game {
     private ammoBoxes   : AmmoBox[]     = []
     private socket      : SocketIOClient.Socket
 
+    public gameover : boolean = false
+    
     // Properties
-    public get AmmoBoxes() : AmmoBox[] { return this.ammoBoxes }
+    public get AmmoBoxes() : AmmoBox[] { 
+        return this.gameObjects.filter(o => { return o instanceof AmmoBox}) as AmmoBox[]
+    }
     
     public static get Instance() : Game {
         if(!this.instance) this.instance = new Game()
@@ -24,38 +28,57 @@ export class Game {
         this.socket = io()
 
         this.socket.on('new robot', (json : string) => {
-            let data : RobotData = JSON.parse(json)
-            this.addRobot(data)
+            let data : TankData = JSON.parse(json)
+            this.addTank(data)
+        })
+
+        // todo delete
+        // -- DEBUG!! --
+        this.addTank({
+            id: "1",
+            connectionid : "1",
+            color: "string",
+            name: "string",
+            health: 1,
+            ammo: 1,
+            speed: 1,
+            armor: 1,
+            damage: 1
         })
 
         this.socket.on('robot power', (id : string) => {
             console.log("special power for: " + id)
         })
 
-        for (let i = 0; i < 1; i++) {
-            this.ammoBoxes.push(new AmmoBox())
+        for (let i = 0; i < 5; i++) {
+            // this.ammoBoxes.push(new AmmoBox())
+            this.gameObjects.push(new AmmoBox())
         }
+
+        setInterval(() => {
+            this.gameObjects.push(new AmmoBox())
+        }, 5000);
 
         this.update()
     }
 
-    private addRobot(data : RobotData) {
+    private addTank(data : TankData) {
         // status bar on the right receives data
         // let bar = new StatusBar(data)
 
-        // actual moving robot, receives its corresponding data and status bar
-        let robot : GameObject = BehavioralObjectFactory.CreateObject("robot", data)
+        // actual moving tank, receives its corresponding data and status bar
+        let tank : GameObject = BehavioralObjectFactory.CreateObject("tank", data)
 
         
-        // ROBOT KRIJGT NU DRIE INDEXES BINNEN
+        // Tank KRIJGT NU DRIE INDEXES BINNEN
         // ARMOR
         // SPECIAL POWER
         // MOVE
-        this.gameObjects.push(robot)
+        this.gameObjects.push(tank)
     }
 
     private update(){
-        // Todo when adding a lot of robots on runtime. error in update loop
+        // Todo when adding a lot of tanks on runtime. error in update loop
 
         for (let object1 of this.gameObjects) {
             object1.update()
@@ -71,7 +94,7 @@ export class Game {
         for (let obj of this.gameObjects) {
             if(obj.CanDestroy) this.removeGameObject(obj)
         }
-        requestAnimationFrame(() => this.update())
+        if(!this.gameover) requestAnimationFrame(() => this.update())
     }
 
     // if a robot is destroyed here, also update the list on the server
@@ -84,7 +107,7 @@ export class Game {
         }
         
         // let the player know that this robot has died
-        if(gameObject instanceof Robot) {
+        if(gameObject instanceof Tank) {
             this.socket.emit('robot destroyed', gameObject.Data.id)
         }
     }

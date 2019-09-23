@@ -5,22 +5,20 @@ export class Shoot extends Behavior {
     constructor(behavioralObject) {
         super(behavioralObject);
         this.fireRate = 40;
-        console.log("Behavior: rotate");
         this.lifeTime = 100;
-        this.robot = behavioralObject;
+        this.tank = behavioralObject;
     }
     performUpdate() {
-        super.performUpdate();
-        if (this.timer % this.fireRate === 0 && this.robot.Ammo > 0) {
+        if (this.timer % this.fireRate === 0 && this.tank.Ammo > 0) {
             this.shoot();
         }
+        super.performUpdate();
     }
     shoot() {
-        this.robot.Ammo--;
-        Game.Instance.addBullet(new Bullet(this.BehavioralObject));
+        this.tank.Ammo--;
+        Game.Instance.addBullet(new Bullet(this.BehavioralObject.Turret));
     }
     gotoNextBehavior() {
-        console.log("activateNextBehavior Shoot");
         super.gotoNextBehavior();
     }
 }

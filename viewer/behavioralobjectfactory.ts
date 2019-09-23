@@ -1,5 +1,5 @@
 import { BehavioralObject } from "./interface/behavioralObject.js";
-import { Robot } from "./robot.js";
+import { Tank } from "./tank.js";
 import { StatusBar } from "./ui/statusbar.js";
 import { Forward } from "./behaviors/forward.js";
 import { Rotate } from "./behaviors/rotate.js";
@@ -8,24 +8,25 @@ import { MoveTowardsAmmo } from "./behaviors/movetowardsammo.js";
 
 export class BehavioralObjectFactory {
 
-    public static CreateObject(type: string, data : RobotData) : BehavioralObject {
+    public static CreateObject(type: string, data : TankData) : BehavioralObject {
         let behavioralObject : BehavioralObject
 
         switch (type) {
-            case "robot":
-                behavioralObject = new Robot(data, new StatusBar(data))
+            case "tank":
+                behavioralObject = new Tank(data, new StatusBar(data))
                 break;
             default:
                 break;
         }
 
-        behavioralObject.AddBehavior(new Rotate(behavioralObject, 45))
-        behavioralObject.AddBehavior(new Forward(behavioralObject))
-        behavioralObject.AddBehavior(new Forward(behavioralObject))
-        behavioralObject.AddBehavior(new Forward(behavioralObject))
-        // behavioralObject.AddBehavior(new MoveTowardsAmmo(behavioralObject))
-        // behavioralObject.AddBehavior(new Shoot(behavioralObject))
         // behavioralObject.AddBehavior(new Forward(behavioralObject))
+        behavioralObject.AddBehavior(new Shoot(behavioralObject))
+        // behavioralObject.AddBehavior(new Rotate(behavioralObject, 45, true))
+        // behavioralObject.AddBehavior(new Rotate(behavioralObject, 45, true))
+        // behavioralObject.AddBehavior(new Forward(behavioralObject))
+        // behavioralObject.AddBehavior(new Forward(behavioralObject))
+        behavioralObject.AddBehavior(new MoveTowardsAmmo(behavioralObject))
+        behavioralObject.AddBehavior(new Forward(behavioralObject))
 
         return behavioralObject
     }

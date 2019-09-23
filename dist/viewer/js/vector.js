@@ -34,7 +34,14 @@ export class Vector2 {
     dotProduct(v) {
         return new Vector2(this.x * v.x, this.y * v.y);
     }
-    angle(vector1) {
-        return Math.atan2(this.y - vector1.y, this.x - vector1.x) * 180 / Math.PI;
+    angleBetweenVectors(vector1) {
+        return Math.atan2(this.y - vector1.y, this.x - vector1.x) * (180 / Math.PI);
+    }
+    angle() {
+        return Math.atan2(this.Y, this.X) * (180 / Math.PI);
+    }
+    static getVectorFromAngle(angle) {
+        let rad = angle * Math.PI / 180;
+        return new Vector2(Math.cos(rad), Math.sin(rad));
     }
 }

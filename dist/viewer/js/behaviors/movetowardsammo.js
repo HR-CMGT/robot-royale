@@ -4,16 +4,10 @@ import { RotateAndMoveComposite } from "./rotatemovecomposite.js";
 export class MoveTowardsAmmo extends Behavior {
     constructor(behavioralObject) {
         super(behavioralObject);
-        this.targetBox = this.getNearestAmmoBox();
     }
     performUpdate() {
-        if (this.targetBox) {
-            this.BehavioralObject.Behavior = new RotateAndMoveComposite(this.BehavioralObject);
-        }
-        else {
-            console.log("No target found in MoveTowardsAmmo");
-            this.BehavioralObject.activateNextBehavior();
-        }
+        if (this.activeBehavior)
+            this.activeBehavior.performUpdate();
     }
     getNearestAmmoBox() {
         let targetBox;
@@ -28,5 +22,20 @@ export class MoveTowardsAmmo extends Behavior {
             }
         }
         return targetBox;
+    }
+    gotoNextBehavior() {
+        this.activeBehavior.gotoNextBehavior();
+    }
+    onActivateBehavior() {
+        let targetObject = this.getNearestAmmoBox();
+        if (targetObject) {
+            let nextBehavior = new RotateAndMoveComposite(this.BehavioralObject, targetObject);
+            nextBehavior.onActivateBehavior();
+            this.activeBehavior = nextBehavior;
+        }
+        else {
+            console.log("No target found in MoveTowardsAmmo");
+            this.BehavioralObject.activateNextBehavior();
+        }
     }
 }

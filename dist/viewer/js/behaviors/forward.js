@@ -2,7 +2,6 @@ import { Behavior } from "../interface/behavior.js";
 export class Forward extends Behavior {
     constructor(behavioralObject) {
         super(behavioralObject);
-        console.log("Behavior: forward");
         this.lifeTime = 100;
     }
     performUpdate() {
@@ -11,6 +10,9 @@ export class Forward extends Behavior {
         this.windowHeight = window.innerHeight;
         this.BehavioralObject.Position =
             this.BehavioralObject.Position.add(this.BehavioralObject.Direction.scale(this.BehavioralObject.Speed));
+        this.checkWindowContainsObject();
+    }
+    checkWindowContainsObject() {
         if (this.BehavioralObject.Position.X < -this.BehavioralObject.Width) {
             this.BehavioralObject.Position.X = this.windowWidth;
         }

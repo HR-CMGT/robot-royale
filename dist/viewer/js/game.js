@@ -1,32 +1,49 @@
-import { Robot } from "./robot.js";
+import { Tank } from "./tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
 import { AmmoBox } from "./ammobox.js";
 export class Game {
     constructor() {
         this.gameObjects = [];
         this.ammoBoxes = [];
+        this.gameover = false;
         this.socket = io();
         this.socket.on('new robot', (json) => {
             let data = JSON.parse(json);
-            this.addRobot(data);
+            this.addTank(data);
+        });
+        this.addTank({
+            id: "1",
+            connectionid: "1",
+            color: "string",
+            name: "string",
+            health: 1,
+            ammo: 1,
+            speed: 1,
+            armor: 1,
+            damage: 1
         });
         this.socket.on('robot power', (id) => {
             console.log("special power for: " + id);
         });
-        for (let i = 0; i < 1; i++) {
-            this.ammoBoxes.push(new AmmoBox());
+        for (let i = 0; i < 5; i++) {
+            this.gameObjects.push(new AmmoBox());
         }
+        setInterval(() => {
+            this.gameObjects.push(new AmmoBox());
+        }, 5000);
         this.update();
     }
-    get AmmoBoxes() { return this.ammoBoxes; }
+    get AmmoBoxes() {
+        return this.gameObjects.filter(o => { return o instanceof AmmoBox; });
+    }
     static get Instance() {
         if (!this.instance)
             this.instance = new Game();
         return this.instance;
     }
-    addRobot(data) {
-        let robot = BehavioralObjectFactory.CreateObject("robot", data);
-        this.gameObjects.push(robot);
+    addTank(data) {
+        let tank = BehavioralObjectFactory.CreateObject("tank", data);
+        this.gameObjects.push(tank);
     }
     update() {
         for (let object1 of this.gameObjects) {
@@ -42,7 +59,8 @@ export class Game {
             if (obj.CanDestroy)
                 this.removeGameObject(obj);
         }
-        requestAnimationFrame(() => this.update());
+        if (!this.gameover)
+            requestAnimationFrame(() => this.update());
     }
     removeGameObject(gameObject) {
         let index = this.gameObjects.indexOf(gameObject);
@@ -50,7 +68,7 @@ export class Game {
             let objs = this.gameObjects.splice(index, 1);
             objs[0].destroy();
         }
-        if (gameObject instanceof Robot) {
+        if (gameObject instanceof Tank) {
             this.socket.emit('robot destroyed', gameObject.Data.id);
         }
     }

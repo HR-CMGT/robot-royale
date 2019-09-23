@@ -4,30 +4,37 @@ import { Forward } from "./behaviors/forward.js";
 import { Vector2 } from "./vector.js";
 import { GameObject } from "./gameobject.js";
 import { Bullet } from "./bullet.js";
+import { AmmoBox } from "./ammobox.js";
+import { Turret } from "./turret.js";
 
-export class Robot extends BehavioralObject{
+export class Tank extends BehavioralObject{
     
     // Fields
-    private data    : RobotData
+    private data    : TankData
     private status  : StatusBar
     private health  : number = 100
     private ammo    : number = 0
-    
+    private turret  : Turret
+
     // Properties
-    public get Data() : RobotData   { return this.data      }
+    public get Data() : TankData   { return this.data      }
 
     public get Health() : number    { return this.health    }
     public set Health(v:number)     { this.health = v       }
     
     public get Ammo() : number      { return this.ammo      }
     public set Ammo(v : number)     { 
-        this.ammo = v;        
-        this.status.Ammo = "Bullets "+this.ammo
+        this.ammo = v        
+        this.status.Ammo = this.ammo
     }
     
-    constructor(data : RobotData, status : StatusBar) {
-        super("robot")
+    
+    public get Turret() : Turret    { return this.turret    }
+    
 
+    constructor(data : TankData, status : StatusBar) {
+        super("tank-body")
+        
         // Default
         // Todo how to handle this?
         this.Behavior = new Forward(this)
@@ -43,42 +50,45 @@ export class Robot extends BehavioralObject{
             Math.random() * (window.innerWidth - 300), 
             Math.random() * (window.innerHeight - 100))
         
-        this.Rotation = Math.round(Math.random() * 360)
-        // this.Rotation = 0
+            
+        // let rad = this.Rotation / (180/Math.PI)
+        this.Direction = new Vector2(Math.random(), Math.random())
+        this.Rotation = this.Direction.angle()
         
         this.Speed  = (Math.random() * 4) + 1 // todo dependent on armor
-        this.Speed = 4
+        
+        this.turret = new Turret(this)
 
         this.update()
     }
 
-    public collide(collider : GameObject){
+    public collide(collider : GameObject) : void {
         if(collider instanceof Bullet) {
-            if(collider.Parent != this) {
-                console.log("Robot got hit!")
-                this.health -= collider.Damage
-                this.data.health = this.health
-                this.status.update(this.data.health)
-
-                if(this.health <= 0) this.CanDestroy = true
-                // just to test the healthbar animation
-                // if (this.data.health <= 0) {
-                //     console.log("Robot died")
-                //     this.status.remove()
-                //     Game.Instance.removeGameObject(this)
-                // }
+            if (collider.ParentTurret instanceof Turret) {
+                if(collider.ParentTurret != this.Turret) {
+                    console.log("Tank got hit!")
+                    this.health -= collider.Damage
+                    this.data.health = this.health
+                    this.status.update(this.data.health)
+    
+                    if(this.health <= 0) this.CanDestroy = true
+                }
             }
+        }
+        if(collider instanceof AmmoBox) {
+            this.Ammo += collider.Ammo
         }
     }
 
     public update(){
-        this.Behavior.performUpdate()
-
         super.update()
+        this.Behavior.performUpdate()
+        
+        this.turret.update()
     }
     
     public destroy() {
-        console.log("Robot died")
+        console.log("Tank died")
         this.status.remove()
         super.destroy()
     }

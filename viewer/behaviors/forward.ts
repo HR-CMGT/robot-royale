@@ -8,11 +8,7 @@ export class Forward extends Behavior{
 
     constructor(behavioralObject : BehavioralObject) {
         super(behavioralObject)
-        console.log("Behavior: forward")
         this.lifeTime = 100
-
-        // this.windowWidth = window.innerWidth - 200
-        // this.windowHeight = window.innerHeight
     }
 
     performUpdate(): void {
@@ -23,8 +19,14 @@ export class Forward extends Behavior{
 
         // update position 
         this.BehavioralObject.Position = 
-            this.BehavioralObject.Position.add(this.BehavioralObject.Direction.scale(this.BehavioralObject.Speed))
+            this.BehavioralObject.Position.add(
+                this.BehavioralObject.Direction.scale(this.BehavioralObject.Speed)
+            )
 
+        this.checkWindowContainsObject()
+    }
+
+    private checkWindowContainsObject() : void {
         // move outside one side and enter opposite side
         if(this.BehavioralObject.Position.X < -this.BehavioralObject.Width) {
             this.BehavioralObject.Position.X = this.windowWidth
@@ -38,13 +40,5 @@ export class Forward extends Behavior{
          if(this.BehavioralObject.Position.Y > this.windowHeight) {
             this.BehavioralObject.Position.Y = -this.BehavioralObject.Height
         }
-
-        // bounce against side
-        // if (this.BehavioralObject.Position.X < 0 || this.BehavioralObject.Position.X + this.BehavioralObject.Width > this.windowWidth) {
-        //     this.BehavioralObject.Direction.X *= -1
-        // }
-        // if (this.BehavioralObject.Position.Y < 0 || this.BehavioralObject.Position.Y + this.BehavioralObject.Height > (window.innerHeight)) {
-        //     this.BehavioralObject.Direction.Y *= -1
-        // }
     }
 }
