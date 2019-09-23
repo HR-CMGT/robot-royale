@@ -31,10 +31,10 @@ Robots have these settings:
 
 Robots have program blocks that can be rearranged while the game is running:
 
-- Turn towards nearest enemy
-- Drive forward and shoot
-- Turn towards nearest ammo box
-- Turn towards nearest health kit
+- Move to nearest ammo
+- Move to nearest healthkit
+- Move and shoot randomly
+- Stop, aim and shoot
 
 ## Start the server
 

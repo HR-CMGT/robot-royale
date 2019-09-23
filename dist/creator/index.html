@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./css/style.css">
     <title>Robot Royale - Creator</title>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -15,10 +15,8 @@
     <div id="backgroundcolor"></div>
 
     <template id="generator-template">
-
         <section class="header">
         </section>
-        
         <section class="middle">  
             <div id="robot">
             </div>
@@ -32,17 +30,37 @@
                 <button id="generate-btn"><img src="./images/refresh.png"> &nbsp; Generate new robot</button>
             </div>
         </section>
-
-        <section class="buttonrow">
-            <button id="confirm-btn" class="pulse">Start programming</button>
+        <section class="footer pulse" id="confirm-btn">
+            START PROGRAMMING
         </section>
-    
     </template>
 
-    <!-- this works without the component code ?!? -->
-    <script type="module" src="./js/words.js"></script>
-    <script type="module" src="./js/randomizer.js"></script>
-    <script type="module" src="./js/generatorview.js"></script>
+    <template id="program-template">
+        <section class="header">
+        </section>
+
+        <section id="miniheader">
+            <div id="robot"></div>
+            <div id="field"></div>
+        </section>
+        
+        <section class="middle">
+            <div>
+                Tap blocks to program your robot
+            </div>
+            <div class="blocks">
+                <div class="block">MOVE AND SHOOT</div>
+                <div class="block">MOVE AND SHOOT</div>
+                <div class="block">FIND AMMO</div>
+                <div class="block">AIM AND SHOOT</div>
+            </div>
+        </section>
+        
+        <section class="footer pulse" id="send-btn">
+            ADD TO GAME
+        </section>
+    </template>
+
     <script type="module" src="./js/app.js"></script>
 </body>
 </html>
