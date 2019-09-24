@@ -22,22 +22,19 @@ export class ShootAtTarget extends Behavior{
     }
 
     public onActivateBehavior() : void {
-        let targetObject : GameObject = this.getRandomEnemy()
-        // When the target is calculated a composite is started. First to rotate to the object
-        // then to move to that object
-        if(targetObject) {
+        if(Game.Instance.Tanks.length > 1) {
+            let targetObject : GameObject = this.getRandomEnemy()
+        
             let behavioralComposite : BehaviorComposite = new BehaviorComposite(this.BehavioralObject)
             behavioralComposite.addBehavior(new Break(this.BehavioralObject))
             behavioralComposite.addBehavior(new RotateTurretToTarget(this.BehavioralObject, targetObject))
             behavioralComposite.addBehavior(new Shoot(this.BehavioralObject))
             behavioralComposite.addBehavior(new StartOff(this.BehavioralObject))
-            
-        //     let tank = this.BehavioralObject as Tank
-        // tank.Turret.Behavior = new Rotate(tank.Turret, rotationOptions.angle, rotationOptions.rotateClockWise)
+        
             this.activeBehavior = behavioralComposite
             behavioralComposite.onActivateBehavior()
         } else {
-            console.log("No target found in MoveTowardsAmmo")
+            console.log("No target found in Shoot at target")
             this.BehavioralObject.activateNextBehavior()
         }
     }
@@ -53,19 +50,10 @@ export class ShootAtTarget extends Behavior{
     private getRandomEnemy() : GameObject {
         let tanks : GameObject[] = Game.Instance.Tanks
 
-        // kan leeg blijven
         let tank : GameObject
-        for (let i = 0; i < 5; i++) {
+        do {
             tank = tanks[Math.floor(Math.random() * tanks.length)]
-            if(tank != this.BehavioralObject) break       
-        }
-
-        // let numberOfTries = 0
-        // let tank : GameObject
-        // do {
-        //     numberOfTries++
-        //     tank = tanks[Math.floor(Math.random() * tanks.length)]
-        // } while (numberOfTries < 3 || tank == this.BehavioralObject);
+        } while (tank == this.BehavioralObject);
 
         return tank
     }

@@ -2,6 +2,7 @@ import { Tank } from "./gameobjects/tank/tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
 import { GameObject } from "./gameobject.js";
 import { AmmoBox } from "./gameobjects/ammobox.js";
+import { DebugInfo } from "./ui/debuginfo.js";
 
 export class Game {
 
@@ -27,6 +28,8 @@ export class Game {
     }
 
     private constructor() {
+        this.gameObjects.push(new DebugInfo())
+
         this.socket = io()
 
         this.socket.on('new robot', (json : string) => {

@@ -14,8 +14,8 @@ export class ShootAtTarget extends Behavior {
             this.activeBehavior.performUpdate();
     }
     onActivateBehavior() {
-        let targetObject = this.getRandomEnemy();
-        if (targetObject) {
+        if (Game.Instance.Tanks.length > 1) {
+            let targetObject = this.getRandomEnemy();
             let behavioralComposite = new BehaviorComposite(this.BehavioralObject);
             behavioralComposite.addBehavior(new Break(this.BehavioralObject));
             behavioralComposite.addBehavior(new RotateTurretToTarget(this.BehavioralObject, targetObject));
@@ -25,7 +25,7 @@ export class ShootAtTarget extends Behavior {
             behavioralComposite.onActivateBehavior();
         }
         else {
-            console.log("No target found in MoveTowardsAmmo");
+            console.log("No target found in Shoot at target");
             this.BehavioralObject.activateNextBehavior();
         }
     }
@@ -35,11 +35,9 @@ export class ShootAtTarget extends Behavior {
     getRandomEnemy() {
         let tanks = Game.Instance.Tanks;
         let tank;
-        for (let i = 0; i < 5; i++) {
+        do {
             tank = tanks[Math.floor(Math.random() * tanks.length)];
-            if (tank != this.BehavioralObject)
-                break;
-        }
+        } while (tank == this.BehavioralObject);
         return tank;
     }
 }
