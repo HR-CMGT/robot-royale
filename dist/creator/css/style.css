@@ -57,16 +57,20 @@ program-view #field {
     padding-top:8px;
     padding-left:8px;
 }
-
+.blocks {
+    padding-top:24px;
+}
 
 .blocks .block {
     color:white;
-    background-color:rgb(255, 0, 0);
-    box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.6);
+    filter: drop-shadow( 2px 2px 0px #000 );
+    background-image:url(../images/block.png);
+    background-size:100% 100%;
     width:80%;
     font-size:1.3em;
-    margin:8px auto;
-    align-self: center;
+    margin:0px auto;
+    padding-bottom:8px;
+    padding-top:4px;
 }
 
 #miniheader {

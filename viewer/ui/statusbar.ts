@@ -8,7 +8,7 @@ export class StatusBar {
     // Properties
     public set Ammo(v : number)     { this.ammo.innerHTML = "Projectiles "+v  }
 
-    constructor(data : TankData) {
+    constructor(data : Settings) {
         let list = document.querySelector("#robotlist")
         this.bar = document.createElement("statusbar")
 
@@ -21,9 +21,9 @@ export class StatusBar {
         this.ammo.style.fontSize = "1em"
         
         let info = document.createElement("div")
-        info.innerHTML = data.name + " 0:03"
+        info.innerHTML = data.nickname + " 0:03"
 
-        this.bar.style.backgroundColor = data.color
+        this.bar.style.filter = `hue-rotate(${data.color}deg)`
         this.bar.appendChild(this.damagebar)
         this.bar.appendChild(info)
         this.bar.appendChild(this.ammo)
@@ -32,11 +32,11 @@ export class StatusBar {
     }
 
     // todo show time alive
-    update(health : number){
+    public update(health : number){
         this.damagebar.style.width = (100 - health) + "%"        
     }
 
-    remove(){
+    public remove(){
         this.bar.remove()
     }
 }

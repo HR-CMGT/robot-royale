@@ -8,7 +8,7 @@ import { MoveTowardsAmmo } from "./behaviors/movetowardsammo.js";
 
 export class BehavioralObjectFactory {
 
-    public static CreateObject(type: string, data : TankData) : BehavioralObject {
+    public static CreateObject(type: string, data : Settings) : BehavioralObject {
         let behavioralObject : BehavioralObject
 
         switch (type) {

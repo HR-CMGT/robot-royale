@@ -10,14 +10,14 @@ import { Turret } from "./turret.js";
 export class Tank extends BehavioralObject{
     
     // Fields
-    private data    : TankData
+    private data    : Settings
     private status  : StatusBar
     private health  : number = 100
     private ammo    : number = 0
     private turret  : Turret
 
     // Properties
-    public get Data() : TankData   { return this.data      }
+    public get Data(): Settings   { return this.data      }
 
     public get Health() : number    { return this.health    }
     public set Health(v:number)     { this.health = v       }
@@ -32,7 +32,7 @@ export class Tank extends BehavioralObject{
     public get Turret() : Turret    { return this.turret    }
     
 
-    constructor(data : TankData, status : StatusBar) {
+    constructor(data: Settings, status : StatusBar) {
         super("tank-body")
         
         // Default
@@ -43,8 +43,8 @@ export class Tank extends BehavioralObject{
         this.status = status
         this.Ammo   = 10
 
-        // this.Div.style.backgroundColor = data.color
-        this.Div.innerHTML = data.name
+        this.Div.style.filter = `hue-rotate(${data.color}deg)`
+        this.Div.innerHTML = data.nickname
 
         this.Position = new Vector2(
             Math.random() * (window.innerWidth - 300), 
@@ -68,8 +68,7 @@ export class Tank extends BehavioralObject{
                 if(collider.ParentTurret != this.Turret) {
                     console.log("Tank got hit!")
                     this.health -= collider.Damage
-                    this.data.health = this.health
-                    this.status.update(this.data.health)
+                    this.status.update(this.health)
     
                     if(this.health <= 0) this.CanDestroy = true
                 }

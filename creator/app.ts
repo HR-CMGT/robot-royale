@@ -37,27 +37,19 @@ export class App {
         let v = new ProgramView()
         document.body.appendChild(v)
         v.addEventListener('robotCreated', (e) => this.robotCreated(), false)
-        v.addEventListener('programUpdated', (e) => this.updateProgram(), false)
+        v.addEventListener('programUpdated', (e) => this.programUpdated(), false)
     }
 
     private robotCreated() : void {
-        console.log("send new robot")
-
-        /*
-        const json : string = JSON.stringify(this.data)
+        const json : string = Settings.createJSON()
         console.log(json)
-
         this.socket.emit('robot created', json)
-        */
     }
 
-    private updateProgram(){
-        console.log("send new program")
-        
-        /*
-        console.log("robot power " + this.data.id)
-        this.socket.emit('robot power', JSON.stringify(this.data.id))
-        */
+    private programUpdated(){
+        const json: string = Settings.createJSON()
+        console.log(json)
+        this.socket.emit('robot updated', json)
     }
 }
 

@@ -3,6 +3,7 @@ import { Settings } from "../settings.js"
 export class ProgramView extends HTMLElement {
 
     private blocks: HTMLElement
+    private added : boolean  = false
 
     connectedCallback() {
         console.log("Building programmer view")
@@ -26,14 +27,25 @@ export class ProgramView extends HTMLElement {
 
         const hue = `hue-rotate(${Settings.color}deg)`
         bg.style.filter = image.style.filter = logo.style.filter = this.blocks.style.filter = hue
+
+        // place program blocks
+        let blocks = this.querySelector(".blocks")
+        for (let pr of Settings.program) {
+            let div = document.createElement("div")
+            div.classList.add("block")
+            div.innerHTML = "MOVE AND SHOOT"
+            blocks.appendChild(div)
+        }
     }
 
     private onSendButton() {
-        // Todo, IF NO ROBOT CREATED send new robot command
-        this.dispatchEvent(new Event('robotCreated'))
-        
-        // ELSE send new program for existing robot
-        // this.dispatchEvent(new Event('programUpdated'))
+        if(!this.added) {
+            this.dispatchEvent(new Event('robotCreated'))
+            let btn = this.querySelector("#send-btn")
+            btn.innerHTML = "UPDATE PROGRAM"
+        } else {
+            this.dispatchEvent(new Event('programUpdated'))
+        }
     }
 }
 

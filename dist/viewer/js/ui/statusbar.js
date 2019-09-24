@@ -10,8 +10,8 @@ export class StatusBar {
         this.ammo.style.top = "20px";
         this.ammo.style.fontSize = "1em";
         let info = document.createElement("div");
-        info.innerHTML = data.name + " 0:03";
-        this.bar.style.backgroundColor = data.color;
+        info.innerHTML = data.nickname + " 0:03";
+        this.bar.style.filter = `hue-rotate(${data.color}deg)`;
         this.bar.appendChild(this.damagebar);
         this.bar.appendChild(info);
         this.bar.appendChild(this.ammo);

@@ -28,26 +28,23 @@ export class Game {
         this.socket = io()
 
         this.socket.on('new robot', (json : string) => {
-            let data : TankData = JSON.parse(json)
+            let data : Settings = JSON.parse(json)
             this.addTank(data)
         })
 
-        // todo delete
         // -- DEBUG!! --
         this.addTank({
-            id: "1",
-            connectionid : "1",
-            color: "string",
-            name: "string",
-            health: 1,
-            ammo: 1,
-            speed: 1,
+            id: "123232",
+            socketid : "146464",
+            color: 45,
+            nickname: "Old Billy Bob",
             armor: 1,
-            damage: 1
+            program: [1,1,0,0,0,0]
         })
 
-        this.socket.on('robot power', (id : string) => {
-            console.log("special power for: " + id)
+        this.socket.on('robot updated', (json : string) => {
+            let settings = JSON.parse(json)
+            console.log('viewer received new program for ' + settings.nickname)
         })
 
         for (let i = 0; i < 5; i++) {
@@ -62,18 +59,13 @@ export class Game {
         this.update()
     }
 
-    private addTank(data : TankData) {
+    private addTank(data : Settings) {
         // status bar on the right receives data
         // let bar = new StatusBar(data)
 
         // actual moving tank, receives its corresponding data and status bar
         let tank : GameObject = BehavioralObjectFactory.CreateObject("tank", data)
 
-        
-        // Tank KRIJGT NU DRIE INDEXES BINNEN
-        // ARMOR
-        // SPECIAL POWER
-        // MOVE
         this.gameObjects.push(tank)
     }
 
@@ -94,6 +86,7 @@ export class Game {
         for (let obj of this.gameObjects) {
             if(obj.CanDestroy) this.removeGameObject(obj)
         }
+        
         if(!this.gameover) requestAnimationFrame(() => this.update())
     }
 
