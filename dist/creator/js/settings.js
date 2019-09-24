@@ -5,5 +5,16 @@ export class Settings {
         Settings.color = Math.floor(Math.random() * 360);
         Settings.nickname = Randomizer.generateName();
         Settings.armor = Math.floor(Math.random() * 3);
+        Settings.program = [1, 1, 0, 0, 0, 0];
+    }
+    static createJSON() {
+        return JSON.stringify({
+            id: Settings.id,
+            socketid: Settings.socketid,
+            color: Settings.color,
+            nickname: Settings.nickname,
+            armor: Settings.armor,
+            program: Settings.program
+        });
     }
 }

@@ -1,5 +1,9 @@
 import { Settings } from "../settings.js";
 export class ProgramView extends HTMLElement {
+    constructor() {
+        super(...arguments);
+        this.added = false;
+    }
     connectedCallback() {
         console.log("Building programmer view");
         const template = document.getElementById('program-template');
@@ -14,9 +18,23 @@ export class ProgramView extends HTMLElement {
         image.style.backgroundImage = `url(images/tank_${Settings.armor}.png)`;
         const hue = `hue-rotate(${Settings.color}deg)`;
         bg.style.filter = image.style.filter = logo.style.filter = this.blocks.style.filter = hue;
+        let blocks = this.querySelector(".blocks");
+        for (let pr of Settings.program) {
+            let div = document.createElement("div");
+            div.classList.add("block");
+            div.innerHTML = "MOVE AND SHOOT";
+            blocks.appendChild(div);
+        }
     }
     onSendButton() {
-        this.dispatchEvent(new Event('robotCreated'));
+        if (!this.added) {
+            this.dispatchEvent(new Event('robotCreated'));
+            let btn = this.querySelector("#send-btn");
+            btn.innerHTML = "UPDATE PROGRAM";
+        }
+        else {
+            this.dispatchEvent(new Event('programUpdated'));
+        }
     }
 }
 customElements.define('program-view', ProgramView);

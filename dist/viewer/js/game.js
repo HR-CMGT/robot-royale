@@ -13,29 +13,16 @@ export class Game {
             this.addTank(data);
         });
         this.addTank({
-            id: "1",
-            connectionid: "1",
-            color: "string",
-            name: "string",
-            health: 1,
-            ammo: 1,
-            speed: 1,
+            id: "123232",
+            socketid: "146464",
+            color: 45,
+            nickname: "Old Billy Bob",
             armor: 1,
-            damage: 1
+            program: [1, 1, 0, 0, 0, 0]
         });
-        this.addTank({
-            id: "1",
-            connectionid: "1",
-            color: "string",
-            name: "string",
-            health: 1,
-            ammo: 1,
-            speed: 1,
-            armor: 1,
-            damage: 1
-        });
-        this.socket.on('robot power', (id) => {
-            console.log("special power for: " + id);
+        this.socket.on('robot updated', (json) => {
+            let settings = JSON.parse(json);
+            console.log('viewer received new program for ' + settings.nickname);
         });
         for (let i = 0; i < 5; i++) {
             this.gameObjects.push(new AmmoBox());

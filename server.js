@@ -23,9 +23,8 @@ io.on('connection', (socket) => {
     //console.log(id)
 
     socket.on('robot created', (json) => {
-        let data = JSON.parse(json)
-        
-        console.log('robot created ' + data.id)
+        let debug = JSON.parse(json)
+        console.log('robot created ' + debug.nickname)
 
         // tell the game that there is a new robot - todo FOR VIEWER
         io.emit('new robot', json, { for: 'everyone' });
@@ -45,9 +44,10 @@ io.on('connection', (socket) => {
     });
 
     // todo dit is dubbel? moet dit via server.js?
-    socket.on('robot power', (id) => {
-        console.log("user special power " + id)
-        io.emit('robot power', id, { for: 'everyone' });
+    socket.on('robot updated', (json) => {
+        let debug = JSON.parse(json)
+        console.log('new program for ' + debug.nickname)
+        io.emit('robot updated', json, { for: 'everyone' })
     });
 });
 

@@ -13,7 +13,8 @@ export class Tank extends BehavioralObject {
         this.data = data;
         this.status = status;
         this.Ammo = 10;
-        this.Div.innerHTML = data.name;
+        this.Div.style.filter = `hue-rotate(${data.color}deg)`;
+        this.Div.innerHTML = data.nickname;
         this.Position = new Vector2(Math.random() * (window.innerWidth - 300), Math.random() * (window.innerHeight - 100));
         this.Direction = new Vector2(Math.random(), Math.random());
         this.Rotation = this.Direction.angle();
@@ -36,8 +37,7 @@ export class Tank extends BehavioralObject {
                 if (collider.ParentTurret != this.Turret) {
                     console.log("Tank got hit!");
                     this.health -= collider.Damage;
-                    this.data.health = this.health;
-                    this.status.update(this.data.health);
+                    this.status.update(this.health);
                     if (this.health <= 0)
                         this.CanDestroy = true;
                 }

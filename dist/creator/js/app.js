@@ -7,7 +7,7 @@ export class App {
         this.socket.on('connect', () => this.init(this.socket.id));
     }
     init(socketid) {
-        console.log("creator connected " + socketid);
+        console.log("creator connects " + socketid);
         Settings.socketid = socketid;
         Settings.randomize();
         this.showGeneratorView();
@@ -21,13 +21,17 @@ export class App {
         let v = new ProgramView();
         document.body.appendChild(v);
         v.addEventListener('robotCreated', (e) => this.robotCreated(), false);
-        v.addEventListener('programUpdated', (e) => this.updateProgram(), false);
+        v.addEventListener('programUpdated', (e) => this.programUpdated(), false);
     }
     robotCreated() {
-        console.log("send new robot");
+        const json = Settings.createJSON();
+        console.log(json);
+        this.socket.emit('robot created', json);
     }
-    updateProgram() {
-        console.log("send new program");
+    programUpdated() {
+        const json = Settings.createJSON();
+        console.log(json);
+        this.socket.emit('robot updated', json);
     }
 }
 window.addEventListener("DOMContentLoaded", () => new App());

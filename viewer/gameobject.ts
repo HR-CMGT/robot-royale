@@ -45,7 +45,7 @@ export abstract class GameObject {
 
     constructor(tag : string) {
         this.div = document.createElement(tag)
-        this.color = Math.random() * 360
+        // this.color = Math.random() * 360
 
         let gameview = document.querySelector("#gameview")
         gameview.appendChild(this.div)
@@ -61,7 +61,7 @@ export abstract class GameObject {
     private draw() {
         this.div.style.transform = `translate(${this.position.X - this.Width/2}px, ${this.position.Y - this.Height/2}px) rotate(${this.rotation}deg)`
         // this.div.style.transform = `translate(${this.position.X}px, ${this.position.Y}px) rotate(${this.rotation}deg)`;
-        this.div.style.filter = `hue-rotate(${this.color}deg)`
+        // this.div.style.filter = `hue-rotate(${this.color}deg)`
     }
 
     public detectCollision(target : GameObject) {

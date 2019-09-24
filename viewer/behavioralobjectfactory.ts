@@ -8,10 +8,11 @@ import { MoveTowardsAmmo } from "./behaviors/movetowardsammo.js";
 import { ShootAtTarget } from "./behaviors/shootattarget.js";
 import { Break } from "./behaviors/break.js";
 import { StartOff } from "./behaviors/startoff.js";
+import { Settings } from "./interface/settings.js";
 
 export class BehavioralObjectFactory {
 
-    public static CreateObject(type: string, data : TankData) : BehavioralObject {
+    public static CreateObject(type: string, data : Settings) : BehavioralObject {
         let behavioralObject : BehavioralObject
 
         switch (type) {
