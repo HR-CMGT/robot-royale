@@ -7,17 +7,13 @@ export class Game {
         this.gameover = false;
         this.socket = io();
         this.socket.on('new robot', (json) => {
+            console.log("game received a new robot");
             let data = JSON.parse(json);
             this.addTank(data);
         });
-        this.addTank({
-            id: "123232",
-            socketid: "146464",
-            color: 45,
-            nickname: "Old Billy Bob",
-            armor: 1,
-            program: [1, 1, 0, 0, 0, 0]
-        });
+        for (let i = 0; i < 20; i++) {
+            this.addTank(this.randomSettings());
+        }
         this.socket.on('robot updated', (json) => {
             let settings = JSON.parse(json);
             console.log('viewer received new program for ' + settings.nickname);
@@ -74,6 +70,16 @@ export class Game {
     }
     addBullet(b) {
         this.gameObjects.push(b);
+    }
+    randomSettings() {
+        return {
+            id: String(Math.random() * 1000),
+            socketid: String(Math.random() * 1000),
+            color: Math.floor(Math.random() * 360),
+            nickname: "Old Billy Bob",
+            armor: Math.floor(Math.random() * 3),
+            program: [1, 1, 0, 0, 0, 0]
+        };
     }
 }
 window.addEventListener("DOMContentLoaded", () => Game.Instance);

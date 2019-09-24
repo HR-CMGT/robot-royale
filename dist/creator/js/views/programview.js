@@ -31,6 +31,7 @@ export class ProgramView extends HTMLElement {
             this.dispatchEvent(new Event('robotCreated'));
             let btn = this.querySelector("#send-btn");
             btn.innerHTML = "UPDATE PROGRAM";
+            this.added = true;
         }
         else {
             this.dispatchEvent(new Event('programUpdated'));
