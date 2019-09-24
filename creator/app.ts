@@ -38,7 +38,7 @@ export class App {
         document.body.appendChild(v)
         v.addEventListener('robotCreated', (e) => this.robotCreated(), false)
         v.addEventListener('programUpdated', (e) => this.programUpdated(), false)
-    }
+    }   
 
     private robotCreated() : void {
         const json : string = Settings.createJSON()
