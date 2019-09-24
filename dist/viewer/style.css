@@ -33,7 +33,7 @@ h1,h2,h3,h4 {
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis:200px;
-  background-color:lightgray;
+  /* background-color:green; */
 }
 
 #robotlist {
@@ -47,6 +47,7 @@ statusbar {
     margin-bottom:2px;
     overflow: hidden;
     position: relative;
+    background-color: red;
 }
 
 statusbar > div {
