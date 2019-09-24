@@ -1,10 +1,12 @@
 import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
 import { Game } from "../game.js";
-import { AmmoBox } from "../ammobox.js";
+import { AmmoBox } from "../gameobjects/ammobox.js";
 import { Vector2 } from "../vector.js";
-import { RotateAndMoveComposite } from "./rotatemovecomposite.js";
 import { GameObject } from "../gameobject.js";
+import { BehaviorComposite } from "./behaviorcomposite.js";
+import { RotateToTarget } from "./rotatetotarget.js";
+import { Forward } from "./forward.js";
 
 export class MoveTowardsAmmo extends Behavior{
     
@@ -18,8 +20,30 @@ export class MoveTowardsAmmo extends Behavior{
         if(this.activeBehavior) this.activeBehavior.performUpdate()
     }
 
-    private getNearestAmmoBox() {
-        let targetBox : AmmoBox
+    public onActivateBehavior() : void {
+        let targetObject : GameObject = this.getNearestAmmoBox()
+        
+        // When the target is calculated a composite is started. First to rotate to the object
+        // then to move to that object
+        if(targetObject) {
+            let behavioralComposite : BehaviorComposite = new BehaviorComposite(this.BehavioralObject)
+            behavioralComposite.addBehavior(new RotateToTarget(this.BehavioralObject, targetObject))
+            behavioralComposite.addBehavior(new Forward(this.BehavioralObject))
+            
+            behavioralComposite.onActivateBehavior()
+            this.activeBehavior = behavioralComposite
+        } else {
+            console.log("No target found in MoveTowardsAmmo")
+            this.BehavioralObject.activateNextBehavior()
+        }
+    }
+
+    public gotoNextBehavior() {
+        this.activeBehavior.gotoNextBehavior()
+    }
+
+    private getNearestAmmoBox() : GameObject {
+        let targetBox : GameObject
         let closest : number = 0
         
         let boxes = Game.Instance.AmmoBoxes
@@ -35,22 +59,5 @@ export class MoveTowardsAmmo extends Behavior{
         }
 
         return targetBox
-    }
-
-    public gotoNextBehavior() {
-        this.activeBehavior.gotoNextBehavior()
-    }
-
-    public onActivateBehavior() : void {
-        let targetObject : GameObject = this.getNearestAmmoBox()
-        
-        if(targetObject) {
-            let nextBehavior = new RotateAndMoveComposite(this.BehavioralObject, targetObject)
-            nextBehavior.onActivateBehavior()
-            this.activeBehavior = nextBehavior
-        } else {
-            console.log("No target found in MoveTowardsAmmo")
-            this.BehavioralObject.activateNextBehavior()
-        }
     }
 }

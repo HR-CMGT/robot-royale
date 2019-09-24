@@ -17,4 +17,6 @@ export class Behavior {
     }
     onActivateBehavior() {
     }
+    onDeactivateBehavior() {
+    }
 }

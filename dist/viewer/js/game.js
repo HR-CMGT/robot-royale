@@ -1,15 +1,25 @@
-import { Tank } from "./tank.js";
+import { Tank } from "./gameobjects/tank/tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
-import { AmmoBox } from "./ammobox.js";
+import { AmmoBox } from "./gameobjects/ammobox.js";
 export class Game {
     constructor() {
         this.gameObjects = [];
-        this.ammoBoxes = [];
         this.gameover = false;
         this.socket = io();
         this.socket.on('new robot', (json) => {
             let data = JSON.parse(json);
             this.addTank(data);
+        });
+        this.addTank({
+            id: "1",
+            connectionid: "1",
+            color: "string",
+            name: "string",
+            health: 1,
+            ammo: 1,
+            speed: 1,
+            armor: 1,
+            damage: 1
         });
         this.addTank({
             id: "1",
@@ -35,6 +45,9 @@ export class Game {
     }
     get AmmoBoxes() {
         return this.gameObjects.filter(o => { return o instanceof AmmoBox; });
+    }
+    get Tanks() {
+        return this.gameObjects.filter(o => { return o instanceof Tank; });
     }
     static get Instance() {
         if (!this.instance)

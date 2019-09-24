@@ -31,4 +31,7 @@ export abstract class Behavior {
     public onActivateBehavior() : void {
         
     }
+    public onDeactivateBehavior() : void {
+        
+    }
 }

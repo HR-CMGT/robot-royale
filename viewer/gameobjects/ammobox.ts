@@ -1,6 +1,6 @@
-import { GameObject } from "./gameobject.js";
-import { Vector2 } from "./vector.js";
-import { Tank } from "./tank.js";
+import { GameObject } from "../gameobject.js";
+import { Vector2 } from "../vector.js";
+import { Tank } from "./tank/tank.js";
 
 export class AmmoBox extends GameObject{
 

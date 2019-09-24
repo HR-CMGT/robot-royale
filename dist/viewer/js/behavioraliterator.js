@@ -11,4 +11,7 @@ export class BehavioralIterator {
     add(behavior) {
         this.behaviors.push(behavior);
     }
+    clear() {
+        this.behaviors = [];
+    }
 }

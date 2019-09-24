@@ -1,16 +1,24 @@
 import { Behavior } from "../interface/behavior.js";
-export class Forward extends Behavior {
+export class StartOff extends Behavior {
     constructor(behavioralObject) {
         super(behavioralObject);
-        this.lifeTime = 100;
+        this.speed = 0.1;
+        this.lifeTime = 70;
     }
     performUpdate() {
         super.performUpdate();
         this.windowWidth = window.innerWidth - 200;
         this.windowHeight = window.innerHeight;
-        this.BehavioralObject.Position =
-            this.BehavioralObject.Position.add(this.BehavioralObject.Direction.scale(this.BehavioralObject.Speed));
+        this.BehavioralObject.Position = this.BehavioralObject.Position.add(this.BehavioralObject.Direction.scale(this.speed));
+        this.speed *= 1.05;
+        if (this.speed >= this.BehavioralObject.Speed) {
+            this.timer = 0;
+            this.speed = this.BehavioralObject.Speed;
+        }
         this.checkWindowContainsObject();
+    }
+    onActivateBehavior() {
+        this.speed = 0.1;
     }
     checkWindowContainsObject() {
         if (this.BehavioralObject.Position.X < -this.BehavioralObject.Width) {

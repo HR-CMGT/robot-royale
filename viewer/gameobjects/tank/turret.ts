@@ -1,14 +1,14 @@
-import { BehavioralObject } from "./interface/behavioralObject.js";
+import { BehavioralObject } from "../../interface/behavioralObject.js";
 import { Tank } from "./tank.js";
-import { Vector2 } from "./vector.js";
-import { Rotate } from "./behaviors/rotate.js";
-import { Forward } from "./behaviors/forward.js";
+import { Vector2 } from "../../vector.js";
+import { Rotate } from "../../behaviors/rotate.js";
+import { Forward } from "../../behaviors/forward.js";
 
 export class Turret extends BehavioralObject {
     
     // Fields
     private tank : Tank
-
+    public active : boolean = true
     // Properties
     public get ParentTank() : Tank { return this.tank }
     
@@ -32,8 +32,10 @@ export class Turret extends BehavioralObject {
         this.Direction  = this.tank.Direction
         this.Speed      = this.tank.Speed
         // this.Rotation   = this.tank.Rotation
-
-        this.Behavior.performUpdate()
+        
+        if(this.active) {
+            if(this.Behavior) this.Behavior.performUpdate()
+        }
 
         super.update()
     }
