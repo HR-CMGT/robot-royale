@@ -19,4 +19,8 @@ export class BehavioralIterator {
     add(behavior : Behavior) {
         this.behaviors.push(behavior)
     }
+
+    clear() {
+        this.behaviors = []
+    }
 }

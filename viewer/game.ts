@@ -1,7 +1,7 @@
-import { Tank } from "./tank.js";
+import { Tank } from "./gameobjects/tank/tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
 import { GameObject } from "./gameobject.js";
-import { AmmoBox } from "./ammobox.js";
+import { AmmoBox } from "./gameobjects/ammobox.js";
 
 export class Game {
 
@@ -9,7 +9,6 @@ export class Game {
     private static instance : Game
 
     private gameObjects : GameObject[]  = []
-    private ammoBoxes   : AmmoBox[]     = []
     private socket      : SocketIOClient.Socket
 
     public gameover : boolean = false
@@ -17,6 +16,9 @@ export class Game {
     // Properties
     public get AmmoBoxes() : AmmoBox[] { 
         return this.gameObjects.filter(o => { return o instanceof AmmoBox}) as AmmoBox[]
+    }
+    public get Tanks() : Tank[] { 
+        return this.gameObjects.filter(o => { return o instanceof Tank}) as Tank[]
     }
     
     public static get Instance() : Game {
@@ -41,6 +43,17 @@ export class Game {
             armor: 1,
             program: [1,1,0,0,0,0]
         })
+        this.addTank({
+            id: "1",
+            connectionid : "1",
+            color: "string",
+            name: "string",
+            health: 1,
+            ammo: 1,
+            speed: 1,
+            armor: 1,
+            damage: 1
+        })
 
         this.socket.on('robot updated', (json : string) => {
             let settings = JSON.parse(json)
@@ -48,7 +61,6 @@ export class Game {
         })
 
         for (let i = 0; i < 5; i++) {
-            // this.ammoBoxes.push(new AmmoBox())
             this.gameObjects.push(new AmmoBox())
         }
 

@@ -1,8 +1,8 @@
-import { GameObject } from "./gameobject.js";
-import { Game } from "./game.js";
+import { GameObject } from "../../gameobject.js";
+import { Game } from "../../game.js";
 import { Turret } from "./turret.js";
 import { Tank } from "./tank.js";
-import { Vector2 } from "./vector.js";
+import { Vector2 } from "../../vector.js";
 
 export class Bullet extends GameObject {
     

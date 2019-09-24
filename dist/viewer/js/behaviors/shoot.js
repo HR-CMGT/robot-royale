@@ -1,6 +1,6 @@
 import { Behavior } from "../interface/behavior.js";
 import { Game } from "../game.js";
-import { Bullet } from "../bullet.js";
+import { Bullet } from "../gameobjects/tank/bullet.js";
 export class Shoot extends Behavior {
     constructor(behavioralObject) {
         super(behavioralObject);
@@ -18,7 +18,8 @@ export class Shoot extends Behavior {
         this.tank.Ammo--;
         Game.Instance.addBullet(new Bullet(this.BehavioralObject.Turret));
     }
-    gotoNextBehavior() {
-        super.gotoNextBehavior();
+    onDeactivateBehavior() {
+        if (!this.tank.Turret.active)
+            this.tank.Turret.active = true;
     }
 }

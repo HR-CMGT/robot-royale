@@ -5,7 +5,6 @@ export class Rotate extends Behavior {
         super(behavioralObject);
         this.rotateClockWise = true;
         this.lifeTime = angle;
-        this.targetAngle = angle;
         this.rotateClockWise = rotateClockWise;
     }
     performUpdate() {
@@ -15,8 +14,7 @@ export class Rotate extends Behavior {
         else
             this.BehavioralObject.Rotation--;
     }
-    gotoNextBehavior() {
+    onDeactivateBehavior() {
         this.BehavioralObject.Direction = Vector2.getVectorFromAngle(this.BehavioralObject.Rotation);
-        super.gotoNextBehavior();
     }
 }

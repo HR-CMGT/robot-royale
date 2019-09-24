@@ -1,10 +1,10 @@
-import { StatusBar } from "./ui/statusbar.js";
-import { BehavioralObject } from "./interface/behavioralObject.js";
-import { Forward } from "./behaviors/forward.js";
-import { Vector2 } from "./vector.js";
-import { GameObject } from "./gameobject.js";
+import { StatusBar } from "../../ui/statusbar.js";
+import { BehavioralObject } from "../../interface/behavioralObject.js";
+import { Forward } from "../../behaviors/forward.js";
+import { Vector2 } from "../../vector.js";
+import { GameObject } from "../../gameobject.js";
 import { Bullet } from "./bullet.js";
-import { AmmoBox } from "./ammobox.js";
+import { AmmoBox } from "../ammobox.js";
 import { Turret } from "./turret.js";
 
 export class Tank extends BehavioralObject{
@@ -89,6 +89,7 @@ export class Tank extends BehavioralObject{
     public destroy() {
         console.log("Tank died")
         this.status.remove()
+        this.turret.destroy()
         super.destroy()
     }
 }

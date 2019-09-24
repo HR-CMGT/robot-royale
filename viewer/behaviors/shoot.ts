@@ -1,8 +1,8 @@
 import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
 import { Game } from "../game.js";
-import { Bullet } from "../bullet.js";
-import { Tank } from "../tank.js";
+import { Bullet } from "../gameobjects/tank/bullet.js";
+import { Tank } from "../gameobjects/tank/tank.js";
 
 export class Shoot extends Behavior{
     
@@ -29,7 +29,12 @@ export class Shoot extends Behavior{
         Game.Instance.addBullet(new Bullet((this.BehavioralObject as Tank).Turret))
     }
 
-    public gotoNextBehavior() : void {
-        super.gotoNextBehavior()
+    // gets called from composite
+    // turret can go to its own behavior after shooting
+    public onDeactivateBehavior() : void {
+        if(!this.tank.Turret.active) this.tank.Turret.active = true
     }
+    // public gotoNextBehavior() : void {
+    //     super.gotoNextBehavior()
+    // }
 }
