@@ -31,7 +31,10 @@ export class GeneratorView extends HTMLElement {
         logo.style.filter = "hue-rotate(" + this.settings.color + "deg)";
     }
     confirmSettings() {
-        this.remove();
+    }
+    sendData() {
+    }
+    usePower() {
     }
 }
 customElements.define('generator-view', GeneratorView);
