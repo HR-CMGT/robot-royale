@@ -2,6 +2,7 @@ import { Tank } from "./gameobjects/tank/tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
 import { GameObject } from "./gameobject.js";
 import { AmmoBox } from "./gameobjects/ammobox.js";
+import { Settings } from "./interface/settings.js";
 
 export class Game {
 
@@ -42,17 +43,6 @@ export class Game {
             nickname: "Old Billy Bob",
             armor: 1,
             program: [1,1,0,0,0,0]
-        })
-        this.addTank({
-            id: "1",
-            connectionid : "1",
-            color: "string",
-            name: "string",
-            health: 1,
-            ammo: 1,
-            speed: 1,
-            armor: 1,
-            damage: 1
         })
 
         this.socket.on('robot updated', (json : string) => {
@@ -98,7 +88,7 @@ export class Game {
         for (let obj of this.gameObjects) {
             if(obj.CanDestroy) this.removeGameObject(obj)
         }
-        
+
         if(!this.gameover) requestAnimationFrame(() => this.update())
     }
 

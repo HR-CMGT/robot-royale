@@ -12,7 +12,7 @@ export class App {
     }
     
     private init(socketid:string){
-        console.log("creator connected " + socketid)
+        console.log("creator connects " + socketid)
         Settings.socketid = socketid
         Settings.randomize()
 

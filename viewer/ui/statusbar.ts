@@ -1,3 +1,5 @@
+import { Settings } from "../interface/settings.js"
+
 export class StatusBar {
 
     // Fields

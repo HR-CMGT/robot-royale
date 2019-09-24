@@ -6,6 +6,7 @@ import { GameObject } from "../../gameobject.js";
 import { Bullet } from "./bullet.js";
 import { AmmoBox } from "../ammobox.js";
 import { Turret } from "./turret.js";
+import { Settings } from "../../interface/settings.js";
 
 export class Tank extends BehavioralObject{
     

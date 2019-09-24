@@ -1,4 +1,4 @@
-interface Settings {
+export interface Settings {
     id: string
     socketid : string
     color: number

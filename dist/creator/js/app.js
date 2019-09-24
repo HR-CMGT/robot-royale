@@ -7,7 +7,7 @@ export class App {
         this.socket.on('connect', () => this.init(this.socket.id));
     }
     init(socketid) {
-        console.log("creator connected " + socketid);
+        console.log("creator connects " + socketid);
         Settings.socketid = socketid;
         Settings.randomize();
         this.showGeneratorView();
