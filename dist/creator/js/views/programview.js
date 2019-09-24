@@ -1,8 +1,10 @@
 import { Settings } from "../settings.js";
+import { BlockView } from "./blockview.js";
 export class ProgramView extends HTMLElement {
     constructor() {
         super(...arguments);
         this.added = false;
+        this.behaviors = ["MOVE AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH"];
     }
     connectedCallback() {
         console.log("Building programmer view");
@@ -18,13 +20,28 @@ export class ProgramView extends HTMLElement {
         image.style.backgroundImage = `url(images/tank_${Settings.armor}.png)`;
         const hue = `hue-rotate(${Settings.color}deg)`;
         bg.style.filter = image.style.filter = logo.style.filter = this.blocks.style.filter = hue;
-        let blocks = this.querySelector(".blocks");
-        for (let pr of Settings.program) {
+        this.updateBlocks();
+    }
+    updateBlocks() {
+        this.blocks.innerHTML = "";
+        for (let [i, label] of Settings.program.entries()) {
             let div = document.createElement("div");
-            div.classList.add("block");
-            div.innerHTML = "MOVE AND SHOOT";
-            blocks.appendChild(div);
+            if (label > -1) {
+                div.classList.add("block");
+                div.innerHTML = this.behaviors[label];
+            }
+            else {
+                div.classList.add("block-empty");
+                div.innerHTML = "EMPTY";
+            }
+            div.addEventListener("click", () => this.showBlockView(i));
+            this.blocks.appendChild(div);
         }
+    }
+    showBlockView(i) {
+        let v = new BlockView(i);
+        document.body.appendChild(v);
+        v.addEventListener('blockChosen', () => this.updateBlocks(), false);
     }
     onSendButton() {
         if (!this.added) {
