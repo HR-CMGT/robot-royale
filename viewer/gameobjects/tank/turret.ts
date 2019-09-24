@@ -18,7 +18,7 @@ export class Turret extends BehavioralObject {
         this.tank = tank
         // this.Div.style.top = "24px"
         // this.Div.style.left = "24px"
-        console.log("yo " + tank.Data.color)
+        this.Div.classList.add(`armor-${tank.Data.armor}`)
         this.Div.style.filter = `hue-rotate(${tank.Data.color}deg)`
         this.Behavior = new Rotate(this, 90, false)
         

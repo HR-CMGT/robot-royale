@@ -6,8 +6,10 @@ body {
     margin: 0;
     padding: 0;
     font: 16px Helvetica, Arial;
-    background-color:lightblue;
+    background-color:lightgreen;
     height:100vh;
+    background-image:url(images/grass.png);
+    background-repeat: repeat;
 }
 
 h1,h2,h3,h4 {
@@ -22,18 +24,20 @@ h1,h2,h3,h4 {
 .view {
     display: flex;
     height:100vh;
+    background-image:url(images/robotroyale_bg.png);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .view > div:nth-child(odd) {
   flex: 1;
-  background-color:white;
 }
 
 .view > div:nth-child(even) {
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis:200px;
-  /* background-color:green; */
+  background-color:rgba(255,255,255,0.4);
 }
 
 #robotlist {
@@ -70,24 +74,54 @@ statusbar > div:last-child {
 tank-body {
     display:block;
     position: absolute;
+    overflow: hidden;
+    background-size:contain;
+    background-repeat: no-repeat;
+}
+
+tank-body.armor-0 {
+    width:100px;
+    height:90px;
+    background-image: url("./images/tank_0.png");
+}
+
+tank-body.armor-1 {
     width:125px;
     height:100px;
-    /* border-radius: 8px; */
-    /* padding:4px; */
-    overflow: hidden;
-    left:0; top:0;
-    background-image: url("./images/tank-body.png");
+    background-image: url("./images/tank_1.png");
 }
+
+tank-body.armor-2 {
+    width:145px;
+    height:120px;
+    background-image: url("./images/tank_2.png");
+}
+
 tank-turret {
     display:block;
     position: absolute;
     width:125px;
     height:100px;
-    /* width:103px;
-    height:49px; */
     overflow: hidden;
     left:0; top:0;
-    background-image: url("./images/tank-turret.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-position-x: 80%;
+}
+
+tank-turret.armor-0 {
+    background-image: url("./images/tank-turret_new.png");
+    background-size:50% 50%;
+}
+
+tank-turret.armor-1 {
+    background-image: url("./images/tank-turret_new.png");
+    background-size:60% 60%;
+}
+
+tank-turret.armor-2 {
+    background-image: url("./images/tank-turret_new.png");
+    background-size:70% 70%;
 }
 
 bullet {
@@ -105,9 +139,10 @@ bullet {
 ammo {
     display:block;
     position: absolute;
-    width:24px;
-    height:18px;
+    width:30px;
+    height:24px;
     overflow: hidden;
     left:0; top:0;
     background-image: url("./images/ammobox.png");
+    background-size:contain;
 }

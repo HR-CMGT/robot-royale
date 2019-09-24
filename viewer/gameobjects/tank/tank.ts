@@ -44,6 +44,7 @@ export class Tank extends BehavioralObject{
         this.status = status
         this.Ammo   = 10
 
+        this.Div.classList.add(`armor-${data.armor}`)
         this.Div.style.filter = `hue-rotate(${data.color}deg)`
         this.Div.innerHTML = data.nickname
 

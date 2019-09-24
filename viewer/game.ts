@@ -34,19 +34,15 @@ export class Game {
         this.socket = io()
 
         this.socket.on('new robot', (json : string) => {
+            console.log("game received a new robot")
             let data : Settings = JSON.parse(json)
             this.addTank(data)
         })
 
         // -- DEBUG!! --
-        this.addTank({
-            id: "123232",
-            socketid : "146464",
-            color: 45,
-            nickname: "Old Billy Bob",
-            armor: 1,
-            program: [1,1,0,0,0,0]
-        })
+        for(let i = 0; i<20; i++) {
+            this.addTank(this.randomSettings())
+        }
 
         this.socket.on('robot updated', (json : string) => {
             let settings = JSON.parse(json)
@@ -112,6 +108,18 @@ export class Game {
 
     public addBullet(b : GameObject) {
         this.gameObjects.push(b)
+    }
+
+    // just for debugging
+    private randomSettings() : Settings {
+        return {
+            id: String(Math.random() * 1000),
+            socketid: String(Math.random() * 1000),
+            color: Math.floor(Math.random() * 360),
+            nickname: "Old Billy Bob",
+            armor: Math.floor(Math.random() * 3), // 0 1 2 ?
+            program: [1, 1, 0, 0, 0, 0]
+        }
     }
 }
 
