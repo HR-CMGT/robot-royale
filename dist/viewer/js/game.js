@@ -1,10 +1,12 @@
 import { Tank } from "./gameobjects/tank/tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
 import { AmmoBox } from "./gameobjects/ammobox.js";
+import { DebugInfo } from "./ui/debuginfo.js";
 export class Game {
     constructor() {
         this.gameObjects = [];
         this.gameover = false;
+        this.gameObjects.push(new DebugInfo());
         this.socket = io();
         this.socket.on('new robot', (json) => {
             console.log("game received a new robot");

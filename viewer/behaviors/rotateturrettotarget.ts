@@ -20,8 +20,7 @@ export class RotateTurretToTarget extends Behavior{
 
     performUpdate(): void {
         super.performUpdate()
-        console.log("update van rotate turret")
-        console.log("timer "+this.timer+" lifetime "+this.lifeTime)
+        
         if(this.rotateClockWise) this.turret.Rotation++
         else this.turret.Rotation--
     }
