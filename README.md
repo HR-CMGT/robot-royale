@@ -2,8 +2,6 @@
 
 Multiplayer game for programming awkward robots. The game is projected on a large floor space. Visitors can open a url on their phone to participate in the game. In the game, users program a robot. The robot battles the other robots according to its program.
 
-[youtube demo](https://youtu.be/K67KcHwLSt0)
-
 ### Server
 
 Node app uses socket.io to notify the game when a new robot is created. The server only passes events between creator windows and viewer windows. The server does not keep track of any data.

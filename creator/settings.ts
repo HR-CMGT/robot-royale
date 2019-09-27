@@ -13,7 +13,7 @@ export class Settings {
         Settings.color =  Math.floor(Math.random() * 360)
         Settings.nickname = Randomizer.generateName()
         Settings.armor = Math.floor(Math.random() * 3)
-        Settings.program = [1,1,-1,-1,-1,-1]
+        Settings.program = [0,0,-1,-1,-1,-1]
 
         // extends EventTarget, and then new Settings() will allow addEventListener on settings!
         //@ts-ignore

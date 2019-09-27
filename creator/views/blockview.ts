@@ -35,6 +35,7 @@ export class BlockView extends HTMLElement {
 
     private chooseBlock(i:number) {
         Settings.program[this.index] = i
+        //TODO NO EVENT NEEDED. UPDATING SETTINGS WILL NOTIFY ALL SETTINGS LISTENERS
         this.dispatchEvent(new Event('blockChosen'))
         this.remove()
     }

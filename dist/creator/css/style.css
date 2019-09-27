@@ -42,7 +42,7 @@ generator-view .header {
 }
 
 generator-view #robot {
-    min-height:38vh;
+    min-height:30vh;
 }
 
 program-view .header {
@@ -56,9 +56,10 @@ program-view #robot {
 }
 
 program-view #field {
-    font-size:1.3em;
+    font-size:1.4em;
     padding-top:8px;
     padding-left:8px;
+    font-weight:bold;
 }
 
 block-view {
@@ -140,13 +141,14 @@ block-view .blocks div {
     flex: 0 0 11vh;
     padding:15px;
     background-color:rgba(255, 255, 255, 0.4);
-    font-size:2em;
+    font-size:5vh;
     font-weight: bold;
     text-align: center;
     line-height: 11vh;
+    cursor: pointer;
 }
 
-/* todo upload image
+/* todo cloud upload image
 program-view .footer {
     background-image:url(../images/upload.png);
     background-size:contain;

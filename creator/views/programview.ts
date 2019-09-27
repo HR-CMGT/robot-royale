@@ -4,7 +4,7 @@ import { BlockView } from "./blockview.js"
 export class ProgramView extends HTMLElement {
 
     private blocks : HTMLElement
-    private added : boolean  = false // dirty hack
+    private added : boolean  = false // hackmaster hackenstein
     private behaviors: string[] = ["MOVE AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH"]
 
     connectedCallback() {
@@ -62,6 +62,7 @@ export class ProgramView extends HTMLElement {
             let btn = this.querySelector("#send-btn")
             btn.innerHTML = "UPDATE PROGRAM"
             this.added = true
+            // TODO SHOW CONFIRMATION MODAL - YOUR ROBOT IS NOW ADDED TO THE GAME
         } else {
             this.dispatchEvent(new Event('programUpdated'))
         }
