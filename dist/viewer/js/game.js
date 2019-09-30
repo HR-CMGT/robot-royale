@@ -22,9 +22,6 @@ export class Game {
             let settings = JSON.parse(json);
             console.log('viewer received new program for ' + settings.nickname);
         });
-        for (let i = 0; i < 3; i++) {
-            this.gameObjects.push(new Ammo());
-        }
         this.update();
     }
     get AmmoBoxes() {
@@ -47,6 +44,15 @@ export class Game {
         this.redrawAllTankStatus();
     }
     update() {
+        if (PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
+            PickUp.NUMBER_OF_PICKUPS++;
+            PickUp.DELTA_TIME_PICKUPS = 0;
+            if (Math.random() < 0.5)
+                this.gameObjects.push(new Ammo());
+            else
+                this.gameObjects.push(new Ammo());
+        }
+        PickUp.DELTA_TIME_PICKUPS++;
         for (let object1 of this.gameObjects) {
             object1.update();
             for (let object2 of this.gameObjects) {
