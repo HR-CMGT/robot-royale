@@ -4,7 +4,7 @@ export class ProgramView extends HTMLElement {
     constructor() {
         super(...arguments);
         this.added = false;
-        this.behaviors = ["MOVE AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH"];
+        this.behaviors = ["EMPTY", "MOVE AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH"];
     }
     connectedCallback() {
         console.log("Building programmer view");
@@ -16,24 +16,20 @@ export class ProgramView extends HTMLElement {
         const image = this.querySelector("#robot");
         const bg = document.body.querySelector("#backgroundcolor");
         this.querySelector("#send-btn").addEventListener("click", () => this.onSendButton());
-        field.innerText = Settings.nickname;
-        image.style.backgroundImage = `url(images/tank_${Settings.armor}.png)`;
-        const hue = `hue-rotate(${Settings.color}deg)`;
+        field.innerText = Settings.getInstance().nickname;
+        image.style.backgroundImage = `url(images/tank_${Settings.getInstance().armor}.png)`;
+        const hue = `hue-rotate(${Settings.getInstance().color}deg)`;
         bg.style.filter = image.style.filter = logo.style.filter = this.blocks.style.filter = hue;
-        this.updateBlocks();
+        Settings.getInstance().addEventListener("update", () => this.render());
+        this.render();
     }
-    updateBlocks() {
+    render() {
         this.blocks.innerHTML = "";
-        for (let [i, label] of Settings.program.entries()) {
+        for (let [i, label] of Settings.getInstance().program.entries()) {
             let div = document.createElement("div");
-            if (label > -1) {
-                div.classList.add("block");
-                div.innerHTML = this.behaviors[label];
-            }
-            else {
-                div.classList.add("block-empty");
-                div.innerHTML = "EMPTY";
-            }
+            div.innerHTML = this.behaviors[label];
+            let cl = (label > 0) ? "block" : "block-empty";
+            div.classList.add(cl);
             div.addEventListener("click", () => this.showBlockView(i));
             this.blocks.appendChild(div);
         }
@@ -41,7 +37,6 @@ export class ProgramView extends HTMLElement {
     showBlockView(i) {
         let v = new BlockView(i);
         document.body.appendChild(v);
-        v.addEventListener('blockChosen', () => this.updateBlocks(), false);
     }
     onSendButton() {
         if (!this.added) {
@@ -49,6 +44,7 @@ export class ProgramView extends HTMLElement {
             let btn = this.querySelector("#send-btn");
             btn.innerHTML = "UPDATE PROGRAM";
             this.added = true;
+            console.log("confirm here");
         }
         else {
             this.dispatchEvent(new Event('programUpdated'));

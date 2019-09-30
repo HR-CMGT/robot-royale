@@ -1,5 +1,6 @@
 import { GeneratorView } from "./views/generatorview.js"
 import { ProgramView } from "./views/programview.js"
+import { ConfirmView } from "./views/confirmview.js"
 import { Settings } from "./settings.js"
 
 export class App {
@@ -13,8 +14,8 @@ export class App {
     
     private init(socketid:string){
         console.log("creator connects " + socketid)
-        Settings.socketid = socketid
-        Settings.randomize()
+        Settings.getInstance().socketid = socketid
+        Settings.getInstance().randomize()
 
         this.showGeneratorView()
         // this.showProgramView()
@@ -40,16 +41,23 @@ export class App {
         v.addEventListener('programUpdated', (e) => this.programUpdated(), false)
     }   
 
+    private showConfirmBox(msg:string):void {
+        let v = new ConfirmView(msg)
+        document.body.appendChild(v)
+    }
+
     private robotCreated() : void {
-        const json : string = Settings.createJSON()
+        const json : string = Settings.getInstance().createJSON()
         console.log(json)
         this.socket.emit('robot created', json)
+        this.showConfirmBox("was added to the game!")
     }
 
     private programUpdated(){
-        const json: string = Settings.createJSON()
+        const json: string = Settings.getInstance().createJSON()
         console.log(json)
         this.socket.emit('robot updated', json)
+        this.showConfirmBox("program was updated!")
     }
 }
 

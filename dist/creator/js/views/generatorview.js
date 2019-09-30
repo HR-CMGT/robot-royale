@@ -10,19 +10,16 @@ export class GeneratorView extends HTMLElement {
         this.field = this.querySelector("#field");
         this.image = this.querySelector("#robot");
         this.bg = document.body.querySelector("#backgroundcolor");
-        this.querySelector("#generate-btn").addEventListener("click", () => {
-            Settings.randomize();
-            this.updateDisplay();
-        });
+        this.querySelector("#generate-btn").addEventListener("click", () => Settings.getInstance().randomize());
         this.querySelector("#confirm-btn").addEventListener("click", () => this.confirmSettings());
-        document.body.addEventListener("settings", () => this.updateDisplay());
-        this.updateDisplay();
+        Settings.getInstance().addEventListener("update", () => this.render());
+        this.render();
     }
-    updateDisplay() {
-        this.field.innerText = Settings.nickname;
-        this.label.innerText = this.armorlabels[Settings.armor];
-        this.image.style.backgroundImage = `url(images/tank_${Settings.armor}.png)`;
-        const hue = `hue-rotate(${Settings.color}deg)`;
+    render() {
+        this.field.innerText = Settings.getInstance().nickname;
+        this.label.innerText = this.armorlabels[Settings.getInstance().armor];
+        this.image.style.backgroundImage = `url(images/tank_${Settings.getInstance().armor}.png)`;
+        const hue = `hue-rotate(${Settings.getInstance().color}deg)`;
         this.bg.style.filter = this.image.style.filter = this.logo.style.filter = hue;
     }
     confirmSettings() {

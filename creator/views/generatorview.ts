@@ -11,7 +11,6 @@ export class GeneratorView extends HTMLElement {
 
     connectedCallback() {
         console.log("Building generator view")
-
         this.armorlabels = ["Light Armor | Fast Speed", "Medium Armor | Medium Speed", "Heavy Armor | Low Speed"]
       
         const template: HTMLTemplateElement = document.getElementById('generator-template') as HTMLTemplateElement
@@ -22,27 +21,23 @@ export class GeneratorView extends HTMLElement {
         this.field = this.querySelector("#field")
         this.image = this.querySelector("#robot")
         this.bg = document.body.querySelector("#backgroundcolor")
-        this.querySelector("#generate-btn").addEventListener("click", () => {
-            Settings.randomize()
-            this.updateDisplay()
-        })
+
+        // listeners
+        this.querySelector("#generate-btn").addEventListener("click", () => Settings.getInstance().randomize())
         this.querySelector("#confirm-btn").addEventListener("click", () => this.confirmSettings())
-        document.body.addEventListener("settings", () => this.updateDisplay())
+        Settings.getInstance().addEventListener("update", () => this.render())
         
-        this.updateDisplay()
+        this.render()
     }
 
-    private updateDisplay() : void {
+    private render() : void {
 
-        this.field.innerText = Settings.nickname
-        this.label.innerText = this.armorlabels[Settings.armor]
-        this.image.style.backgroundImage = `url(images/tank_${Settings.armor}.png)`
+        this.field.innerText = Settings.getInstance().nickname
+        this.label.innerText = this.armorlabels[Settings.getInstance().armor]
+        this.image.style.backgroundImage = `url(images/tank_${Settings.getInstance().armor}.png)`
         
-        const hue = `hue-rotate(${Settings.color}deg)`
+        const hue = `hue-rotate(${Settings.getInstance().color}deg)`
         this.bg.style.filter = this.image.style.filter = this.logo.style.filter = hue
-
-        // todo shadow DOM?
-        // https://css-tricks.com/styling-a-web-component/
     }
 
     private confirmSettings(): void {
@@ -52,3 +47,7 @@ export class GeneratorView extends HTMLElement {
 }
 
 customElements.define('generator-view', GeneratorView)
+
+
+// todo shadow DOM?
+// https://css-tricks.com/styling-a-web-component/

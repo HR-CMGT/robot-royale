@@ -1,5 +1,6 @@
 import { GeneratorView } from "./views/generatorview.js";
 import { ProgramView } from "./views/programview.js";
+import { ConfirmView } from "./views/confirmview.js";
 import { Settings } from "./settings.js";
 export class App {
     constructor() {
@@ -8,8 +9,8 @@ export class App {
     }
     init(socketid) {
         console.log("creator connects " + socketid);
-        Settings.socketid = socketid;
-        Settings.randomize();
+        Settings.getInstance().socketid = socketid;
+        Settings.getInstance().randomize();
         this.showGeneratorView();
     }
     showGeneratorView() {
@@ -23,15 +24,21 @@ export class App {
         v.addEventListener('robotCreated', (e) => this.robotCreated(), false);
         v.addEventListener('programUpdated', (e) => this.programUpdated(), false);
     }
+    showConfirmBox(msg) {
+        let v = new ConfirmView(msg);
+        document.body.appendChild(v);
+    }
     robotCreated() {
-        const json = Settings.createJSON();
+        const json = Settings.getInstance().createJSON();
         console.log(json);
         this.socket.emit('robot created', json);
+        this.showConfirmBox("was added to the game!");
     }
     programUpdated() {
-        const json = Settings.createJSON();
+        const json = Settings.getInstance().createJSON();
         console.log(json);
         this.socket.emit('robot updated', json);
+        this.showConfirmBox("program was updated!");
     }
 }
 window.addEventListener("DOMContentLoaded", () => new App());

@@ -5,7 +5,7 @@ export class ProgramView extends HTMLElement {
 
     private blocks : HTMLElement
     private added : boolean  = false // hackmaster hackenstein
-    private behaviors: string[] = ["MOVE AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH"]
+    private behaviors: string[] = ["EMPTY", "MOVE AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH"]
 
     connectedCallback() {
         console.log("Building programmer view")
@@ -24,38 +24,35 @@ export class ProgramView extends HTMLElement {
 
         this.querySelector("#send-btn").addEventListener("click", () => this.onSendButton())
 
-        field.innerText = Settings.nickname
-        image.style.backgroundImage = `url(images/tank_${Settings.armor}.png)`
+        field.innerText = Settings.getInstance().nickname
+        image.style.backgroundImage = `url(images/tank_${Settings.getInstance().armor}.png)`
 
-        const hue = `hue-rotate(${Settings.color}deg)`
+        const hue = `hue-rotate(${Settings.getInstance().color}deg)`
         bg.style.filter = image.style.filter = logo.style.filter = this.blocks.style.filter = hue
 
+        Settings.getInstance().addEventListener("update", () => this.render())
         // place program blocks
-        this.updateBlocks()
+        this.render()
     }
 
-    private updateBlocks() {
+    private render() {
         this.blocks.innerHTML = ""
-        for (let [i, label] of Settings.program.entries()) {
+        for (let [i, label] of Settings.getInstance().program.entries()) {
             let div = document.createElement("div")
-            if(label > -1){
-                div.classList.add("block")
-                div.innerHTML = this.behaviors[label]
-            } else {
-                div.classList.add("block-empty")
-                div.innerHTML = "EMPTY"
-            }
+            div.innerHTML = this.behaviors[label]
+            let cl = (label > 0) ? "block" : "block-empty"
+            div.classList.add(cl)
             div.addEventListener("click", () => this.showBlockView(i))
             this.blocks.appendChild(div)
         }
     }
 
     private showBlockView(i:number): void {
-        let v = new BlockView(i) // todo index as attribute <block-view index="3"></block-view> 
+        let v = new BlockView(i)
         document.body.appendChild(v)
-        v.addEventListener('blockChosen', () => this.updateBlocks(), false)
     }
 
+    // todo robot added status is also part of settings?
     private onSendButton() {
         if(!this.added) {
             this.dispatchEvent(new Event('robotCreated'))
@@ -63,6 +60,7 @@ export class ProgramView extends HTMLElement {
             btn.innerHTML = "UPDATE PROGRAM"
             this.added = true
             // TODO SHOW CONFIRMATION MODAL - YOUR ROBOT IS NOW ADDED TO THE GAME
+            console.log("confirm here")
         } else {
             this.dispatchEvent(new Event('programUpdated'))
         }

@@ -9,7 +9,7 @@ html, body {
     -webkit-tap-highlight-color: transparent;
 }
 
-div, generator-view, program-view, block-view {
+div, generator-view, program-view, block-view, confirm-view {
     box-sizing: border-box;
 }
 
@@ -62,7 +62,7 @@ program-view #field {
     font-weight:bold;
 }
 
-block-view {
+block-view, confirm-view {
     position: absolute;
     width:100vw; height:100vh;
     top:0; left:0;
@@ -85,6 +85,29 @@ program-view .blocks {
 block-view .blocks {
     padding-top:40px;
     width:100vw;
+}
+
+confirm-view {
+    color:white;
+    padding-top:40px;
+    width:100vw;
+    height:100vh;
+}
+
+.message {
+    color:white;
+    filter: drop-shadow( 2px 2px 0px #000 );
+    width:80%; height:60vh;
+    background-color:red;
+    font-size:1.3em;
+    margin:0px auto;
+    padding-top:5vh;
+    text-align: center;
+}
+
+.message button {
+    cursor: pointer;
+    margin-top:10vh;
 }
 
 .blocks div {

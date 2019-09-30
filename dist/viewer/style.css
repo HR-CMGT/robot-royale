@@ -5,7 +5,7 @@ div, statusbar, robot {
 body {
     margin: 0;
     padding: 0;
-    font: 16px Helvetica, Arial;
+    font-family: 'VT323', monospace;
     background-color:lightgreen;
     height:100vh;
     background-image:url(images/grass.png);
@@ -25,6 +25,9 @@ h1,h2,h3,h4 {
 .view {
     display: flex;
     height:100vh;
+}
+
+#gameview {
     background-image:url(images/robotroyale_bg.png);
     background-repeat: no-repeat;
     background-position: center;
@@ -38,18 +41,24 @@ h1,h2,h3,h4 {
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis:200px;
-  background-color:rgba(255,255,255,0.4);
+  background-color:rgba(255,255,255,0.2);
 }
 
 #robotlist {
     display: flex;
     flex-wrap: wrap;
+    
+    /* lelijke header
+    padding-top:38px;
+    background-image: url(./images/killcount.png);
+    background-size:contain;
+    background-repeat: no-repeat;
+    */
 }
 
 statusbar {
     width:200px;
     display: block;
-    margin-bottom:2px;
     overflow: hidden;
     position: relative;
     background-color: red;
@@ -58,10 +67,21 @@ statusbar {
 statusbar > div {
    width:100%;
    position: absolute;
+   color:white;
+   font-size:1.2em;
+}
+
+statusbar .score {
+    display:flex;
+    justify-content: space-between;
+}
+
+.score div {
+    padding:2px;
 }
 
 .damage {
-    background-color:rgba(255, 255, 255, 0.35);
+    background-color:rgba(255, 255, 255, 0.25);
     height:100%;
     right:0px;
     transition: width 0.2s linear;
@@ -140,11 +160,12 @@ bullet {
 ammo, repair {
     display:block;
     position: absolute;
-    width:30px;
-    height:24px;
     overflow: hidden;
     left:0; top:0;
+    width:38px;
+    height:32px;
     background-size:contain;
+    background-repeat: no-repeat;
 }
 ammo {
     background-image: url("./images/ammobox.png");
