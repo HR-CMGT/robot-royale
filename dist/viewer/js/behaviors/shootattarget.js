@@ -5,6 +5,7 @@ import { Shoot } from "./shoot.js";
 import { Break } from "./break.js";
 import { StartOff } from "./startoff.js";
 import { RotateTurretToTarget } from "./rotateturrettotarget.js";
+import { Forward } from "./forward.js";
 export class ShootAtTarget extends Behavior {
     constructor(behavioralObject) {
         super(behavioralObject);
@@ -26,7 +27,7 @@ export class ShootAtTarget extends Behavior {
         }
         else {
             console.log("No target found in Shoot at target");
-            this.BehavioralObject.activateNextBehavior();
+            this.activeBehavior = new Forward(this.BehavioralObject);
         }
     }
     gotoNextBehavior() {

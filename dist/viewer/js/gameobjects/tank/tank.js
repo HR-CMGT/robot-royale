@@ -1,14 +1,18 @@
+import { StatusBar } from "../../ui/statusbar.js";
 import { BehavioralObject } from "../../interface/behavioralObject.js";
 import { Forward } from "../../behaviors/forward.js";
 import { Vector2 } from "../../vector.js";
 import { Bullet } from "./bullet.js";
 import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
+import { Game } from "../../game.js";
 export class Tank extends BehavioralObject {
     constructor(data, status) {
         super("tank-body");
         this.health = 100;
         this.ammo = 0;
+        this.lifeTime = 0;
+        this.kills = 0;
         this.Behavior = new Forward(this);
         this.data = data;
         this.status = status;
@@ -36,15 +40,27 @@ export class Tank extends BehavioralObject {
         this.ammo = v;
         this.status.Ammo = this.ammo;
     }
+    get LifeTime() { return this.lifeTime; }
+    set LifeTime(v) {
+        this.lifeTime = v;
+        this.status.LifeTime = this.lifeTime;
+    }
+    get Kills() { return this.kills; }
+    set Kills(v) {
+        this.kills = v;
+        this.status.Kills = this.kills;
+    }
     get Turret() { return this.turret; }
     collide(collider) {
         if (collider instanceof Bullet) {
             if (collider.ParentTurret instanceof Turret) {
                 if (collider.ParentTurret != this.Turret) {
-                    console.log("Tank got hit!");
                     this.health -= collider.Damage;
-                    if (this.health <= 0)
+                    if (this.health <= 0) {
                         this.CanDestroy = true;
+                        collider.ParentTurret.ParentTank.Kills++;
+                        console.log(Game.Instance.Tanks);
+                    }
                 }
             }
         }
@@ -55,8 +71,18 @@ export class Tank extends BehavioralObject {
     }
     update() {
         super.update();
+        this.LifeTime++;
         this.Behavior.performUpdate();
         this.turret.update();
+    }
+    redrawStatus() {
+        let statusBar = new StatusBar(this.status.Data);
+        statusBar.Ammo = this.Ammo;
+        statusBar.Health = this.Health;
+        statusBar.LifeTime = this.LifeTime;
+        statusBar.Kills = this.Kills;
+        this.status.remove();
+        this.status = statusBar;
     }
     destroy() {
         console.log("Tank died");

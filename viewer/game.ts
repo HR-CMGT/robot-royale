@@ -44,7 +44,7 @@ export class Game {
         })
 
         // -- DEBUG!! --
-        for(let i = 0; i<3; i++) {
+        for(let i = 0; i<30; i++) {
             this.addTank(this.randomSettings())
         }
 
@@ -53,9 +53,9 @@ export class Game {
             console.log('viewer received new program for ' + settings.nickname)
         })
 
-        // for (let i = 0; i < 3; i++) {
-        //     this.gameObjects.push(new AmmoBox())
-        // }
+        for (let i = 0; i < 3; i++) {
+            this.gameObjects.push(new Ammo())
+        }
 
         // setInterval(() => {
         //     this.gameObjects.push(new AmmoBox())
@@ -70,20 +70,21 @@ export class Game {
 
         // actual moving tank, receives its corresponding data and status bar
         let tank : GameObject = BehavioralObjectFactory.CreateObject("tank", data)
-
         this.gameObjects.push(tank)
+
+        this.redrawAllTankStatus()
     }
 
     private update(){
         // Todo when adding a lot of tanks on runtime. error in update loop
-        if(PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
-            PickUp.NUMBER_OF_PICKUPS++
-            PickUp.DELTA_TIME_PICKUPS = 0
+        // if(PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
+        //     PickUp.NUMBER_OF_PICKUPS++
+        //     PickUp.DELTA_TIME_PICKUPS = 0
 
-            if (Math.random() < 0.5) this.gameObjects.push(new Ammo())
-            else this.gameObjects.push(new Health())
-        }
-        PickUp.DELTA_TIME_PICKUPS++
+        //     if (Math.random() < 0.5) this.gameObjects.push(new Ammo())
+        //     else this.gameObjects.push(new Ammo())
+        // }
+        // PickUp.DELTA_TIME_PICKUPS++
 
         for (let object1 of this.gameObjects) {
             object1.update()
@@ -118,6 +119,7 @@ export class Game {
         
         // let the player know that this robot has died
         if(gameObject instanceof Tank) {
+            this.redrawAllTankStatus()
             this.socket.emit('robot destroyed', gameObject.Data.id)
         }
     }
@@ -136,6 +138,19 @@ export class Game {
             armor: Math.floor(Math.random() * 3), // 0 1 2 ?
             program: [1, 1, 0, 0, 0, 0]
         }
+    }
+
+    private redrawAllTankStatus() {
+        let tanks : Tank[] = this.Tanks
+        tanks.sort(function (a, b) {
+            // longest lifetime first
+            return b.Kills - a.Kills;
+        })
+        
+        for (const tank of tanks) {
+            tank.redrawStatus()
+        }
+        
     }
 }
 
