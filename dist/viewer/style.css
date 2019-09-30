@@ -10,6 +10,7 @@ body {
     height:100vh;
     background-image:url(images/grass.png);
     background-repeat: repeat;
+    overflow: hidden;
 }
 
 h1,h2,h3,h4 {
@@ -51,6 +52,7 @@ statusbar {
     margin-bottom:2px;
     overflow: hidden;
     position: relative;
+    background-color: red;
 }
 
 statusbar > div {
@@ -135,13 +137,18 @@ bullet {
     /* background-color: black; */
     background-image: url("./images/bullet.gif");
 }
-ammo {
+ammo, repair {
     display:block;
     position: absolute;
     width:30px;
     height:24px;
     overflow: hidden;
     left:0; top:0;
-    background-image: url("./images/ammobox.png");
     background-size:contain;
+}
+ammo {
+    background-image: url("./images/ammobox.png");
+}
+repair {
+    background-image: url("./images/repair.png");
 }

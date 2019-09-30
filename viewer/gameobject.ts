@@ -58,7 +58,7 @@ export abstract class GameObject {
     public update() {
         this.draw()
     }
-    private draw() {
+    public draw() {
         this.div.style.transform = `translate(${this.position.X - this.Width/2}px, ${this.position.Y - this.Height/2}px) rotate(${this.rotation}deg)`
         // this.div.style.transform = `translate(${this.position.X}px, ${this.position.Y}px) rotate(${this.rotation}deg)`;
         // this.div.style.filter = `hue-rotate(${this.color}deg)`

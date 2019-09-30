@@ -1,23 +1,27 @@
 import { Tank } from "./gameobjects/tank/tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
 import { GameObject } from "./gameobject.js";
-import { AmmoBox } from "./gameobjects/ammobox.js";
+import { PickUp } from "./gameobjects/pickups/pickup.js";
 import { DebugInfo } from "./ui/debuginfo.js";
 import { Settings } from "./interface/settings.js";
+import { Ammo } from "./gameobjects/pickups/ammo.js";
+import { Health } from "./gameobjects/pickups/health.js";
 
 export class Game {
+    // static Fields
+    private static instance   : Game
 
     // Fields
-    private static instance : Game
-
-    private gameObjects : GameObject[]  = []
-    private socket      : SocketIOClient.Socket
-
-    public gameover : boolean = false
+    private gameObjects       : GameObject[]  = []
+    private socket            : SocketIOClient.Socket
+    public gameover           : boolean = false
     
     // Properties
-    public get AmmoBoxes() : AmmoBox[] { 
-        return this.gameObjects.filter(o => { return o instanceof AmmoBox}) as AmmoBox[]
+    public get AmmoBoxes() : PickUp[] { 
+        return this.gameObjects.filter(o => { return o instanceof Ammo}) as Ammo[]
+    }
+    public get RepairKits() : PickUp[] { 
+        return this.gameObjects.filter(o => { return o instanceof Health}) as Health[]
     }
     public get Tanks() : Tank[] { 
         return this.gameObjects.filter(o => { return o instanceof Tank}) as Tank[]
@@ -40,7 +44,7 @@ export class Game {
         })
 
         // -- DEBUG!! --
-        for(let i = 0; i<20; i++) {
+        for(let i = 0; i<3; i++) {
             this.addTank(this.randomSettings())
         }
 
@@ -49,13 +53,13 @@ export class Game {
             console.log('viewer received new program for ' + settings.nickname)
         })
 
-        for (let i = 0; i < 5; i++) {
-            this.gameObjects.push(new AmmoBox())
-        }
+        // for (let i = 0; i < 3; i++) {
+        //     this.gameObjects.push(new AmmoBox())
+        // }
 
-        setInterval(() => {
-            this.gameObjects.push(new AmmoBox())
-        }, 5000);
+        // setInterval(() => {
+        //     this.gameObjects.push(new AmmoBox())
+        // }, 5000);
 
         this.update()
     }
@@ -72,6 +76,14 @@ export class Game {
 
     private update(){
         // Todo when adding a lot of tanks on runtime. error in update loop
+        if(PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
+            PickUp.NUMBER_OF_PICKUPS++
+            PickUp.DELTA_TIME_PICKUPS = 0
+
+            if (Math.random() < 0.5) this.gameObjects.push(new Ammo())
+            else this.gameObjects.push(new Health())
+        }
+        PickUp.DELTA_TIME_PICKUPS++
 
         for (let object1 of this.gameObjects) {
             object1.update()
@@ -85,7 +97,11 @@ export class Game {
 
         // Remove all dead objects
         for (let obj of this.gameObjects) {
-            if(obj.CanDestroy) this.removeGameObject(obj)
+            if(obj.CanDestroy) {
+                if(obj instanceof PickUp) PickUp.NUMBER_OF_PICKUPS--
+                this.removeGameObject(obj)
+            }
+            
         }
 
         if(!this.gameover) requestAnimationFrame(() => this.update())

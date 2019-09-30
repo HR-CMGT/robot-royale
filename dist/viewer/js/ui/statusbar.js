@@ -1,5 +1,6 @@
 export class StatusBar {
     set Ammo(v) { this.ammo.innerHTML = "Projectiles " + v; }
+    set Health(health) { this.damagebar.style.width = (100 - health) + "%"; }
     constructor(data) {
         let list = document.querySelector("#robotlist");
         this.bar = document.createElement("statusbar");
@@ -16,9 +17,6 @@ export class StatusBar {
         this.bar.appendChild(info);
         this.bar.appendChild(this.ammo);
         list.appendChild(this.bar);
-    }
-    update(health) {
-        this.damagebar.style.width = (100 - health) + "%";
     }
     remove() {
         this.bar.remove();

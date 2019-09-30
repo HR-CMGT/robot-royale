@@ -22,7 +22,7 @@ export class MoveTowardsAmmo extends Behavior {
         }
         else {
             console.log("No target found in MoveTowardsAmmo");
-            this.BehavioralObject.activateNextBehavior();
+            this.activeBehavior = new Forward(this.BehavioralObject);
         }
     }
     gotoNextBehavior() {

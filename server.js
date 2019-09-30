@@ -1,7 +1,10 @@
-const express = require('express')
-const app = express()
-const http = require('http').createServer(app)
-const io = require('socket.io')(http)
+const express       = require('express')
+const app           = express()
+const http          = require('http').createServer(app)
+const https         = require('https')
+const fs            = require('fs')
+const io            = require('socket.io')(http)
+const debug         = true
 
 app.use(express.static('dist'))
 
@@ -51,6 +54,22 @@ io.on('connection', (socket) => {
     });
 });
 
-http.listen(3000, () => {
-    console.log('listening on *:3000')
-})
+if(debug) {
+    http.listen(3000, () => {
+        console.log('listening on *:3000')
+    })
+} else {
+    var key     = fs.readFileSync('/encryption/cmgt.hr.nl.key');    // private key
+    var cert    = fs.readFileSync('/encryption/bundle.crt' );      // primary
+    //var ca      = fs.readFileSync('/encryption/DigiCertCA.crt' ); // intermediate
+
+    var options = {
+        key: key,
+        cert: cert
+    //    ca: ca
+    };
+
+    https.createServer(options, app).listen(8080, () => {
+        console.log('listening on *:8080')
+    });
+}
