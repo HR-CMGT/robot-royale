@@ -15,13 +15,16 @@ export class Game {
             let data = JSON.parse(json);
             this.addTank(data);
         });
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 30; i++) {
             this.addTank(this.randomSettings());
         }
         this.socket.on('robot updated', (json) => {
             let settings = JSON.parse(json);
             console.log('viewer received new program for ' + settings.nickname);
         });
+        for (let i = 0; i < 3; i++) {
+            this.gameObjects.push(new Ammo());
+        }
         this.update();
     }
     get AmmoBoxes() {
@@ -41,17 +44,9 @@ export class Game {
     addTank(data) {
         let tank = BehavioralObjectFactory.CreateObject("tank", data);
         this.gameObjects.push(tank);
+        this.redrawAllTankStatus();
     }
     update() {
-        if (PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
-            PickUp.NUMBER_OF_PICKUPS++;
-            PickUp.DELTA_TIME_PICKUPS = 0;
-            if (Math.random() < 0.5)
-                this.gameObjects.push(new Ammo());
-            else
-                this.gameObjects.push(new Health());
-        }
-        PickUp.DELTA_TIME_PICKUPS++;
         for (let object1 of this.gameObjects) {
             object1.update();
             for (let object2 of this.gameObjects) {
@@ -78,6 +73,7 @@ export class Game {
             objs[0].destroy();
         }
         if (gameObject instanceof Tank) {
+            this.redrawAllTankStatus();
             this.socket.emit('robot destroyed', gameObject.Data.id);
         }
     }
@@ -93,6 +89,15 @@ export class Game {
             armor: Math.floor(Math.random() * 3),
             program: [1, 1, 0, 0, 0, 0]
         };
+    }
+    redrawAllTankStatus() {
+        let tanks = this.Tanks;
+        tanks.sort(function (a, b) {
+            return b.Kills - a.Kills;
+        });
+        for (const tank of tanks) {
+            tank.redrawStatus();
+        }
     }
 }
 window.addEventListener("DOMContentLoaded", () => Game.Instance);

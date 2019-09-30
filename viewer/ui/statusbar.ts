@@ -6,12 +6,32 @@ export class StatusBar {
     private bar         : HTMLElement
     private damagebar   : HTMLElement
     private ammo        : HTMLElement
+    private info        : HTMLElement
+    private killBar     : HTMLElement
+    private data        : Settings
 
     // Properties
-    public set Ammo(v : number)     { this.ammo.innerHTML = "Projectiles "+v  }
+    public get Data() : Settings { return this.data}
+
+    public set Ammo(v : number)      { this.ammo.innerHTML = "Projectiles "+v  }
     public set Health(health:number) { this.damagebar.style.width = (100 - health) + "%" }
+    public set LifeTime(frames:number) {
+        // the app is running roughly 60 fps
+        let minutes : number = Math.floor(frames/3600)
+        let seconds : number = Math.floor((frames%3600)/60)
+
+        let min : string = minutes < 10 ? "0" + minutes : "" + minutes
+        let sec : string = seconds < 10 ? "0" + seconds : "" + seconds
+
+        this.info.innerHTML = this.data.nickname + " " + min + ":" + sec
+    }
+    public set Kills(kills: number) {
+        this.killBar.innerHTML = "Kills "+kills
+    }
 
     constructor(data : Settings) {
+        this.data = data
+
         let list = document.querySelector("#robotlist")
         this.bar = document.createElement("statusbar")
 
@@ -23,13 +43,18 @@ export class StatusBar {
         this.ammo.style.top = "20px"
         this.ammo.style.fontSize = "1em"
         
-        let info = document.createElement("div")
-        info.innerHTML = data.nickname + " 0:03"
+        this.info = document.createElement("div")
+        this.info.innerHTML = data.nickname + " 0:03"
+
+        this.killBar = document.createElement("div")
+        this.killBar.style.top = "40px"
+        this.killBar.innerHTML = "Kills none"
 
         this.bar.style.filter = `hue-rotate(${data.color}deg)`
         this.bar.appendChild(this.damagebar)
-        this.bar.appendChild(info)
+        this.bar.appendChild(this.info)
         this.bar.appendChild(this.ammo)
+        this.bar.appendChild(this.killBar)
 
         list.appendChild(this.bar)
     }

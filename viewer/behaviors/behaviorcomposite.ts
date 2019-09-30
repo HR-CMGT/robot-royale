@@ -35,7 +35,7 @@ export class BehaviorComposite extends Behavior {
             this.activeBehavior.onDeactivateBehavior()
             this.activeBehavior = this.behaviors[this.currentBehaviorCounter++] 
             this.activeBehavior.onActivateBehavior()
-            console.log(this.activeBehavior)
+            // console.log(this.activeBehavior)
         }
         else {
             super.gotoNextBehavior()

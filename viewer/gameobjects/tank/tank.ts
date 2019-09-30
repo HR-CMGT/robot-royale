@@ -7,6 +7,7 @@ import { Bullet } from "./bullet.js";
 import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
 import { Settings } from "../../interface/settings.js";
+import { Game } from "../../game.js";
 
 export class Tank extends BehavioralObject{
     
@@ -16,6 +17,9 @@ export class Tank extends BehavioralObject{
     private health  : number = 100
     private ammo    : number = 0
     private turret  : Turret
+    private lifeTime: number = 0
+    private kills   : number = 0
+
 
     // Properties
     public get Data(): Settings   { return this.data      }
@@ -31,6 +35,16 @@ export class Tank extends BehavioralObject{
     public set Ammo(v : number)     { 
         this.ammo = v        
         this.status.Ammo = this.ammo
+    }
+    public get LifeTime() : number      { return this.lifeTime      }
+    public set LifeTime(v : number)     { 
+        this.lifeTime = v        
+        this.status.LifeTime = this.lifeTime
+    }
+    public get Kills() : number      { return this.kills      }
+    public set Kills(v : number)     { 
+        this.kills = v     
+        this.status.Kills = this.kills
     }
     
     
@@ -72,11 +86,15 @@ export class Tank extends BehavioralObject{
         if(collider instanceof Bullet) {
             if (collider.ParentTurret instanceof Turret) {
                 if(collider.ParentTurret != this.Turret) {
-                    console.log("Tank got hit!")
+                    // console.log("Tank got hit!")
                     this.health -= collider.Damage
                     
     
-                    if(this.health <= 0) this.CanDestroy = true
+                    if(this.health <= 0) { 
+                        this.CanDestroy = true 
+                        collider.ParentTurret.ParentTank.Kills++
+                        console.log(Game.Instance.Tanks)
+                    }
                 }
             }
         }
@@ -88,11 +106,23 @@ export class Tank extends BehavioralObject{
 
     public update(){
         super.update()
+        this.LifeTime++
         this.Behavior.performUpdate()
         
         this.turret.update()
     }
     
+    public redrawStatus() {
+        let statusBar : StatusBar = new StatusBar(this.status.Data)
+        statusBar.Ammo = this.Ammo
+        statusBar.Health = this.Health
+        statusBar.LifeTime = this.LifeTime
+        statusBar.Kills = this.Kills
+        this.status.remove()
+        this.status = statusBar
+    }
+
+
     public destroy() {
         console.log("Tank died")
         this.status.remove()

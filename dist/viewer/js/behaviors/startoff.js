@@ -12,8 +12,7 @@ export class StartOff extends Behavior {
         this.BehavioralObject.Position = this.BehavioralObject.Position.add(this.BehavioralObject.Direction.scale(this.speed));
         this.speed *= 1.05;
         if (this.speed >= this.BehavioralObject.Speed) {
-            this.timer = 0;
-            this.speed = this.BehavioralObject.Speed;
+            this.BehavioralObject.Behavior.gotoNextBehavior();
         }
         this.checkWindowContainsObject();
     }
