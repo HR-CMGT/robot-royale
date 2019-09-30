@@ -2,7 +2,7 @@ import { BehavioralObject } from "../../interface/behavioralObject.js";
 import { Forward } from "../../behaviors/forward.js";
 import { Vector2 } from "../../vector.js";
 import { Bullet } from "./bullet.js";
-import { AmmoBox } from "../ammobox.js";
+import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
 export class Tank extends BehavioralObject {
     constructor(data, status) {
@@ -25,7 +25,12 @@ export class Tank extends BehavioralObject {
     }
     get Data() { return this.data; }
     get Health() { return this.health; }
-    set Health(v) { this.health = v; }
+    set Health(v) {
+        this.health = v;
+        if (this.health > 100)
+            this.health = 100;
+        this.status.Health = this.health;
+    }
     get Ammo() { return this.ammo; }
     set Ammo(v) {
         this.ammo = v;
@@ -38,14 +43,14 @@ export class Tank extends BehavioralObject {
                 if (collider.ParentTurret != this.Turret) {
                     console.log("Tank got hit!");
                     this.health -= collider.Damage;
-                    this.status.update(this.health);
                     if (this.health <= 0)
                         this.CanDestroy = true;
                 }
             }
         }
-        if (collider instanceof AmmoBox) {
+        if (collider instanceof PickUp) {
             this.Ammo += collider.Ammo;
+            this.Health += collider.Health;
         }
     }
     update() {

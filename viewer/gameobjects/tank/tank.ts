@@ -4,7 +4,7 @@ import { Forward } from "../../behaviors/forward.js";
 import { Vector2 } from "../../vector.js";
 import { GameObject } from "../../gameobject.js";
 import { Bullet } from "./bullet.js";
-import { AmmoBox } from "../ammobox.js";
+import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
 import { Settings } from "../../interface/settings.js";
 
@@ -21,7 +21,11 @@ export class Tank extends BehavioralObject{
     public get Data(): Settings   { return this.data      }
 
     public get Health() : number    { return this.health    }
-    public set Health(v:number)     { this.health = v       }
+    public set Health(v:number)     { 
+        this.health = v       
+        if(this.health > 100) this.health = 100
+        this.status.Health = this.health
+    }
     
     public get Ammo() : number      { return this.ammo      }
     public set Ammo(v : number)     { 
@@ -70,14 +74,15 @@ export class Tank extends BehavioralObject{
                 if(collider.ParentTurret != this.Turret) {
                     console.log("Tank got hit!")
                     this.health -= collider.Damage
-                    this.status.update(this.health)
+                    
     
                     if(this.health <= 0) this.CanDestroy = true
                 }
             }
         }
-        if(collider instanceof AmmoBox) {
+        if(collider instanceof PickUp) {
             this.Ammo += collider.Ammo
+            this.Health += collider.Health
         }
     }
 

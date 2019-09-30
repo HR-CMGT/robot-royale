@@ -9,6 +9,7 @@ export class StatusBar {
 
     // Properties
     public set Ammo(v : number)     { this.ammo.innerHTML = "Projectiles "+v  }
+    public set Health(health:number) { this.damagebar.style.width = (100 - health) + "%" }
 
     constructor(data : Settings) {
         let list = document.querySelector("#robotlist")
@@ -31,11 +32,6 @@ export class StatusBar {
         this.bar.appendChild(this.ammo)
 
         list.appendChild(this.bar)
-    }
-
-    // todo show time alive
-    public update(health : number){
-        this.damagebar.style.width = (100 - health) + "%"        
     }
 
     public remove(){

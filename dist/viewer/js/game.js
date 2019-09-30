@@ -1,7 +1,9 @@
 import { Tank } from "./gameobjects/tank/tank.js";
 import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
-import { AmmoBox } from "./gameobjects/ammobox.js";
+import { PickUp } from "./gameobjects/pickups/pickup.js";
 import { DebugInfo } from "./ui/debuginfo.js";
+import { Ammo } from "./gameobjects/pickups/ammo.js";
+import { Health } from "./gameobjects/pickups/health.js";
 export class Game {
     constructor() {
         this.gameObjects = [];
@@ -13,23 +15,20 @@ export class Game {
             let data = JSON.parse(json);
             this.addTank(data);
         });
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 3; i++) {
             this.addTank(this.randomSettings());
         }
         this.socket.on('robot updated', (json) => {
             let settings = JSON.parse(json);
             console.log('viewer received new program for ' + settings.nickname);
         });
-        for (let i = 0; i < 5; i++) {
-            this.gameObjects.push(new AmmoBox());
-        }
-        setInterval(() => {
-            this.gameObjects.push(new AmmoBox());
-        }, 5000);
         this.update();
     }
     get AmmoBoxes() {
-        return this.gameObjects.filter(o => { return o instanceof AmmoBox; });
+        return this.gameObjects.filter(o => { return o instanceof Ammo; });
+    }
+    get RepairKits() {
+        return this.gameObjects.filter(o => { return o instanceof Health; });
     }
     get Tanks() {
         return this.gameObjects.filter(o => { return o instanceof Tank; });
@@ -44,6 +43,15 @@ export class Game {
         this.gameObjects.push(tank);
     }
     update() {
+        if (PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
+            PickUp.NUMBER_OF_PICKUPS++;
+            PickUp.DELTA_TIME_PICKUPS = 0;
+            if (Math.random() < 0.5)
+                this.gameObjects.push(new Ammo());
+            else
+                this.gameObjects.push(new Health());
+        }
+        PickUp.DELTA_TIME_PICKUPS++;
         for (let object1 of this.gameObjects) {
             object1.update();
             for (let object2 of this.gameObjects) {
@@ -54,8 +62,11 @@ export class Game {
             }
         }
         for (let obj of this.gameObjects) {
-            if (obj.CanDestroy)
+            if (obj.CanDestroy) {
+                if (obj instanceof PickUp)
+                    PickUp.NUMBER_OF_PICKUPS--;
                 this.removeGameObject(obj);
+            }
         }
         if (!this.gameover)
             requestAnimationFrame(() => this.update());

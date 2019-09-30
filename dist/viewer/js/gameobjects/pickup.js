@@ -1,7 +1,7 @@
 import { GameObject } from "../gameobject.js";
 import { Vector2 } from "../vector.js";
 import { Tank } from "./tank/tank.js";
-export class AmmoBox extends GameObject {
+export class PickUp extends GameObject {
     constructor(tag) {
         super(tag);
         this.ammo = 0;
@@ -22,7 +22,7 @@ export class AmmoBox extends GameObject {
         }
     }
 }
-AmmoBox.MAX_AMMO_BOXES = 5;
-AmmoBox.INTERVAL_NEW_BOX = 20;
-AmmoBox.NUMBER_OF_AMMO_BOXES = 0;
-AmmoBox.DELTA_TIME_BOX_ADDED = 0;
+PickUp.MAX_PICKUPS = 5;
+PickUp.INTERVAL_NEW_PICKUP = 20;
+PickUp.NUMBER_OF_PICKUPS = 0;
+PickUp.DELTA_TIME_PICKUPS = 0;
