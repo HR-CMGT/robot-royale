@@ -52,7 +52,7 @@ export class Settings extends EventTarget {
         this._color =  Math.floor(Math.random() * 360)
         this._nickname = Randomizer.generateName()
         this._armor = Math.floor(Math.random() * 3)
-        this._program = [1,1,0,0,0,0]
+        this._program = [5,2,0,0,0,0]
         this.update()
     }
 

@@ -44,7 +44,7 @@ export class Game {
         })
 
         // -- DEBUG!! --
-        for(let i = 0; i<13; i++) {
+        for(let i = 0; i<6; i++) {
             this.addTank(this.randomSettings())
         }
 

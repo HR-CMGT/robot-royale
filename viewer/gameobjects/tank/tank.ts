@@ -65,7 +65,7 @@ export class Tank extends BehavioralObject{
 
         this.Div.classList.add(`armor-${data.armor}`)
         this.Div.style.filter = `hue-rotate(${data.color}deg)`
-        this.Div.innerHTML = data.nickname
+        // this.Div.innerHTML = data.nickname
 
         this.Position = new Vector2(
             Math.random() * (window.innerWidth - 300), 

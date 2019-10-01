@@ -15,7 +15,7 @@ export class Game {
             let data = JSON.parse(json);
             this.addTank(data);
         });
-        for (let i = 0; i < 13; i++) {
+        for (let i = 0; i < 6; i++) {
             this.addTank(this.randomSettings());
         }
         this.socket.on('robot updated', (json) => {

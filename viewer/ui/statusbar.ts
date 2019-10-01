@@ -15,24 +15,11 @@ export class StatusBar {
     public set Health(health:number) { 
         this.damageBar.style.width = (100 - health) + "%" 
     }
-    
-    // public set Ammo(v : number)      { this.ammo.innerHTML = "Projectiles "+v  }
-    /*
-    public set LifeTime(frames:number) {
-        // the app is running roughly 60 fps
-        let minutes : number = Math.floor(frames/3600)
-        let seconds : number = Math.floor((frames%3600)/60)
 
-        let min : string = minutes < 10 ? "0" + minutes : "" + minutes
-        let sec : string = seconds < 10 ? "0" + seconds : "" + seconds
-
-        this.infoBar.innerHTML = this.data.nickname // + " " + min + ":" + sec
-    }
-    */
     public set Kills(kills: number) {
         this.killBar.innerHTML = kills.toString()
         // rank image
-        let rank = Math.floor(kills/2)
+        let rank = Math.min(Math.floor(kills/2), 4)
         this.rankBar.style.backgroundImage = `url(./images/ranks/rank${rank}.png)`
     }
 

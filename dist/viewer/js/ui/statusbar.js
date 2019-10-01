@@ -5,7 +5,7 @@ export class StatusBar {
     }
     set Kills(kills) {
         this.killBar.innerHTML = kills.toString();
-        let rank = Math.floor(kills / 2);
+        let rank = Math.min(Math.floor(kills / 2), 4);
         this.rankBar.style.backgroundImage = `url(./images/ranks/rank${rank}.png)`;
     }
     constructor(data) {

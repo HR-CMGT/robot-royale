@@ -51,7 +51,8 @@ export class ShootAtTarget extends Behavior{
      */
     private getRandomEnemy() : GameObject {
         let tanks : GameObject[] = Game.Instance.Tanks
-
+        console.log("do while...")
+        // TODO GEEN LOOPS BINNEN LOOPS 
         let tank : GameObject
         do {
             tank = tanks[Math.floor(Math.random() * tanks.length)]

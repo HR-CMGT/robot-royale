@@ -34,6 +34,7 @@ export class ShootAtTarget extends Behavior {
     }
     getRandomEnemy() {
         let tanks = Game.Instance.Tanks;
+        console.log("do while...");
         let tank;
         do {
             tank = tanks[Math.floor(Math.random() * tanks.length)];

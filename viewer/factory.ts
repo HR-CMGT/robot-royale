@@ -29,7 +29,7 @@ export class Factory {
     public static CreateBehavioralIterator(behavioralObject : BehavioralObject, data : Settings) {
         let iterator : BehavioralIterator = new BehavioralIterator()
 
-        // ["EMPTY", "MOVE AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"]
+        // ["EMPTY", "STOP AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"]
         for (const behaviorCode of data.program) {
             switch (behaviorCode) {
                 case 1:
