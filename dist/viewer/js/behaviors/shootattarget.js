@@ -26,7 +26,6 @@ export class ShootAtTarget extends Behavior {
             behavioralComposite.onActivateBehavior();
         }
         else {
-            console.log("No target found in Shoot at target");
             this.activeBehavior = new Forward(this.BehavioralObject);
         }
     }

@@ -26,13 +26,13 @@ export class RotateTurretToTarget extends Behavior{
     }
 
     public gotoNextBehavior() : void {
-        console.log("go to next behavior")
+        // console.log("go to next behavior")
         this.onDeactivateBehavior()
         this.BehavioralObject.activateNextBehavior()
     }
 
     public onActivateBehavior() : void {
-        console.log("onActivate van rotate turret")
+        // console.log("onActivate van rotate turret")
 
         this.turret = (this.BehavioralObject as Tank).Turret
         // when rotating is finished, turret will go back to own behavior

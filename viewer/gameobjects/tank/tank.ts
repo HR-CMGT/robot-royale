@@ -34,12 +34,12 @@ export class Tank extends BehavioralObject{
     public get Ammo() : number      { return this.ammo      }
     public set Ammo(v : number)     { 
         this.ammo = v        
-        this.status.Ammo = this.ammo
+        // this.status.Ammo = this.ammo
     }
     public get LifeTime() : number      { return this.lifeTime      }
     public set LifeTime(v : number)     { 
         this.lifeTime = v        
-        this.status.LifeTime = this.lifeTime
+        // this.status.LifeTime = this.lifeTime
     }
     public get Kills() : number      { return this.kills      }
     public set Kills(v : number)     { 
@@ -93,7 +93,7 @@ export class Tank extends BehavioralObject{
                     if(this.health <= 0) { 
                         this.CanDestroy = true 
                         collider.ParentTurret.ParentTank.Kills++
-                        console.log(Game.Instance.Tanks)
+                        // console.log(Game.Instance.Tanks)
                     }
                 }
             }
@@ -112,11 +112,12 @@ export class Tank extends BehavioralObject{
         this.turret.update()
     }
     
+    // als er een tank bij komt of weg gaat worden de statusbars opnieuw getekend
     public redrawStatus() {
         let statusBar : StatusBar = new StatusBar(this.status.Data)
-        statusBar.Ammo = this.Ammo
+        // statusBar.Ammo = this.Ammo
+        // statusBar.LifeTime = this.LifeTime
         statusBar.Health = this.Health
-        statusBar.LifeTime = this.LifeTime
         statusBar.Kills = this.Kills
         this.status.remove()
         this.status = statusBar
@@ -124,7 +125,7 @@ export class Tank extends BehavioralObject{
 
 
     public destroy() {
-        console.log("Tank died")
+        // console.log("Tank died")
         this.status.remove()
         this.turret.destroy()
         super.destroy()

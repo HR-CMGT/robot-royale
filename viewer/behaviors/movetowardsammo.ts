@@ -33,7 +33,7 @@ export class MoveTowardsAmmo extends Behavior{
             behavioralComposite.onActivateBehavior()
             this.activeBehavior = behavioralComposite
         } else {
-            console.log("No target found in MoveTowardsAmmo")
+            // console.log("No target found in MoveTowardsAmmo")
             // this.BehavioralObject.activateNextBehavior()
             this.activeBehavior = new Forward(this.BehavioralObject)
         }

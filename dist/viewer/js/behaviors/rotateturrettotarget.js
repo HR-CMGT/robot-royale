@@ -14,12 +14,10 @@ export class RotateTurretToTarget extends Behavior {
             this.turret.Rotation--;
     }
     gotoNextBehavior() {
-        console.log("go to next behavior");
         this.onDeactivateBehavior();
         this.BehavioralObject.activateNextBehavior();
     }
     onActivateBehavior() {
-        console.log("onActivate van rotate turret");
         this.turret = this.BehavioralObject.Turret;
         this.turret.active = false;
         let direction = this.getDirectionToObject(this.targetObject);

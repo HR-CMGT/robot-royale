@@ -44,13 +44,13 @@ export class Game {
         })
 
         // -- DEBUG!! --
-        for(let i = 0; i<3; i++) {
+        for(let i = 0; i<8; i++) {
             this.addTank(this.randomSettings())
         }
 
         this.socket.on('robot updated', (json : string) => {
             let settings = JSON.parse(json)
-            console.log('viewer received new program for ' + settings.nickname)
+            console.log('game received new program for ' + settings.nickname)
         })
 
         // for (let i = 0; i < 3; i++) {

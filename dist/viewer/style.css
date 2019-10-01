@@ -46,56 +46,48 @@ h1,h2,h3,h4 {
 
 #robotlist {
     display: flex;
-    flex-wrap: wrap;
-    
-    /* lelijke header
-    padding-top:38px;
-    background-image: url(./images/killcount.png);
-    background-size:contain;
-    background-repeat: no-repeat;
-    */
+    flex-direction: column;
 }
 
 statusbar {
-    width:200px;
-    display: block;
-    overflow: hidden;
-    position: relative;
-    background-color: red;
-}
-
-statusbar > div {
-   width:100%;
-   position: absolute;
-   color:white;
-   font-size:1.2em;
-}
-
-statusbar .score {
+    box-sizing: border-box;
+    flex: 1 0;
     display:flex;
-    justify-content: space-between;
+    height:20px;
+    background-color:red;
 }
 
-.score div {
+statusbar div {
+    font-size:1.2em;
+    color:white;
+}
+
+statusbar div:nth-child(1) {
+    flex-basis: 28px;
+    background-size:contain;
+    background-repeat: no-repeat;
+    padding:2px;
+    background-origin: content-box;
+}
+
+statusbar div:nth-child(2) {
+    flex: 1 0;
+    padding-left:2px;
+    padding-top:4px;
+}
+
+statusbar div:nth-child(3) {
+    flex-basis: 20px;
     padding:2px;
 }
 
 .damage {
+    display:block;
+    position: absolute;
     background-color:rgba(255, 255, 255, 0.25);
     height:100%;
     right:0px;
     transition: width 0.2s linear;
-}
-.killbar {
-    background-color: yellow;
-    display: inline-block;
-    width: 20%;
-    top: 40px;
-}
-
-statusbar > div:last-child {
-    padding:4px;
-    font-size:12px;
 }
 
 tank-body {

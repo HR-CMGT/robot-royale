@@ -4,20 +4,20 @@ export class StatusBar {
 
     // Fields
     private bar         : HTMLElement
-    private damagebar   : HTMLElement
-    private ammo        : HTMLElement
-    private info        : HTMLElement
+    private damageBar   : HTMLElement
+    private infoBar     : HTMLElement
     private killBar     : HTMLElement
-    private rank        : HTMLImageElement
+    private rankBar     : HTMLElement
     private data        : Settings
-    private imagePath   : string = "images/ranks/"
-    private ranks       : string[] = ["1.svg", "2.svg", "3.svg", "4.svg"]
 
     // Properties
     public get Data() : Settings { return this.data}
-
-    public set Ammo(v : number)      { this.ammo.innerHTML = "Projectiles "+v  }
-    public set Health(health:number) { this.damagebar.style.width = (100 - health) + "%" }
+    public set Health(health:number) { 
+        this.damageBar.style.width = (100 - health) + "%" 
+    }
+    
+    // public set Ammo(v : number)      { this.ammo.innerHTML = "Projectiles "+v  }
+    /*
     public set LifeTime(frames:number) {
         // the app is running roughly 60 fps
         let minutes : number = Math.floor(frames/3600)
@@ -26,15 +26,14 @@ export class StatusBar {
         let min : string = minutes < 10 ? "0" + minutes : "" + minutes
         let sec : string = seconds < 10 ? "0" + seconds : "" + seconds
 
-        this.info.innerHTML = this.data.nickname + " " + min + ":" + sec
+        this.infoBar.innerHTML = this.data.nickname // + " " + min + ":" + sec
     }
+    */
     public set Kills(kills: number) {
-        // this.killBar.innerHTML = "Kills "+kills
-        this.rank.src = this.imagePath
-        if(kills < 2) this.rank.src += this.ranks[0]
-        else if(kills < 5) this.rank.src += this.ranks[1]
-        else if(kills < 7) this.rank.src += this.ranks[2]
-        else if(kills < 9) this.rank.src += this.ranks[3]
+        this.killBar.innerHTML = kills.toString()
+        // rank image
+        let rank = Math.floor(kills/2)
+        this.rankBar.style.backgroundImage = `url(./images/ranks/rank${rank}.png)`
     }
 
     constructor(data : Settings) {
@@ -42,31 +41,29 @@ export class StatusBar {
 
         let list = document.querySelector("#robotlist")
         this.bar = document.createElement("statusbar")
-
-        this.damagebar = document.createElement("div")
-        this.damagebar.classList.add("damage")
-        this.damagebar.style.width = "0%"
+        this.bar.style.filter = `hue-rotate(${data.color}deg)`
         
-        this.ammo = document.createElement("div")
-        this.ammo.style.top = "20px"
-        this.ammo.style.fontSize = "1em"
-        
-        this.info = document.createElement("div")
-        this.info.innerHTML = data.nickname + " 0:03"
+        this.infoBar = document.createElement("div")
+        this.infoBar.innerHTML = data.nickname
 
         this.killBar = document.createElement("div")
-        this.killBar.classList.add("killbar")
-        // this.killBar.style.top = "40px"
-        // this.killBar.innerHTML = "Kills none"
-        this.rank = document.createElement("img")
-        this.killBar.appendChild(this.rank)
-        this.Kills = 0
+        this.killBar.innerHTML = "0"
+    
+        this.rankBar = document.createElement("div")
+        this.rankBar.style.backgroundImage = "url(./images/ranks/rank0.png)"
 
-        this.bar.style.filter = `hue-rotate(${data.color}deg)`
-        this.bar.appendChild(this.damagebar)
-        this.bar.appendChild(this.info)
-        this.bar.appendChild(this.ammo)
+        // three elements of the status bar
+        this.bar.appendChild(this.rankBar)
+        this.bar.appendChild(this.infoBar)
         this.bar.appendChild(this.killBar)
+
+
+        // damageBar transparant achter de info bar
+        this.damageBar = document.createElement("div")
+        this.damageBar.classList.add("damage")
+        this.damageBar.style.width = "0%"
+        // background of the status bar
+        this.bar.appendChild(this.damageBar)
 
         list.appendChild(this.bar)
     }
