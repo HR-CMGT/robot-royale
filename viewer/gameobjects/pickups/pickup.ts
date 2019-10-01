@@ -6,7 +6,7 @@ export class PickUp extends GameObject{
     
     // Consts
     public static readonly MAX_PICKUPS   : number = 5
-    public static readonly INTERVAL_NEW_PICKUP : number = 20
+    public static readonly INTERVAL_NEW_PICKUP : number = 200
     public static NUMBER_OF_PICKUPS      : number = 0
     public static DELTA_TIME_PICKUPS      : number = 0
 

@@ -44,9 +44,9 @@ export class Game {
         })
 
         // -- DEBUG!! --
-        for(let i = 0; i<13; i++) {
-            this.addTank(this.randomSettings())
-        }
+        // for(let i = 0; i<13; i++) {
+        //     this.addTank(this.randomSettings())
+        // }
 
         this.socket.on('robot updated', (json : string) => {
             let settings = JSON.parse(json)
