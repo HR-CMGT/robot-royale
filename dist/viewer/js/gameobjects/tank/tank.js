@@ -22,7 +22,7 @@ export class Tank extends BehavioralObject {
         this.Position = new Vector2(Math.random() * (window.innerWidth - 300), Math.random() * (window.innerHeight - 100));
         this.Direction = new Vector2(Math.random(), Math.random());
         this.Rotation = this.Direction.angle();
-        this.Speed = (Math.random() * 4) + 1;
+        this.Speed = (5 - (data.armor * 2));
         this.turret = new Turret(this);
         this.update();
     }
@@ -52,7 +52,7 @@ export class Tank extends BehavioralObject {
         if (collider instanceof Bullet) {
             if (collider.ParentTurret instanceof Turret) {
                 if (collider.ParentTurret != this.Turret) {
-                    this.Health -= collider.Damage;
+                    this.Health -= (collider.Damage - (this.data.armor * 5));
                     if (this.health <= 0) {
                         this.CanDestroy = true;
                         collider.ParentTurret.ParentTank.Kills++;

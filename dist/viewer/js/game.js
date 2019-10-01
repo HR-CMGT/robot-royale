@@ -15,9 +15,6 @@ export class Game {
             let data = JSON.parse(json);
             this.addTank(data);
         });
-        for (let i = 0; i < 6; i++) {
-            this.addTank(this.randomSettings());
-        }
         this.socket.on('robot updated', (json) => {
             let settings = JSON.parse(json);
             console.log('viewer received new program for ' + settings.nickname);

@@ -19,6 +19,6 @@ export class PickUp extends GameObject {
     }
 }
 PickUp.MAX_PICKUPS = 5;
-PickUp.INTERVAL_NEW_PICKUP = 20;
+PickUp.INTERVAL_NEW_PICKUP = 200;
 PickUp.NUMBER_OF_PICKUPS = 0;
 PickUp.DELTA_TIME_PICKUPS = 0;

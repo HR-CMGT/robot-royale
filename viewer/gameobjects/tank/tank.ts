@@ -76,7 +76,7 @@ export class Tank extends BehavioralObject{
         this.Direction = new Vector2(Math.random(), Math.random())
         this.Rotation = this.Direction.angle()
         
-        this.Speed  = (Math.random() * 4) + 1 // todo dependent on armor
+        this.Speed  = (5 - (data.armor * 2)) // todo dependent on armor
         
         this.turret = new Turret(this)
 
@@ -88,7 +88,7 @@ export class Tank extends BehavioralObject{
             if (collider.ParentTurret instanceof Turret) {
                 if(collider.ParentTurret != this.Turret) {
                     // console.log("Tank got hit!")
-                    this.Health -= collider.Damage
+                    this.Health -= (collider.Damage - (this.data.armor * 5)) 
     
                     if(this.health <= 0) { 
                         this.CanDestroy = true 
