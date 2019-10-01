@@ -88,8 +88,7 @@ export class Tank extends BehavioralObject{
             if (collider.ParentTurret instanceof Turret) {
                 if(collider.ParentTurret != this.Turret) {
                     // console.log("Tank got hit!")
-                    this.health -= collider.Damage
-                    
+                    this.Health -= collider.Damage
     
                     if(this.health <= 0) { 
                         this.CanDestroy = true 
