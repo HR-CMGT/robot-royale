@@ -55,7 +55,7 @@ export class Tank extends BehavioralObject {
         if (collider instanceof Bullet) {
             if (collider.ParentTurret instanceof Turret) {
                 if (collider.ParentTurret != this.Turret) {
-                    this.health -= collider.Damage;
+                    this.Health -= collider.Damage;
                     if (this.health <= 0) {
                         this.CanDestroy = true;
                         collider.ParentTurret.ParentTank.Kills++;
