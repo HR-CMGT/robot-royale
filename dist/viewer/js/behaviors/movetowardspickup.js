@@ -22,11 +22,12 @@ export class MoveTowardsPickup extends Behavior {
             this.activeBehavior = behavioralComposite;
         }
         else {
-            console.log("No target found in MoveTowardsAmmo");
+            console.log("No target found in MoveTowardsPickup");
             this.activeBehavior = new Forward(this.BehavioralObject);
         }
     }
     gotoNextBehavior() {
+        this.activeBehavior.onDeactivateBehavior();
         this.activeBehavior.gotoNextBehavior();
     }
     getNearestPickup() {

@@ -1,7 +1,6 @@
 import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
 import { Game } from "../game.js";
-import { PickUp } from "../gameobjects/pickups/pickup.js";
 import { Vector2 } from "../vector.js";
 import { GameObject } from "../gameobject.js";
 import { BehaviorComposite } from "./behaviorcomposite.js";
@@ -41,13 +40,14 @@ export class MoveTowardsPickup extends Behavior{
             behavioralComposite.onActivateBehavior()
             this.activeBehavior = behavioralComposite
         } else {
-            console.log("No target found in MoveTowardsAmmo")
+            console.log("No target found in MoveTowardsPickup")
             // this.BehavioralObject.activateNextBehavior()
             this.activeBehavior = new Forward(this.BehavioralObject)
         }
     }
 
     public gotoNextBehavior() {
+        this.activeBehavior.onDeactivateBehavior()
         this.activeBehavior.gotoNextBehavior()
     }
 
