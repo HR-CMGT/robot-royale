@@ -1,5 +1,5 @@
 import { Tank } from "./gameobjects/tank/tank.js";
-import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
+import { Factory } from "./factory.js";
 import { PickUp } from "./gameobjects/pickups/pickup.js";
 import { DebugInfo } from "./ui/debuginfo.js";
 import { Ammo } from "./gameobjects/pickups/ammo.js";
@@ -10,17 +10,15 @@ export class Game {
         this.gameover = false;
         this.gameObjects.push(new DebugInfo());
         this.socket = io();
-        this.socket.on('new robot', (json) => {
+        this.socket.on('robot created', (json) => {
             console.log("game received a new robot");
             let data = JSON.parse(json);
             this.addTank(data);
         });
-        for (let i = 0; i < 8; i++) {
-            this.addTank(this.randomSettings());
-        }
         this.socket.on('robot updated', (json) => {
             let settings = JSON.parse(json);
-            console.log('game received new program for ' + settings.nickname);
+            console.log('viewer received new program for ' + settings.nickname);
+            this.updateTank(settings);
         });
         this.update();
     }
@@ -39,9 +37,15 @@ export class Game {
         return this.instance;
     }
     addTank(data) {
-        let tank = BehavioralObjectFactory.CreateObject("tank", data);
+        let tank = Factory.CreateBehavioralObject("tank", data);
         this.gameObjects.push(tank);
         this.redrawAllTankStatus();
+    }
+    updateTank(data) {
+        let tank = this.Tanks.find((tank) => {
+            return tank.Data.id === data.id;
+        });
+        tank.updateProgram(data);
     }
     update() {
         if (PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
@@ -50,7 +54,7 @@ export class Game {
             if (Math.random() < 0.5)
                 this.gameObjects.push(new Ammo());
             else
-                this.gameObjects.push(new Ammo());
+                this.gameObjects.push(new Health());
         }
         PickUp.DELTA_TIME_PICKUPS++;
         for (let object1 of this.gameObjects) {

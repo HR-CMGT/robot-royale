@@ -1,14 +1,14 @@
 import { Randomizer } from "./randomizer.js";
 export class Settings extends EventTarget {
+    constructor() {
+        super();
+        this._id = Randomizer.generateID();
+    }
     static getInstance() {
         if (!Settings.instance) {
             Settings.instance = new Settings();
         }
         return Settings.instance;
-    }
-    constructor() {
-        super();
-        this._id = Randomizer.generateID();
     }
     set socketid(sid) {
         this._socketid = sid;
@@ -50,3 +50,4 @@ export class Settings extends EventTarget {
         });
     }
 }
+Settings.Behaviors = ["EMPTY", "STOP AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"];

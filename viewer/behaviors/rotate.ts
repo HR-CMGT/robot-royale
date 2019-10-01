@@ -20,10 +20,6 @@ export class Rotate extends Behavior{
         else this.BehavioralObject.Rotation--
     }
 
-    // public gotoNextBehavior() : void {
-    //     super.gotoNextBehavior()
-    // }
-
     public onDeactivateBehavior() : void {
         this.BehavioralObject.Direction = Vector2.getVectorFromAngle(this.BehavioralObject.Rotation)
     }

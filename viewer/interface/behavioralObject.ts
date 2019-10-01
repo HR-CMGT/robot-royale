@@ -17,10 +17,10 @@ export abstract class BehavioralObject extends GameObject{
     public get Behavior()                { return this.behavior  }
     public set Behavior(b : Behavior)    { this.behavior = b     }
 
-    
     public get BehavioralIterator() : BehavioralIterator { return this.behavioralIterator }
+    public set BehavioralIterator(iterator : BehavioralIterator) { this.behavioralIterator = iterator }
     
-
+    // todo remove this function
     public AddBehavior(b : Behavior) { this.behavioralIterator.add(b) }
 
     constructor(tag : string) {

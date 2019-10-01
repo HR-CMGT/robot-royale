@@ -1,19 +1,26 @@
 import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
 import { Game } from "../game.js";
-import { PickUp } from "../gameobjects/pickups/pickup.js";
 import { Vector2 } from "../vector.js";
 import { GameObject } from "../gameobject.js";
 import { BehaviorComposite } from "./behaviorcomposite.js";
 import { RotateToTarget } from "./rotatetotarget.js";
 import { Forward } from "./forward.js";
 
-export class MoveTowardsAmmo extends Behavior{
+export class MoveTowardsPickup extends Behavior{
     
     private activeBehavior : Behavior
+    private type : string
 
-    constructor(behavioralObject : BehavioralObject) {
+    /**
+     * Finds the nearest PickUp, Rotates towards it and then moves in that direction
+     * @param behavioralObject 
+     * @param type "health" | "ammo"
+     */
+    constructor(behavioralObject : BehavioralObject, type : string) {
         super(behavioralObject)
+
+        this.type = type
     }
 
     performUpdate(): void {
@@ -21,7 +28,7 @@ export class MoveTowardsAmmo extends Behavior{
     }
 
     public onActivateBehavior() : void {
-        let targetObject : GameObject = this.getNearestAmmoBox()
+        let targetObject : GameObject = this.getNearestPickup()
         
         // When the target is calculated a composite is started. First to rotate to the object
         // then to move to that object
@@ -33,29 +40,30 @@ export class MoveTowardsAmmo extends Behavior{
             behavioralComposite.onActivateBehavior()
             this.activeBehavior = behavioralComposite
         } else {
-            // console.log("No target found in MoveTowardsAmmo")
+            // console.log("No target found in MoveTowardsPickup")
             // this.BehavioralObject.activateNextBehavior()
             this.activeBehavior = new Forward(this.BehavioralObject)
         }
     }
 
     public gotoNextBehavior() {
+        this.activeBehavior.onDeactivateBehavior()
         this.activeBehavior.gotoNextBehavior()
     }
 
-    private getNearestAmmoBox() : GameObject {
+    private getNearestPickup() : GameObject {
         let targetBox : GameObject
         let closest : number = 0
         
-        let boxes = Game.Instance.AmmoBoxes
+        let boxes = this.type === "ammo" ? Game.Instance.AmmoBoxes : Game.Instance.RepairKits
         
-        for (const ammoBox of boxes) {
-            let iets : Vector2 = ammoBox.Position.difference(this.BehavioralObject.Position)
-            let dist = iets.magnitude()
+        for (const pickup of boxes) {
+            let diff : Vector2 = pickup.Position.difference(this.BehavioralObject.Position)
+            let dist = diff.magnitude()
             
             if(dist < closest || closest == 0) { 
                 closest = dist
-                targetBox = ammoBox
+                targetBox = pickup
             }
         }
 

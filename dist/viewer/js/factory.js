@@ -4,8 +4,9 @@ import { Forward } from "./behaviors/forward.js";
 import { Shoot } from "./behaviors/shoot.js";
 import { MoveTowardsPickup } from "./behaviors/movetowardspickup.js";
 import { ShootAtTarget } from "./behaviors/shootattarget.js";
-export class BehavioralObjectFactory {
-    static CreateObject(type, data) {
+import { BehavioralIterator } from "./behavioraliterator.js";
+export class Factory {
+    static CreateBehavioralObject(type, data) {
         let behavioralObject;
         switch (type) {
             case "tank":
@@ -14,27 +15,32 @@ export class BehavioralObjectFactory {
             default:
                 break;
         }
+        behavioralObject.BehavioralIterator = Factory.CreateBehavioralIterator(behavioralObject, data);
+        return behavioralObject;
+    }
+    static CreateBehavioralIterator(behavioralObject, data) {
+        let iterator = new BehavioralIterator();
         for (const behaviorCode of data.program) {
             switch (behaviorCode) {
                 case 1:
-                    behavioralObject.AddBehavior(new Shoot(behavioralObject));
+                    iterator.add(new Shoot(behavioralObject));
                     break;
                 case 2:
-                    behavioralObject.AddBehavior(new ShootAtTarget(behavioralObject));
+                    iterator.add(new ShootAtTarget(behavioralObject));
                     break;
                 case 3:
-                    behavioralObject.AddBehavior(new MoveTowardsPickup(behavioralObject, "ammo"));
+                    iterator.add(new MoveTowardsPickup(behavioralObject, "ammo"));
                     break;
                 case 4:
-                    behavioralObject.AddBehavior(new MoveTowardsPickup(behavioralObject, "health"));
+                    iterator.add(new MoveTowardsPickup(behavioralObject, "health"));
                     break;
                 case 5:
-                    behavioralObject.AddBehavior(new Forward(behavioralObject));
+                    iterator.add(new Forward(behavioralObject));
                     break;
                 default:
                     break;
             }
         }
-        return behavioralObject;
+        return iterator;
     }
 }

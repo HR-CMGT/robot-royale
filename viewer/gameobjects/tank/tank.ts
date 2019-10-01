@@ -8,6 +8,7 @@ import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
 import { Settings } from "../../interface/settings.js";
 import { Game } from "../../game.js";
+import { Factory } from "../../factory.js";
 
 export class Tank extends BehavioralObject{
     
@@ -110,6 +111,10 @@ export class Tank extends BehavioralObject{
         this.Behavior.performUpdate()
         
         this.turret.update()
+    }
+
+    public updateProgram(data : Settings) {
+        this.BehavioralIterator = Factory.CreateBehavioralIterator(this, data)
     }
     
     // als er een tank bij komt of weg gaat worden de statusbars opnieuw getekend

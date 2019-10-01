@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
         console.log('robot created ' + debug.nickname)
 
         // tell the game that there is a new robot - todo FOR VIEWER
-        io.emit('new robot', json, { for: 'everyone' });
+        io.emit('robot created', json, { for: 'everyone' });
     });
 
     
