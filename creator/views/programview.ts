@@ -5,7 +5,7 @@ export class ProgramView extends HTMLElement {
 
     private blocks : HTMLElement
     private added : boolean  = false // hackmaster hackenstein
-    private behaviors: string[] = ["EMPTY", "MOVE AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH"]
+    
 
     connectedCallback() {
         console.log("Building programmer view")
@@ -39,7 +39,7 @@ export class ProgramView extends HTMLElement {
         this.blocks.innerHTML = ""
         for (let [i, label] of Settings.getInstance().program.entries()) {
             let div = document.createElement("div")
-            div.innerHTML = this.behaviors[label]
+            div.innerHTML = Settings.Behaviors[label]
             let cl = (label > 0) ? "block" : "block-empty"
             div.classList.add(cl)
             div.addEventListener("click", () => this.showBlockView(i))

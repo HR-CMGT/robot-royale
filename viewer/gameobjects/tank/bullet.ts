@@ -37,7 +37,7 @@ export class Bullet extends GameObject {
     public collide(collider : GameObject){
         if (collider instanceof Tank) {
             if(this.parentTurret != collider.Turret) {
-                console.log("Bullet hit")
+                // console.log("Bullet hit")
                 this.CanDestroy = true
             }
         }

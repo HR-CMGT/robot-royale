@@ -5,7 +5,7 @@ import { Vector2 } from "../../vector.js";
 import { Bullet } from "./bullet.js";
 import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
-import { Game } from "../../game.js";
+import { Factory } from "../../factory.js";
 export class Tank extends BehavioralObject {
     constructor(data, status) {
         super("tank-body");
@@ -59,7 +59,6 @@ export class Tank extends BehavioralObject {
                     if (this.health <= 0) {
                         this.CanDestroy = true;
                         collider.ParentTurret.ParentTank.Kills++;
-                        console.log(Game.Instance.Tanks);
                     }
                 }
             }
@@ -75,6 +74,9 @@ export class Tank extends BehavioralObject {
         this.Behavior.performUpdate();
         this.turret.update();
     }
+    updateProgram(data) {
+        this.BehavioralIterator = Factory.CreateBehavioralIterator(this, data);
+    }
     redrawStatus() {
         let statusBar = new StatusBar(this.status.Data);
         statusBar.Ammo = this.Ammo;
@@ -85,7 +87,6 @@ export class Tank extends BehavioralObject {
         this.status = statusBar;
     }
     destroy() {
-        console.log("Tank died");
         this.status.remove();
         this.turret.destroy();
         super.destroy();

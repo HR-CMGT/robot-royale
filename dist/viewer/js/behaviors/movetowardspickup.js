@@ -3,7 +3,7 @@ import { Game } from "../game.js";
 import { BehaviorComposite } from "./behaviorcomposite.js";
 import { RotateToTarget } from "./rotatetotarget.js";
 import { Forward } from "./forward.js";
-export class MoveTowardsAmmo extends Behavior {
+export class MoveTowardsPickup extends Behavior {
     constructor(behavioralObject, type) {
         super(behavioralObject);
         this.type = type;
@@ -13,7 +13,7 @@ export class MoveTowardsAmmo extends Behavior {
             this.activeBehavior.performUpdate();
     }
     onActivateBehavior() {
-        let targetObject = this.getNearestPickUp();
+        let targetObject = this.getNearestPickup();
         if (targetObject) {
             let behavioralComposite = new BehaviorComposite(this.BehavioralObject);
             behavioralComposite.addBehavior(new RotateToTarget(this.BehavioralObject, targetObject));
@@ -29,13 +29,13 @@ export class MoveTowardsAmmo extends Behavior {
     gotoNextBehavior() {
         this.activeBehavior.gotoNextBehavior();
     }
-    getNearestPickUp() {
+    getNearestPickup() {
         let targetBox;
         let closest = 0;
         let boxes = this.type === "ammo" ? Game.Instance.AmmoBoxes : Game.Instance.RepairKits;
         for (const pickup of boxes) {
-            let iets = pickup.Position.difference(this.BehavioralObject.Position);
-            let dist = iets.magnitude();
+            let diff = pickup.Position.difference(this.BehavioralObject.Position);
+            let dist = diff.magnitude();
             if (dist < closest || closest == 0) {
                 closest = dist;
                 targetBox = pickup;

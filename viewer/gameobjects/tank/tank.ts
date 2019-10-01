@@ -8,6 +8,7 @@ import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
 import { Settings } from "../../interface/settings.js";
 import { Game } from "../../game.js";
+import { Factory } from "../../factory.js";
 
 export class Tank extends BehavioralObject{
     
@@ -93,7 +94,7 @@ export class Tank extends BehavioralObject{
                     if(this.health <= 0) { 
                         this.CanDestroy = true 
                         collider.ParentTurret.ParentTank.Kills++
-                        console.log(Game.Instance.Tanks)
+                        // console.log(Game.Instance.Tanks)
                     }
                 }
             }
@@ -111,6 +112,10 @@ export class Tank extends BehavioralObject{
         
         this.turret.update()
     }
+
+    public updateProgram(data : Settings) {
+        this.BehavioralIterator = Factory.CreateBehavioralIterator(this, data)
+    }
     
     public redrawStatus() {
         let statusBar : StatusBar = new StatusBar(this.status.Data)
@@ -124,7 +129,7 @@ export class Tank extends BehavioralObject{
 
 
     public destroy() {
-        console.log("Tank died")
+        // console.log("Tank died")
         this.status.remove()
         this.turret.destroy()
         super.destroy()

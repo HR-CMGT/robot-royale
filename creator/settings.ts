@@ -2,7 +2,8 @@ import { Randomizer } from "./randomizer.js"
 
 export class Settings extends EventTarget {
     private static instance: Settings
-    
+    public static Behaviors: string[] = ["EMPTY", "STOP AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"]
+
     public static getInstance() {
         if (!Settings.instance) {
             Settings.instance = new Settings()

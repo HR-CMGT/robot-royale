@@ -1,5 +1,5 @@
 import { Tank } from "./gameobjects/tank/tank.js";
-import { BehavioralObjectFactory } from "./behavioralobjectfactory.js";
+import { Factory } from "./factory.js";
 import { GameObject } from "./gameobject.js";
 import { PickUp } from "./gameobjects/pickups/pickup.js";
 import { DebugInfo } from "./ui/debuginfo.js";
@@ -37,20 +37,21 @@ export class Game {
 
         this.socket = io()
 
-        this.socket.on('new robot', (json : string) => {
+        this.socket.on('robot created', (json : string) => {
             console.log("game received a new robot")
             let data : Settings = JSON.parse(json)
             this.addTank(data)
         })
 
         // -- DEBUG!! --
-        for(let i = 0; i<3; i++) {
-            this.addTank(this.randomSettings())
-        }
+        // for(let i = 0; i<3; i++) {
+        //     this.addTank(this.randomSettings())
+        // }
 
         this.socket.on('robot updated', (json : string) => {
             let settings = JSON.parse(json)
             console.log('viewer received new program for ' + settings.nickname)
+            this.updateTank(settings)
         })
 
         // for (let i = 0; i < 3; i++) {
@@ -69,10 +70,18 @@ export class Game {
         // let bar = new StatusBar(data)
 
         // actual moving tank, receives its corresponding data and status bar
-        let tank : GameObject = BehavioralObjectFactory.CreateObject("tank", data)
+        let tank : GameObject = Factory.CreateBehavioralObject("tank", data)
         this.gameObjects.push(tank)
 
         this.redrawAllTankStatus()
+    }
+
+    private updateTank(data : Settings) {
+        let tank : Tank = this.Tanks.find((tank) => {
+                        return tank.Data.id === data.id
+                    })
+        
+        tank.updateProgram(data)
     }
 
     private update(){
@@ -82,7 +91,7 @@ export class Game {
             PickUp.DELTA_TIME_PICKUPS = 0
 
             if (Math.random() < 0.5) this.gameObjects.push(new Ammo())
-            else this.gameObjects.push(new Ammo())
+            else this.gameObjects.push(new Health())
         }
         PickUp.DELTA_TIME_PICKUPS++
 

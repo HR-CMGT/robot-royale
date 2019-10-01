@@ -2,7 +2,6 @@ import { Settings } from "../settings.js"
 
 export class BlockView extends HTMLElement {
 
-    private behaviors: string[] = ["EMPTY", "MOVE AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH"]
     private index : number
 
     constructor(i:number) {
@@ -24,7 +23,7 @@ export class BlockView extends HTMLElement {
         blocks.style.filter = hue
 
         // place program blocks
-        for (let [index, label] of this.behaviors.entries()) {
+        for (let [index, label] of Settings.Behaviors.entries()) {
             let div = document.createElement("div")
             let cl = (index > 0) ? "block" : "block-empty"
             div.classList.add(cl)
