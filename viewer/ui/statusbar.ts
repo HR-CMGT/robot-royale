@@ -8,7 +8,10 @@ export class StatusBar {
     private ammo        : HTMLElement
     private info        : HTMLElement
     private killBar     : HTMLElement
+    private rank        : HTMLImageElement
     private data        : Settings
+    private imagePath   : string = "images/ranks/"
+    private ranks       : string[] = ["1.svg", "2.svg", "3.svg", "4.svg"]
 
     // Properties
     public get Data() : Settings { return this.data}
@@ -26,7 +29,12 @@ export class StatusBar {
         this.info.innerHTML = this.data.nickname + " " + min + ":" + sec
     }
     public set Kills(kills: number) {
-        this.killBar.innerHTML = "Kills "+kills
+        // this.killBar.innerHTML = "Kills "+kills
+        this.rank.src = this.imagePath
+        if(kills < 2) this.rank.src += this.ranks[0]
+        else if(kills < 5) this.rank.src += this.ranks[1]
+        else if(kills < 7) this.rank.src += this.ranks[2]
+        else if(kills < 9) this.rank.src += this.ranks[3]
     }
 
     constructor(data : Settings) {
@@ -47,8 +55,12 @@ export class StatusBar {
         this.info.innerHTML = data.nickname + " 0:03"
 
         this.killBar = document.createElement("div")
-        this.killBar.style.top = "40px"
-        this.killBar.innerHTML = "Kills none"
+        this.killBar.classList.add("killbar")
+        // this.killBar.style.top = "40px"
+        // this.killBar.innerHTML = "Kills none"
+        this.rank = document.createElement("img")
+        this.killBar.appendChild(this.rank)
+        this.Kills = 0
 
         this.bar.style.filter = `hue-rotate(${data.color}deg)`
         this.bar.appendChild(this.damagebar)

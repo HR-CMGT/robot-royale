@@ -30,7 +30,7 @@ export class BehavioralObjectFactory {
         // behavioralObject.AddBehavior(new Forward(behavioralObject))
         // behavioralObject.AddBehavior(new Forward(behavioralObject))
         behavioralObject.AddBehavior(new ShootAtTarget(behavioralObject))
-        behavioralObject.AddBehavior(new MoveTowardsAmmo(behavioralObject))
+        // behavioralObject.AddBehavior(new MoveTowardsAmmo(behavioralObject))
         // behavioralObject.AddBehavior(new Break(behavioralObject))
         // behavioralObject.AddBehavior(new StartOff(behavioralObject))
         behavioralObject.AddBehavior(new Forward(behavioralObject))

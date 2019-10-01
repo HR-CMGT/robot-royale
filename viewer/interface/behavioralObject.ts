@@ -29,6 +29,7 @@ export abstract class BehavioralObject extends GameObject{
     }
 
     public activateNextBehavior(): void {
+        this.behavior.onDeactivateBehavior()
         let nextBehavior = this.behavioralIterator.next()
         nextBehavior.onActivateBehavior()
         this.behavior = nextBehavior

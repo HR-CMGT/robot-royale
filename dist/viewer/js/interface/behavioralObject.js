@@ -10,6 +10,7 @@ export class BehavioralObject extends GameObject {
         this.behavioralIterator = new BehavioralIterator();
     }
     activateNextBehavior() {
+        this.behavior.onDeactivateBehavior();
         let nextBehavior = this.behavioralIterator.next();
         nextBehavior.onActivateBehavior();
         this.behavior = nextBehavior;

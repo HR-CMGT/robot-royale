@@ -1,7 +1,6 @@
 import { Tank } from "./gameobjects/tank/tank.js";
 import { StatusBar } from "./ui/statusbar.js";
 import { Forward } from "./behaviors/forward.js";
-import { MoveTowardsAmmo } from "./behaviors/movetowardsammo.js";
 import { ShootAtTarget } from "./behaviors/shootattarget.js";
 export class BehavioralObjectFactory {
     static CreateObject(type, data) {
@@ -14,7 +13,6 @@ export class BehavioralObjectFactory {
                 break;
         }
         behavioralObject.AddBehavior(new ShootAtTarget(behavioralObject));
-        behavioralObject.AddBehavior(new MoveTowardsAmmo(behavioralObject));
         behavioralObject.AddBehavior(new Forward(behavioralObject));
         return behavioralObject;
     }

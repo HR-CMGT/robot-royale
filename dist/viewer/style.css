@@ -86,6 +86,12 @@ statusbar .score {
     right:0px;
     transition: width 0.2s linear;
 }
+.killbar {
+    background-color: yellow;
+    display: inline-block;
+    width: 20%;
+    top: 40px;
+}
 
 statusbar > div:last-child {
     padding:4px;
