@@ -30,7 +30,7 @@ export class ProgramView extends HTMLElement {
         const hue = `hue-rotate(${Settings.getInstance().color}deg)`
         bg.style.filter = image.style.filter = logo.style.filter = this.blocks.style.filter = hue
 
-        Settings.getInstance().addEventListener("update", () => this.render())
+        document.body.addEventListener("settingsUpdated", () => this.render())
         // place program blocks
         this.render()
     }

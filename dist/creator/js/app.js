@@ -4,6 +4,7 @@ import { ConfirmView } from "./views/confirmview.js";
 import { Settings } from "./settings.js";
 export class App {
     constructor() {
+        console.log("starting all the things...");
         this.socket = io();
         this.socket.on('connect', () => this.init(this.socket.id));
     }

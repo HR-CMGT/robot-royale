@@ -1,6 +1,7 @@
 import { Randomizer } from "./randomizer.js"
 
-export class Settings extends EventTarget {
+// export class Settings extends EventTarget {
+export class Settings {
     private static instance: Settings
     public static Behaviors: string[] = ["EMPTY", "STOP AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"]
 
@@ -11,8 +12,11 @@ export class Settings extends EventTarget {
         return Settings.instance
     }
 
+    // private constructor geeft bug met extends eventtarget? eventtarget werkt niet in ios12?
+    
     private constructor() { 
-        super()
+        // super()
+        console.log("updated settings...")
         this._id = Randomizer.generateID()
     }
 
@@ -57,7 +61,8 @@ export class Settings extends EventTarget {
     }
 
     private update(){
-        this.dispatchEvent(new Event("update"))
+        // this.dispatch werkt niet op ios12, gebruik document.body voor events
+        document.body.dispatchEvent(new Event("settingsUpdated"))
     }
 
     // todo new Settings

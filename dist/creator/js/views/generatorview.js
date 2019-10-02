@@ -12,7 +12,7 @@ export class GeneratorView extends HTMLElement {
         this.bg = document.body.querySelector("#backgroundcolor");
         this.querySelector("#generate-btn").addEventListener("click", () => Settings.getInstance().randomize());
         this.querySelector("#confirm-btn").addEventListener("click", () => this.confirmSettings());
-        Settings.getInstance().addEventListener("update", () => this.render());
+        document.body.addEventListener("settingsUpdated", () => this.render());
         this.render();
     }
     render() {

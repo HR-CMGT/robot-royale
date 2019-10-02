@@ -8,6 +8,7 @@ export class App {
     private socket: SocketIOClient.Socket
     
     constructor() {
+        console.log("starting all the things...")
         this.socket = io()
         this.socket.on('connect', () =>  this.init(this.socket.id))
     }

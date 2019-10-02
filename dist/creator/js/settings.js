@@ -1,7 +1,7 @@
 import { Randomizer } from "./randomizer.js";
-export class Settings extends EventTarget {
+export class Settings {
     constructor() {
-        super();
+        console.log("updated settings...");
         this._id = Randomizer.generateID();
     }
     static getInstance() {
@@ -37,7 +37,7 @@ export class Settings extends EventTarget {
         this.update();
     }
     update() {
-        this.dispatchEvent(new Event("update"));
+        document.body.dispatchEvent(new Event("settingsUpdated"));
     }
     createJSON() {
         return JSON.stringify({

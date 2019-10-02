@@ -19,7 +19,7 @@ export class ProgramView extends HTMLElement {
         image.style.backgroundImage = `url(images/tank_${Settings.getInstance().armor}.png)`;
         const hue = `hue-rotate(${Settings.getInstance().color}deg)`;
         bg.style.filter = image.style.filter = logo.style.filter = this.blocks.style.filter = hue;
-        Settings.getInstance().addEventListener("update", () => this.render());
+        document.body.addEventListener("settingsUpdated", () => this.render());
         this.render();
     }
     render() {
