@@ -3,10 +3,12 @@ import { Settings } from "../settings.js"
 export class ConfirmView extends HTMLElement {
 
     private msg:string
+    private allowClose:boolean
 
-    constructor(msg:string) {
+    constructor(msg:string, allowClose:boolean) {
         super()
         this.msg = msg
+        this.allowClose = allowClose
     }
 
     connectedCallback() {
@@ -18,15 +20,15 @@ export class ConfirmView extends HTMLElement {
         message.innerHTML = `<h3>${Settings.getInstance().nickname}</h3><br>${this.msg}<br><br>`
         this.appendChild(message)
 
-        const btn = document.createElement("button")
-        btn.innerHTML = "OK!"
-        message.appendChild(btn)
-
         const hue = `hue-rotate(${Settings.getInstance().color}deg)`
         message.style.filter = hue
 
- 
-        btn.addEventListener("click", () => this.remove())
+        if(this.allowClose) {
+            const btn = document.createElement("button")
+            btn.innerHTML = "OK!"
+            message.appendChild(btn)
+            btn.addEventListener("click", () => this.remove())
+        }
 
     }
 }

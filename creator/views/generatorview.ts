@@ -31,7 +31,6 @@ export class GeneratorView extends HTMLElement {
     }
 
     private render() : void {
-
         this.field.innerText = Settings.getInstance().nickname
         this.label.innerText = this.armorlabels[Settings.getInstance().armor]
         this.image.style.backgroundImage = `url(images/tank_${Settings.getInstance().armor}.png)`

@@ -122,7 +122,10 @@ export class Game {
         // let the player know that this robot has died
         if(gameObject instanceof Tank) {
             this.redrawAllTankStatus()
-            this.socket.emit('robot destroyed', gameObject.Data.id)
+
+            // use the tank connection id, so we can send a message to this specific tank
+            console.log("tank died: " + gameObject.Data.socketid)
+            this.socket.emit('robot destroyed', gameObject.Data.socketid)
         }
     }
 

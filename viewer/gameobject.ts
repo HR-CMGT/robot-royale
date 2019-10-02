@@ -45,8 +45,6 @@ export abstract class GameObject {
 
     constructor(tag : string) {
         this.div = document.createElement(tag)
-        // this.color = Math.random() * 360
-
         let gameview = document.querySelector("#gameview")
         gameview.appendChild(this.div)
     }

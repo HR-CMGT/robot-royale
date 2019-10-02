@@ -14,10 +14,7 @@ export class Settings {
 
     // private constructor geeft bug met extends eventtarget? eventtarget werkt niet in ios12?
     
-    private constructor() { 
-        // super()
-        console.log("updated settings...")
-        this._id = Randomizer.generateID()
+    private constructor() {
     }
 
     private _id: string
@@ -27,7 +24,14 @@ export class Settings {
     private _nickname: string
     private _armor: number
 
+    public init() {
+        this._id = Randomizer.generateID()
+        this.randomize()
+    }
+
+    // can change during the game due to disconnecting and reconnecting
     set socketid(sid:string) {
+        console.log("game has new socket id")
         this._socketid = sid
     }
 

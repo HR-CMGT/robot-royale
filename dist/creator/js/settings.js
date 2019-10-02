@@ -1,8 +1,6 @@
 import { Randomizer } from "./randomizer.js";
 export class Settings {
     constructor() {
-        console.log("updated settings...");
-        this._id = Randomizer.generateID();
     }
     static getInstance() {
         if (!Settings.instance) {
@@ -10,7 +8,12 @@ export class Settings {
         }
         return Settings.instance;
     }
+    init() {
+        this._id = Randomizer.generateID();
+        this.randomize();
+    }
     set socketid(sid) {
+        console.log("game has new socket id");
         this._socketid = sid;
     }
     get nickname() {

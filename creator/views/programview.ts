@@ -6,7 +6,6 @@ export class ProgramView extends HTMLElement {
     private blocks : HTMLElement
     private added : boolean  = false // hackmaster hackenstein
     
-
     connectedCallback() {
         console.log("Building programmer view")
         /* todo check blockly */
@@ -59,8 +58,6 @@ export class ProgramView extends HTMLElement {
             let btn = this.querySelector("#send-btn")
             btn.innerHTML = "UPDATE PROGRAM"
             this.added = true
-            // TODO SHOW CONFIRMATION MODAL - YOUR ROBOT IS NOW ADDED TO THE GAME
-            console.log("confirm here")
         } else {
             this.dispatchEvent(new Event('programUpdated'))
         }

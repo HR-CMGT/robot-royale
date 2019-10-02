@@ -15,8 +15,6 @@ export class Turret extends BehavioralObject {
         super("tank-turret")
 
         this.tank = tank
-        // this.Div.style.top = "24px"
-        // this.Div.style.left = "24px"
         this.Div.classList.add(`armor-${tank.Data.armor}`)
         this.Div.style.filter = `hue-rotate(${tank.Data.color}deg)`
         this.Behavior = new Rotate(this, 90, false)
@@ -40,4 +38,11 @@ export class Turret extends BehavioralObject {
 
         super.update()
     }
+
+    // override turret draw only rotation, add when turret is child of tank dom element
+    /*
+    public draw() {
+        this.Div.style.transform = `rotate(${this.Rotation}deg)`
+    }
+    */
 }

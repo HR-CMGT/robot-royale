@@ -8,25 +8,30 @@ export class App {
     private socket: SocketIOClient.Socket
     
     constructor() {
-        console.log("starting all the things...")
-        this.socket = io()
-        this.socket.on('connect', () =>  this.init(this.socket.id))
-    }
-    
-    private init(socketid:string){
-        console.log("creator connects " + socketid)
-        Settings.getInstance().socketid = socketid
-        Settings.getInstance().randomize()
-
+        Settings.getInstance().init()
         this.showGeneratorView()
-        // this.showProgramView()
+        // connection can close and reopen while the game is running (browser sleeping/tab pausing) // set timeout to prevent glitch
+        this.socket = io({ timeout: 60000 })
+        this.socket.on('connect', () => Settings.getInstance().socketid = this.socket.id)
 
-        /* todo recalculate flexbox when the address bar hides on ios/android
-        window.onresize = function() {
-            document.body.height = window.innerHeight;
-        }
-        window.onresize(); // called to initially set the height.
-        */
+        this.socket.on('disconnect', (reason:string) => {
+            console.log("game is disconnecting...")
+            if (reason === 'io server disconnect') {
+                // disconnection initiated by server, you need to reconnect manually, else the socket will automatically try to reconnect
+                this.socket.connect()
+            }
+        })
+
+        // successful reconnect: https://socket.io/docs/client-api/#Event-‘reconnect’
+        this.socket.on('reconnect', (attemptNumber:number) => {
+            console.log("game reconnected")
+            // this tank now has a new socketid
+            Settings.getInstance().socketid = this.socket.id
+            // todo send whole tank to the server??? can the server update the new connection by itself??? (server also gets user connected event)
+        })
+
+        // this tank is destroyed! note: only works when socket id did not change
+        this.socket.on("tank destroyed", () => this.showConfirmBox("was destroyed!!!", false))
     }
 
     private showGeneratorView():void {
@@ -42,24 +47,30 @@ export class App {
         v.addEventListener('programUpdated', (e) => this.programUpdated(), false)
     }   
 
-    private showConfirmBox(msg:string):void {
-        let v = new ConfirmView(msg)
-        document.body.appendChild(v)
-    }
-
     private robotCreated() : void {
         const json : string = Settings.getInstance().createJSON()
         console.log(json)
         this.socket.emit('robot created', json)
-        this.showConfirmBox("was added to the game!")
+        this.showConfirmBox("was added to the game!", true)
     }
 
     private programUpdated(){
         const json: string = Settings.getInstance().createJSON()
         console.log(json)
         this.socket.emit('robot updated', json)
-        this.showConfirmBox("program was updated!")
+        this.showConfirmBox("program was updated!", true)
+    }
+
+    private showConfirmBox(msg: string, allowClose:boolean): void {
+        let v = new ConfirmView(msg, allowClose)
+        document.body.appendChild(v)
     }
 }
 
 window.addEventListener("DOMContentLoaded", () => new App())
+
+/* todo recalculate flexbox when the address bar hides on ios/android
+window.onresize = function() {
+    document.body.height = window.innerHeight;
+}
+*/

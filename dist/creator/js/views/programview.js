@@ -43,7 +43,6 @@ export class ProgramView extends HTMLElement {
             let btn = this.querySelector("#send-btn");
             btn.innerHTML = "UPDATE PROGRAM";
             this.added = true;
-            console.log("confirm here");
         }
         else {
             this.dispatchEvent(new Event('programUpdated'));

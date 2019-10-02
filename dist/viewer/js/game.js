@@ -89,7 +89,8 @@ export class Game {
         }
         if (gameObject instanceof Tank) {
             this.redrawAllTankStatus();
-            this.socket.emit('robot destroyed', gameObject.Data.id);
+            console.log("tank died: " + gameObject.Data.socketid);
+            this.socket.emit('robot destroyed', gameObject.Data.socketid);
         }
     }
     addBullet(b) {

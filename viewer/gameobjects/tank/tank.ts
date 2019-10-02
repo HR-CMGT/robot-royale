@@ -21,7 +21,6 @@ export class Tank extends BehavioralObject{
     private lifeTime: number = 0
     private kills   : number = 0
 
-
     // Properties
     public get Data(): Settings   { return this.data      }
 
@@ -80,6 +79,9 @@ export class Tank extends BehavioralObject{
         
         this.turret = new Turret(this)
 
+        // TODO append the turret to the tank instead of the gameview // fix gameloop // fix bullets
+        // this.Div.appendChild(this.turret.Div)
+
         this.update()
     }
 
@@ -108,7 +110,6 @@ export class Tank extends BehavioralObject{
         super.update()
         this.LifeTime++
         this.Behavior.performUpdate()
-        
         this.turret.update()
     }
 
@@ -126,7 +127,6 @@ export class Tank extends BehavioralObject{
         this.status.remove()
         this.status = statusBar
     }
-
 
     public destroy() {
         // console.log("Tank died")

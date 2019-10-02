@@ -20,11 +20,22 @@ app.get('/viewer', function (req, res) {
 })
 
 io.on('connection', (socket) => {
+    // NEW CONNECTION MAY BE FOR A ROBOT THAT ALREADY EXISTS
     console.log('new connection')
-    // can we get the ip address here? use as id
-    // let id = socket.getUniqueID()
-    //console.log(id)
 
+
+    // when the client tank gets a new socket id, we need to update it in the game too
+    socket.on('robot socket updated', (json) => {
+        let debug = JSON.parse(json)
+        console.log('robot socket updated ' + debug.socketid)
+
+        // tell the game that there is a new robot - todo FOR VIEWER
+        io.emit('robot created', json, { for: 'everyone' });
+    });
+
+
+
+    // todo game moet ook de socketid updaten, want die kan veranderd zijn
     socket.on('robot created', (json) => {
         let debug = JSON.parse(json)
         console.log('robot created ' + debug.nickname)
@@ -34,23 +45,22 @@ io.on('connection', (socket) => {
     });
 
     
-    socket.on('robot destroyed', (id) => {
-        // TODO let only the viewer know that his robot has died
+    socket.on('robot destroyed', (socketid) => {
+        // send message to this specific tank
+        io.to(socketid).emit("tank destroyed")
+        // io.sockets.socket(socketid).emit("tank destroyed")
         // https://socket.io/docs/emit-cheatsheet/
-        // sending to individual socketid (private message)
-        // io.to(`${socketId}`).emit('hey', 'I just met you');
     });
     
-
-    socket.on('disconnect', () => {
-        console.log('user disconnected')
-    });
-
-    // todo dit is dubbel? moet dit via server.js?
+    // todo hier ook de socketid updaten, want die kan veranderd zijn
     socket.on('robot updated', (json) => {
         let debug = JSON.parse(json)
         console.log('new program for ' + debug.nickname)
         io.emit('robot updated', json, { for: 'everyone' })
+    });
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected')
     });
 });
 
