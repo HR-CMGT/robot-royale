@@ -1,8 +1,5 @@
-import { Behavior } from "../interface/behavior.js";
-import { BehavioralObject } from "../interface/behavioralObject.js";
-import { Forward } from "./forward.js";
-import { GameObject } from "../gameobject.js";
-import { RotateToTarget } from "./rotatetotarget.js";
+import { Behavior } from "../../interface/behavior.js";
+import { BehavioralObject } from "../../interface/behavioralObject.js";
 
 export class BehaviorComposite extends Behavior {
 
@@ -21,6 +18,7 @@ export class BehaviorComposite extends Behavior {
         this.activeBehavior.performUpdate()
     }
 
+    // is called one time, when composite becomes active
     public onActivateBehavior() : void {
         this.currentBehaviorCounter = 0
         if(this.behaviors.length > 0) {

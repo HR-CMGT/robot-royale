@@ -1,6 +1,6 @@
-import { BehavioralObject } from "../../interface/behavioralObject.js";
 import { Vector2 } from "../../vector.js";
 import { Rotate } from "../../behaviors/rotate.js";
+import { BehavioralObject } from "../../interface/behavioralObject.js";
 export class Turret extends BehavioralObject {
     constructor(tank) {
         super("tank-turret");

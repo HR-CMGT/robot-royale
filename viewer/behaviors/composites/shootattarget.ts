@@ -1,14 +1,13 @@
-import { Behavior } from "../interface/behavior.js";
-import { BehavioralObject } from "../interface/behavioralObject.js";
-import { Game } from "../game.js";
-import { GameObject } from "../gameobject.js";
+import { Behavior } from "../../interface/behavior.js";
+import { BehavioralObject } from "../../interface/behavioralObject.js";
+import { Game } from "../../game.js";
+import { GameObject } from "../../gameobject.js";
 import { BehaviorComposite } from "./behaviorcomposite.js";
-import { RotateToTarget } from "./rotatetotarget.js";
-import { Shoot } from "./shoot.js";
-import { Break } from "./break.js";
-import { StartOff } from "./startoff.js";
-import { RotateTurretToTarget } from "./rotateturrettotarget.js";
-import { Forward } from "./forward.js";
+import { Shoot } from "../shoot.js";
+import { Break } from "../break.js";
+import { StartOff } from "../startoff.js";
+import { RotateTurretToTarget } from "../rotateturrettotarget.js";
+import { Forward } from "../forward.js";
 
 export class ShootAtTarget extends Behavior{
     
@@ -51,10 +50,10 @@ export class ShootAtTarget extends Behavior{
      */
     private getRandomEnemy() : GameObject {
         let tanks : GameObject[] = Game.Instance.Tanks
-        console.log("do while...")
-        // TODO GEEN LOOPS BINNEN LOOPS 
         let tank : GameObject
         do {
+            // TODO GEEN LOOPS BINNEN LOOPS 
+            if(Game.DEBUG) console.log("do while...")
             tank = tanks[Math.floor(Math.random() * tanks.length)]
         } while (tank == this.BehavioralObject);
 

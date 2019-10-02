@@ -1,6 +1,7 @@
 import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
 import { Vector2 } from "../vector.js";
+import { Game } from "../game.js";
 
 export class Rotate extends Behavior{
     
@@ -21,6 +22,7 @@ export class Rotate extends Behavior{
     }
 
     public onDeactivateBehavior() : void {
+        if(Game.DEBUG) console.log("new direction in Rotate:onDeactivateBehavior")
         this.BehavioralObject.Direction = Vector2.getVectorFromAngle(this.BehavioralObject.Rotation)
     }
 }

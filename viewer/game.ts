@@ -10,6 +10,7 @@ import { Health } from "./gameobjects/pickups/health.js";
 export class Game {
     // static Fields
     private static instance   : Game
+    public static readonly DEBUG : boolean = false
 
     // Fields
     private gameObjects       : GameObject[]  = []
@@ -43,25 +44,17 @@ export class Game {
             this.addTank(data)
         })
 
-        // -- DEBUG!! --
-        // for(let i = 0; i<13; i++) {
-        //     this.addTank(this.randomSettings())
-        // }
-
         this.socket.on('robot updated', (json : string) => {
             let settings = JSON.parse(json)
             console.log('viewer received new program for ' + settings.nickname)
             this.updateTank(settings)
         })
 
-        // for (let i = 0; i < 3; i++) {
-        //     this.gameObjects.push(new Ammo())
-        // }
-
-        // setInterval(() => {
-        //     this.gameObjects.push(new AmmoBox())
-        // }, 5000);
-
+        if(Game.DEBUG) {
+            for (let i = 0; i < 20; i++) {
+                this.addTank(this.randomSettings())
+            }
+        }
         this.update()
     }
 
@@ -145,7 +138,7 @@ export class Game {
             color: Math.floor(Math.random() * 360),
             nickname: "Old Billy Bob",
             armor: Math.floor(Math.random() * 3), // 0 1 2 ?
-            program: [1, 1, 0, 0, 0, 0]
+            program: [1, 2, 3, 0, 0, 0]
         }
     }
 

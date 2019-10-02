@@ -20,6 +20,11 @@ export class Game {
             console.log('viewer received new program for ' + settings.nickname);
             this.updateTank(settings);
         });
+        if (Game.DEBUG) {
+            for (let i = 0; i < 20; i++) {
+                this.addTank(this.randomSettings());
+            }
+        }
         this.update();
     }
     get AmmoBoxes() {
@@ -97,7 +102,7 @@ export class Game {
             color: Math.floor(Math.random() * 360),
             nickname: "Old Billy Bob",
             armor: Math.floor(Math.random() * 3),
-            program: [1, 1, 0, 0, 0, 0]
+            program: [1, 2, 3, 0, 0, 0]
         };
     }
     redrawAllTankStatus() {
@@ -110,4 +115,5 @@ export class Game {
         }
     }
 }
+Game.DEBUG = false;
 window.addEventListener("DOMContentLoaded", () => Game.Instance);

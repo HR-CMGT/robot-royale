@@ -2,7 +2,6 @@ import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
 import { Vector2 } from "../vector.js";
 import { GameObject } from "../gameobject.js";
-import { Rotate } from "./rotate.js";
 import { Tank } from "../gameobjects/tank/tank.js";
 import { Turret } from "../gameobjects/tank/turret.js";
 
@@ -27,7 +26,6 @@ export class RotateTurretToTarget extends Behavior{
 
     public gotoNextBehavior() : void {
         // console.log("go to next behavior")
-        this.onDeactivateBehavior()
         this.BehavioralObject.activateNextBehavior()
     }
 
@@ -42,7 +40,7 @@ export class RotateTurretToTarget extends Behavior{
         let direction = this.getDirectionToObject(this.targetObject)
         let rotationOptions : RotationOptions = this.getAngleToDirection(direction)
         
-        // todo fix is angle is NaN, still not working
+        // todo fix is angle is NaN
         if(isNaN(rotationOptions.angle)) this.lifeTime = 0
         else this.lifeTime = rotationOptions.angle
 

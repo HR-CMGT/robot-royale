@@ -30,11 +30,10 @@ export class Shoot extends Behavior{
     }
 
     // gets called from composite
-    // turret can go to its own behavior after shooting
+    // turret can go back to its own behavior after shooting
+    // and becomes active ( can start rotating again )
     public onDeactivateBehavior() : void {
+        if(Game.DEBUG) console.log("Shoot:onDeactivateBehavior")
         if(!this.tank.Turret.active) this.tank.Turret.active = true
     }
-    // public gotoNextBehavior() : void {
-    //     super.gotoNextBehavior()
-    // }
 }

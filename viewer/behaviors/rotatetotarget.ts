@@ -24,6 +24,10 @@ export class RotateToTarget extends Behavior{
         this.activeBehavior.gotoNextBehavior()
     }
 
+    public onDeactivateBehavior() : void {
+        this.activeBehavior.onDeactivateBehavior()
+    }
+
     public onActivateBehavior() : void {
         this.BehavioralObject.Direction = this.getDirectionToObject(this.targetObject)
 

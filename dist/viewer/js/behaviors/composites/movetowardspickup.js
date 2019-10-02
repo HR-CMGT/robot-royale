@@ -1,8 +1,8 @@
-import { Behavior } from "../interface/behavior.js";
-import { Game } from "../game.js";
+import { Behavior } from "../../interface/behavior.js";
+import { Game } from "../../game.js";
 import { BehaviorComposite } from "./behaviorcomposite.js";
-import { RotateToTarget } from "./rotatetotarget.js";
-import { Forward } from "./forward.js";
+import { RotateToTarget } from "../rotatetotarget.js";
+import { Forward } from "../forward.js";
 export class MoveTowardsPickup extends Behavior {
     constructor(behavioralObject, type) {
         super(behavioralObject);

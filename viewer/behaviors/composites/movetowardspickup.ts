@@ -1,11 +1,11 @@
-import { Behavior } from "../interface/behavior.js";
-import { BehavioralObject } from "../interface/behavioralObject.js";
-import { Game } from "../game.js";
-import { Vector2 } from "../vector.js";
-import { GameObject } from "../gameobject.js";
+import { Behavior } from "../../interface/behavior.js";
+import { BehavioralObject } from "../../interface/behavioralObject.js";
+import { Game } from "../../game.js";
+import { Vector2 } from "../../vector.js";
+import { GameObject } from "../../gameobject.js";
 import { BehaviorComposite } from "./behaviorcomposite.js";
-import { RotateToTarget } from "./rotatetotarget.js";
-import { Forward } from "./forward.js";
+import { RotateToTarget } from "../rotatetotarget.js";
+import { Forward } from "../forward.js";
 
 export class MoveTowardsPickup extends Behavior{
     
@@ -47,7 +47,6 @@ export class MoveTowardsPickup extends Behavior{
     }
 
     public gotoNextBehavior() {
-        this.activeBehavior.onDeactivateBehavior()
         this.activeBehavior.gotoNextBehavior()
     }
 

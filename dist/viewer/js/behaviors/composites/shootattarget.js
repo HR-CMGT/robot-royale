@@ -1,11 +1,11 @@
-import { Behavior } from "../interface/behavior.js";
-import { Game } from "../game.js";
+import { Behavior } from "../../interface/behavior.js";
+import { Game } from "../../game.js";
 import { BehaviorComposite } from "./behaviorcomposite.js";
-import { Shoot } from "./shoot.js";
-import { Break } from "./break.js";
-import { StartOff } from "./startoff.js";
-import { RotateTurretToTarget } from "./rotateturrettotarget.js";
-import { Forward } from "./forward.js";
+import { Shoot } from "../shoot.js";
+import { Break } from "../break.js";
+import { StartOff } from "../startoff.js";
+import { RotateTurretToTarget } from "../rotateturrettotarget.js";
+import { Forward } from "../forward.js";
 export class ShootAtTarget extends Behavior {
     constructor(behavioralObject) {
         super(behavioralObject);

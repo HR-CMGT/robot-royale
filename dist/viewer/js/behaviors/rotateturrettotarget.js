@@ -14,7 +14,6 @@ export class RotateTurretToTarget extends Behavior {
             this.turret.Rotation--;
     }
     gotoNextBehavior() {
-        this.onDeactivateBehavior();
         this.BehavioralObject.activateNextBehavior();
     }
     onActivateBehavior() {
