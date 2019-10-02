@@ -89,7 +89,6 @@ block-view .blocks {
 
 confirm-view {
     color:white;
-    padding-top:40px;
     width:100vw;
     height:100vh;
 }
@@ -97,11 +96,11 @@ confirm-view {
 .message {
     color:white;
     filter: drop-shadow( 2px 2px 0px #000 );
-    width:80%; height:60vh;
+    width:80vw; height:50vh;
     background-color:red;
     font-size:1.3em;
-    margin:0px auto;
-    padding-top:5vh;
+    margin:25vh auto;
+    padding-top:20px;
     text-align: center;
 }
 

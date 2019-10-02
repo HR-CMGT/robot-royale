@@ -24,15 +24,15 @@ Robots have these settings:
 
 - Armor : heavy, medium, slow. This affects bullet damage and speed. Each armor has its own PNG image.
 - Color : Use a CSS filter on the PNG image to colorize it.
-- ID
-- Name
+- ID : Unique ID to identify this tank on the server and client. Generated once when creator page is opened.
+- Name : Display name
+- Socket ID : The connection id of the websocket. This may change when a creator window is closed or has been inactive. Socket ID is used to send messages from the viewer to the creator.
+- Program : An array of numbers indicating the behaviours that this tank executes. The program can be updated while the game is running.
 
-Robots have program blocks that can be rearranged while the game is running:
+### Node messages
 
-- Move to nearest ammo
-- Move to nearest healthkit
-- Move and shoot randomly
-- Stop, aim and shoot
+To send a message from the server back to a specific tank, find the connection socket id first, by using the tank id. When you have the socket id you can send.
+The socket id may change while the game is running due to browser windows becoming inactive. `io.sockets.connected
 
 ## Start the server
 
@@ -42,7 +42,7 @@ node server.js
 ```
 ## Creator and Viewer Code
 
-Typescript code for the creator and viewer pages is in `creator` and `viewer` folders. *Open these folders in a separate VS Code window or in a VS Code workspace*. Press CMD+SHIFT+B to compile to the `dist/creator` and `dist/viewer` folders. Code is loaded as native modules, so you can use `import` and `export` without a module bundler. `import` statements need the `.js` extension for this to work.
+Typescript code for the creator and viewer pages is in `creator` and `viewer` folders. *Open these folders in a separate VS Code window*. Press CMD+SHIFT+B to compile to the `dist/creator` and `dist/viewer` folders. Code is loaded as native modules, so you can use `import` and `export` without a module bundler. `import` statements need the `.js` extension for this to work.
 
 Edit HTML and CSS directly in the DIST folders.
 
@@ -54,27 +54,3 @@ Edit HTML and CSS directly in the DIST folders.
 # Links
 
 - https://socket.io
-- [typescript in node](https://medium.com/javascript-in-plain-english/typescript-with-node-and-express-js-why-when-and-how-eb6bc73edd5d)
-
-# TODO 
-
-### CREATOR
-
-- scan QR code to open url
-- graphic design, responsive view
-
-### GAME
-
-- robots moving around according to their settings
-- display the three longest lasting robots
-- save hiscores (longest lasting robots) in a cookie
-
-### SERVER
-
-- send "robot died" message directly back to the robot creator view using socket id.
-- Put `server.js` and `node_modules` for server in own subfolder 
-- Install on cmgt.hr.nl server
-- Add `node forever` https://github.com/foreversd/forever to automatically restart after crashes
-- Keep hiscore list on server? save in .json file?
-
-
