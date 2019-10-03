@@ -21,7 +21,7 @@ export class Game {
             this.updateTank(settings);
         });
         if (Game.DEBUG) {
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 13; i++) {
                 this.addTank(this.randomSettings());
             }
         }
@@ -116,5 +116,5 @@ export class Game {
         }
     }
 }
-Game.DEBUG = false;
+Game.DEBUG = true;
 window.addEventListener("DOMContentLoaded", () => Game.Instance);

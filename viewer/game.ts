@@ -10,7 +10,7 @@ import { Health } from "./gameobjects/pickups/health.js";
 export class Game {
     // static Fields
     private static instance   : Game
-    public static readonly DEBUG : boolean = false
+    public static readonly DEBUG : boolean = true
 
     // Fields
     private gameObjects       : GameObject[]  = []
@@ -51,7 +51,7 @@ export class Game {
         })
 
         if(Game.DEBUG) {
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 13; i++) {
                 this.addTank(this.randomSettings())
             }
         }
@@ -140,7 +140,7 @@ export class Game {
             socketid: String(Math.random() * 1000),
             color: Math.floor(Math.random() * 360),
             nickname: "Old Billy Bob",
-            armor: Math.floor(Math.random() * 3), // 0 1 2 ?
+            armor: Math.floor(Math.random() * 3), 
             program: [1, 2, 3, 0, 0, 0]
         }
     }

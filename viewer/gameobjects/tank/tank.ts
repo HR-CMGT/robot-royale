@@ -20,6 +20,7 @@ export class Tank extends BehavioralObject{
     private turret  : Turret
     private lifeTime: number = 0
     private kills   : number = 0
+    private just:number = 0
 
     // Properties
     public get Data(): Settings   { return this.data      }
@@ -107,9 +108,9 @@ export class Tank extends BehavioralObject{
     }
 
     public update(){
-        super.update()
         this.LifeTime++
         this.Behavior.performUpdate()
+        super.update()
         this.turret.update()
     }
 

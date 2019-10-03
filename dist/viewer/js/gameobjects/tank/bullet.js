@@ -10,15 +10,17 @@ export class Bullet extends GameObject {
         this.Direction = Vector2.getVectorFromAngle(parent.Rotation);
         this.Speed = 5;
         this.parentTurret = parent;
+        let dist = 40;
+        this.Position = this.Position.add(this.Direction.scale(dist));
         this.update();
     }
     get Damage() { return this.damage; }
     get ParentTurret() { return this.parentTurret; }
     update() {
         this.Position = this.Position.add(this.Direction.scale(this.Speed));
+        super.update();
         if (this.isInvisible())
             this.CanDestroy = true;
-        super.update();
     }
     collide(collider) {
         if (collider instanceof Tank) {

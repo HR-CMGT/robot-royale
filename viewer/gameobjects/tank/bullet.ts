@@ -23,15 +23,20 @@ export class Bullet extends GameObject {
         this.Speed        = 5
         this.parentTurret = parent
 
+        // move the bullet in front of the barrel
+        // TODO distance depends on armor parentturret.tank.armor
+        let dist = 40
+        this.Position = this.Position.add(this.Direction.scale(dist))
+
         this.update()
     }
 
     public update() {
         this.Position = this.Position.add(this.Direction.scale(this.Speed))
+        super.update();
 
         if(this.isInvisible()) this.CanDestroy = true
 
-        super.update();
     }
 
     public collide(collider : GameObject){

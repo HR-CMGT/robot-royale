@@ -13,6 +13,7 @@ export class Tank extends BehavioralObject {
         this.ammo = 0;
         this.lifeTime = 0;
         this.kills = 0;
+        this.just = 0;
         this.Behavior = new Forward(this);
         this.data = data;
         this.status = status;
@@ -66,9 +67,9 @@ export class Tank extends BehavioralObject {
         }
     }
     update() {
-        super.update();
         this.LifeTime++;
         this.Behavior.performUpdate();
+        super.update();
         this.turret.update();
     }
     updateProgram(data) {

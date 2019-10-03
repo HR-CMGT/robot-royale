@@ -78,7 +78,8 @@ statusbar div:nth-child(2) {
 
 statusbar div:nth-child(3) {
     flex-basis: 20px;
-    padding:2px;
+    padding-left:2px;
+    padding-top:4px;
 }
 
 .damage {
@@ -98,49 +99,55 @@ tank-body {
     background-repeat: no-repeat;
 }
 
+/* all tank bodies heights are 85% of width */
 tank-body.armor-0 {
-    width:100px;
-    height:90px;
+    width:60px;
+    height:51px;
     background-image: url("./images/tank_0.png");
 }
 
 tank-body.armor-1 {
-    width:125px;
-    height:100px;
+    width:85px;
+    height:72px;
     background-image: url("./images/tank_1.png");
 }
 
 tank-body.armor-2 {
-    width:145px;
-    height:120px;
+    width:115px;
+    height:97px;
     background-image: url("./images/tank_2.png");
 }
 
 tank-turret {
     display:block;
     position: absolute;
-    width:125px;
-    height:100px;
-    overflow: hidden;
-    left:0; top:0;
     background-repeat: no-repeat;
     background-position: center;
-    background-position-x: 80%;
 }
 
+/* turret divs are the same size as armor divs. use size and position to center the image in the div */
 tank-turret.armor-0 {
-    background-image: url("./images/tank-turret_new.png");
-    background-size:50% 50%;
+    background-image: url("./images/turret_0.png");
+    background-size:40px 30px;
+    background-position-x: 20px;
+    width:60px;
+    height:51px;
 }
 
 tank-turret.armor-1 {
-    background-image: url("./images/tank-turret_new.png");
-    background-size:60% 60%;
+    background-image: url("./images/turret_0.png");
+    background-size:60px 50px;
+    background-position-x: 30px;
+    width:85px;
+    height:72px;
 }
 
 tank-turret.armor-2 {
-    background-image: url("./images/tank-turret_new.png");
-    background-size:70% 70%;
+    background-image: url("./images/turret_0.png");
+    background-size:80px 60px;
+    background-position-x: 40px;
+    width:115px;
+    height:97px;
 }
 
 bullet {
@@ -148,12 +155,7 @@ bullet {
     position: absolute;
     width:24px;
     height:6px;
-    /* border-radius: 8px; */
-    /* padding:4px; */
-    overflow: hidden;
-    left:0; top:0;
-    /* background-color: black; */
-    background-image: url("./images/bullet.gif");
+    background-image: url("./images/bullet.png");
 }
 ammo, repair {
     display:block;
