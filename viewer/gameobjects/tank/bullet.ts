@@ -24,7 +24,7 @@ export class Bullet extends GameObject {
         this.parentTurret = parent
 
         // move the bullet in front of the barrel
-        // TODO distance depends on armor parentturret.tank.armor
+        // TODO distance depends on parentt
         let dist = 40
         this.Position = this.Position.add(this.Direction.scale(dist))
 
