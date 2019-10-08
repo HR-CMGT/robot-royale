@@ -10,7 +10,7 @@ import { Health } from "./gameobjects/pickups/health.js";
 export class Game {
     // static Fields
     private static instance   : Game
-    public static readonly DEBUG : boolean = true
+    public static DEBUG : boolean = false
 
     // Fields
     private gameObjects       : GameObject[]  = []
@@ -34,6 +34,10 @@ export class Game {
     }
 
     private constructor() {
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+            Game.DEBUG = true
+        }
+
         this.gameObjects.push(new DebugInfo())
 
         this.socket = io()
@@ -47,7 +51,13 @@ export class Game {
         this.socket.on('robot updated', (json : string) => {
             let settings = JSON.parse(json)
             console.log('viewer received new program for ' + settings.nickname)
-            this.updateTank(settings)
+            this.updateTankProgram(settings)
+        })
+
+        this.socket.on('robot reconnected', (json: string) => {
+            let settings = JSON.parse(json)
+            console.log('viewer received new socket id for ' + settings.nickname)
+            this.updateTankConnection(settings)
         })
 
         if(Game.DEBUG) {
@@ -69,12 +79,15 @@ export class Game {
         this.redrawAllTankStatus()
     }
 
-    private updateTank(data : Settings) {
-        let tank : Tank = this.Tanks.find((tank) => {
-                        return tank.Data.id === data.id
-                    })
-        
+    private updateTankProgram(data : Settings) {
+        let tank : Tank = this.Tanks.find((tank) => tank.Data.id === data.id)
         tank.updateProgram(data)
+    }
+
+    private updateTankConnection(data: Settings) {
+        let tank: Tank = this.Tanks.find((tank) => tank.Data.id === data.id)
+        tank.Data.socketid = data.socketid
+        console.log("updated socket id to " + tank.Data.socketid)
     }
 
     private update(){

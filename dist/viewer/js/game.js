@@ -8,6 +8,9 @@ export class Game {
     constructor() {
         this.gameObjects = [];
         this.gameover = false;
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+            Game.DEBUG = true;
+        }
         this.gameObjects.push(new DebugInfo());
         this.socket = io();
         this.socket.on('robot created', (json) => {
@@ -18,7 +21,12 @@ export class Game {
         this.socket.on('robot updated', (json) => {
             let settings = JSON.parse(json);
             console.log('viewer received new program for ' + settings.nickname);
-            this.updateTank(settings);
+            this.updateTankProgram(settings);
+        });
+        this.socket.on('robot reconnected', (json) => {
+            let settings = JSON.parse(json);
+            console.log('viewer received new socket id for ' + settings.nickname);
+            this.updateTankConnection(settings);
         });
         if (Game.DEBUG) {
             for (let i = 0; i < 13; i++) {
@@ -46,11 +54,14 @@ export class Game {
         this.gameObjects.push(tank);
         this.redrawAllTankStatus();
     }
-    updateTank(data) {
-        let tank = this.Tanks.find((tank) => {
-            return tank.Data.id === data.id;
-        });
+    updateTankProgram(data) {
+        let tank = this.Tanks.find((tank) => tank.Data.id === data.id);
         tank.updateProgram(data);
+    }
+    updateTankConnection(data) {
+        let tank = this.Tanks.find((tank) => tank.Data.id === data.id);
+        tank.Data.socketid = data.socketid;
+        console.log("updated socket id to " + tank.Data.socketid);
     }
     update() {
         if (PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
@@ -116,5 +127,5 @@ export class Game {
         }
     }
 }
-Game.DEBUG = true;
+Game.DEBUG = false;
 window.addEventListener("DOMContentLoaded", () => Game.Instance);

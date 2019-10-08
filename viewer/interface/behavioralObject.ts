@@ -35,9 +35,11 @@ export abstract class BehavioralObject extends GameObject{
         this.behavior.onActivateBehavior()
         
         if(Game.DEBUG) { 
+            /*
             if(this instanceof Tank) {
                 console.log(this.behavior)
             } 
+            */
         }
     }
 }

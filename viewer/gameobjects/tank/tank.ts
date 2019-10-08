@@ -115,6 +115,7 @@ export class Tank extends BehavioralObject{
     }
 
     public updateProgram(data : Settings) {
+        this.data.socketid = data.socketid
         this.BehavioralIterator = Factory.CreateBehavioralIterator(this, data)
     }
     

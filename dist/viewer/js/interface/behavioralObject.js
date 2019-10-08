@@ -1,7 +1,6 @@
 import { GameObject } from "../gameobject.js";
 import { BehavioralIterator } from "../behavioraliterator.js";
 import { Game } from "../game.js";
-import { Tank } from "../gameobjects/tank/tank.js";
 export class BehavioralObject extends GameObject {
     get Behavior() { return this.behavior; }
     set Behavior(b) { this.behavior = b; }
@@ -17,9 +16,6 @@ export class BehavioralObject extends GameObject {
         this.behavior = this.behavioralIterator.next();
         this.behavior.onActivateBehavior();
         if (Game.DEBUG) {
-            if (this instanceof Tank) {
-                console.log(this.behavior);
-            }
         }
     }
 }

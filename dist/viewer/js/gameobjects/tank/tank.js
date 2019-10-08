@@ -73,6 +73,7 @@ export class Tank extends BehavioralObject {
         this.turret.update();
     }
     updateProgram(data) {
+        this.data.socketid = data.socketid;
         this.BehavioralIterator = Factory.CreateBehavioralIterator(this, data);
     }
     redrawStatus() {
