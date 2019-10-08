@@ -10,7 +10,6 @@ export class ExplosionSmall extends GameObject {
         super("explosion-small")
 
         this.Position = position
-        
 
         this.animation = new Animation(this.Div, 58, 58, 1, 6, 7)
         super.draw()
@@ -20,9 +19,4 @@ export class ExplosionSmall extends GameObject {
         this.animation.update()
         if(this.animation.isDone) this.CanDestroy = true
     }
-
-    // public draw() : void {
-    //     super.draw()
-    //     this.animation.draw()
-    // }
 }

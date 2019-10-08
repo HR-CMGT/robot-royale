@@ -3,6 +3,7 @@ import { BehavioralIterator } from "../behavioraliterator.js";
 import { Behavior } from "./behavior.js";
 import { Game } from "../game.js";
 import { Tank } from "../gameobjects/tank/tank.js";
+import { Forward } from "../behaviors/forward.js";
 
 /**
  * This is a GameObject with the ability to give it a (or more) behavior(a). 
@@ -31,7 +32,12 @@ export abstract class BehavioralObject extends GameObject{
 
     public activateNextBehavior(): void {
         this.behavior.onDeactivateBehavior()
-        this.behavior = this.behavioralIterator.next()
+        
+        if(this.behavioralIterator.isNotEmpty())
+            this.behavior = this.behavioralIterator.next()
+        else 
+            this.behavior = new Forward(this)
+
         this.behavior.onActivateBehavior()
         
         if(Game.DEBUG) { 

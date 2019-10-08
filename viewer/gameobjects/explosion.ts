@@ -19,9 +19,4 @@ export class Explosion extends GameObject {
         this.animation.update()
         if(this.animation.isDone) this.CanDestroy = true
     }
-
-    // public draw() : void {
-    //     super.draw()
-    //     this.animation.draw()
-    // }
 }

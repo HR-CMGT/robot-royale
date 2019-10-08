@@ -1,5 +1,3 @@
-import { BehavioralObject } from "./behavioralObject.js"
-import { Game } from "../game.js";
 /**
  * Animation
  */
@@ -44,8 +42,6 @@ export class Animation {
                 else {
                     // end of spritesheet
                     this.done = true
-                    // this.timer = this.lifeTime 
-                    
                 }
             }   
             this.draw()
