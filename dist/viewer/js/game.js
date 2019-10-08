@@ -49,6 +49,9 @@ export class Game {
             this.instance = new Game();
         return this.instance;
     }
+    AddGameObject(gameObject) {
+        this.gameObjects.push(gameObject);
+    }
     addTank(data) {
         let tank = Factory.CreateBehavioralObject("tank", data);
         this.gameObjects.push(tank);

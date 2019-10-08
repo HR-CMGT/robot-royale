@@ -33,6 +33,10 @@ export class Game {
         return this.instance
     }
 
+    AddGameObject(gameObject : GameObject) {
+        this.gameObjects.push(gameObject)
+    }
+
     private constructor() {
         if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
             Game.DEBUG = true

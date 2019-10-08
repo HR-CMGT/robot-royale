@@ -3,6 +3,7 @@ import { Game } from "../../game.js";
 import { Turret } from "./turret.js";
 import { Tank } from "./tank.js";
 import { Vector2 } from "../../vector.js";
+import { ExplosionSmall } from "../explosionsmall.js";
 
 export class Bullet extends GameObject {
     
@@ -44,6 +45,7 @@ export class Bullet extends GameObject {
             if(this.parentTurret != collider.Turret) {
                 // console.log("Bullet hit")
                 this.CanDestroy = true
+                Game.Instance.AddGameObject(new ExplosionSmall(this.Position))
             }
         }
     }

@@ -1,6 +1,7 @@
 import { GameObject } from "../gameobject.js";
 import { BehavioralIterator } from "../behavioraliterator.js";
 import { Game } from "../game.js";
+import { Forward } from "../behaviors/forward.js";
 export class BehavioralObject extends GameObject {
     get Behavior() { return this.behavior; }
     set Behavior(b) { this.behavior = b; }
@@ -13,7 +14,10 @@ export class BehavioralObject extends GameObject {
     }
     activateNextBehavior() {
         this.behavior.onDeactivateBehavior();
-        this.behavior = this.behavioralIterator.next();
+        if (this.behavioralIterator.isNotEmpty())
+            this.behavior = this.behavioralIterator.next();
+        else
+            this.behavior = new Forward(this);
         this.behavior.onActivateBehavior();
         if (Game.DEBUG) {
         }

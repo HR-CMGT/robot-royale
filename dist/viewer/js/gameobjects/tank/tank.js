@@ -5,7 +5,9 @@ import { Vector2 } from "../../vector.js";
 import { Bullet } from "./bullet.js";
 import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
+import { Game } from "../../game.js";
 import { Factory } from "../../factory.js";
+import { Explosion } from "../explosion.js";
 export class Tank extends BehavioralObject {
     constructor(data, status) {
         super("tank-body");
@@ -56,6 +58,7 @@ export class Tank extends BehavioralObject {
                     this.Health -= (collider.Damage - (this.data.armor * 5));
                     if (this.health <= 0) {
                         this.CanDestroy = true;
+                        Game.Instance.AddGameObject(new Explosion(this.Position));
                         collider.ParentTurret.ParentTank.Kills++;
                     }
                 }

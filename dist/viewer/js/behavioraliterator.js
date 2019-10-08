@@ -11,6 +11,9 @@ export class BehavioralIterator {
     add(behavior) {
         this.behaviors.push(behavior);
     }
+    isNotEmpty() {
+        return this.behaviors.length != 0;
+    }
     clear() {
         this.behaviors = [];
     }

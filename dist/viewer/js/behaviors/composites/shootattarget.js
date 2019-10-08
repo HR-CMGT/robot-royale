@@ -40,6 +40,7 @@ export class ShootAtTarget extends Behavior {
                 console.log("do while...");
             tank = tanks[Math.floor(Math.random() * tanks.length)];
         } while (tank == this.BehavioralObject);
+        console.log(tank);
         return tank;
     }
 }
