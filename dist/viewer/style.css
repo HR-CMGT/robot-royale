@@ -173,3 +173,13 @@ ammo {
 repair {
     background-image: url("./images/repair.png");
 }
+
+#qrcode {
+    position: absolute;
+    left:10px;
+    bottom:10px;
+    width:7vw; height:7vw;
+    background-image: url("./images/qrcode.png");
+    background-size:contain;
+    background-repeat:no-repeat;
+}
