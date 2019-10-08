@@ -9,6 +9,7 @@ import { Turret } from "./turret.js";
 import { Settings } from "../../interface/settings.js";
 import { Game } from "../../game.js";
 import { Factory } from "../../factory.js";
+import { Explosion } from "../explosion.js";
 
 export class Tank extends BehavioralObject{
     
@@ -95,6 +96,8 @@ export class Tank extends BehavioralObject{
     
                     if(this.health <= 0) { 
                         this.CanDestroy = true 
+                        Game.Instance.AddGameObject(new Explosion(this.Position))
+                        
                         collider.ParentTurret.ParentTank.Kills++
                         // console.log(Game.Instance.Tanks)
                     }

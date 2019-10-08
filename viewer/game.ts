@@ -33,6 +33,10 @@ export class Game {
         return this.instance
     }
 
+    AddGameObject(gameObject : GameObject) {
+        this.gameObjects.push(gameObject)
+    }
+
     private constructor() {
         this.gameObjects.push(new DebugInfo())
 

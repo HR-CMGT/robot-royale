@@ -1,6 +1,8 @@
 import { GameObject } from "../../gameobject.js";
+import { Game } from "../../game.js";
 import { Tank } from "./tank.js";
 import { Vector2 } from "../../vector.js";
+import { ExplosionSmall } from "../explosionsmall.js";
 export class Bullet extends GameObject {
     constructor(parent) {
         super("bullet");
@@ -26,6 +28,7 @@ export class Bullet extends GameObject {
         if (collider instanceof Tank) {
             if (this.parentTurret != collider.Turret) {
                 this.CanDestroy = true;
+                Game.Instance.AddGameObject(new ExplosionSmall(this.Position));
             }
         }
     }
