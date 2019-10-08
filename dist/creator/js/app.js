@@ -20,6 +20,7 @@ export class App {
             this.robotReconnected();
         });
         this.socket.on("tank destroyed", () => this.showConfirmBox("was destroyed!!!", false));
+        this.socket.on("viewer refreshed", () => this.showConfirmBox("game was ended 😱", false));
     }
     showGeneratorView() {
         let v = new GeneratorView();

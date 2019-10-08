@@ -11,8 +11,11 @@ export class Game {
         if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
             Game.DEBUG = true;
         }
-        this.gameObjects.push(new DebugInfo());
+        if (Game.DEBUG) {
+            this.gameObjects.push(new DebugInfo());
+        }
         this.socket = io();
+        this.socket.emit('viewer refreshed');
         this.socket.on('robot created', (json) => {
             console.log("game received a new robot");
             let data = JSON.parse(json);
@@ -59,12 +62,23 @@ export class Game {
     }
     updateTankProgram(data) {
         let tank = this.Tanks.find((tank) => tank.Data.id === data.id);
-        tank.updateProgram(data);
+        if (tank) {
+            tank.updateProgram(data);
+        }
+        else {
+            this.socket.emit('robot destroyed', data.socketid);
+        }
     }
     updateTankConnection(data) {
         let tank = this.Tanks.find((tank) => tank.Data.id === data.id);
-        tank.Data.socketid = data.socketid;
-        console.log("updated socket id to " + tank.Data.socketid);
+        if (tank) {
+            console.log("updated socket id to " + tank.Data.socketid);
+            tank.Data.socketid = data.socketid;
+        }
+        else {
+            console.log("tank died while user was disconnected");
+            this.socket.emit('robot destroyed', data.socketid);
+        }
     }
     update() {
         if (PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
@@ -103,7 +117,6 @@ export class Game {
         }
         if (gameObject instanceof Tank) {
             this.redrawAllTankStatus();
-            console.log("tank died: " + gameObject.Data.socketid);
             this.socket.emit('robot destroyed', gameObject.Data.socketid);
         }
     }

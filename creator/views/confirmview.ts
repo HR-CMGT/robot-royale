@@ -22,14 +22,17 @@ export class ConfirmView extends HTMLElement {
 
         const hue = `hue-rotate(${Settings.getInstance().color}deg)`
         message.style.filter = hue
+        
+        const btn = document.createElement("button")
+        message.appendChild(btn)
 
-        if(this.allowClose) {
-            const btn = document.createElement("button")
+        if (this.allowClose) {
             btn.innerHTML = "OK!"
-            message.appendChild(btn)
             btn.addEventListener("click", () => this.remove())
+        } else {
+            btn.innerHTML = "Restart"
+            btn.addEventListener("click", () => location.reload())
         }
-
     }
 }
 

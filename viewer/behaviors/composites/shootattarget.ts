@@ -54,10 +54,10 @@ export class ShootAtTarget extends Behavior{
         let tank : GameObject
         do {
             // TODO GEEN LOOPS BINNEN LOOPS 
-            if(Game.DEBUG) console.log("do while...")
+            // if(Game.DEBUG) console.log("do while...")
             tank = tanks[Math.floor(Math.random() * tanks.length)]
         } while (tank == this.BehavioralObject);
-        console.log(tank)
+        // console.log(tank)
         return tank
     }
 }

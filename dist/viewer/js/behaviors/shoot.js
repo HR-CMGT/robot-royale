@@ -19,8 +19,6 @@ export class Shoot extends Behavior {
         Game.Instance.addBullet(new Bullet(this.BehavioralObject.Turret));
     }
     onDeactivateBehavior() {
-        if (Game.DEBUG)
-            console.log("Shoot:onDeactivateBehavior");
         if (!this.tank.Turret.active)
             this.tank.Turret.active = true;
     }

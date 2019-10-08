@@ -33,7 +33,10 @@ io.on('connection', (socket) => {
         io.emit('robot reconnected', json, { for: 'everyone' });
     });
 
-
+    // viewer window was refreshed - destroy all the old robots that were already running
+    socket.on('viewer refreshed', () => {
+        io.emit('viewer refreshed')
+    });
 
     // todo game moet ook de socketid updaten, want die kan veranderd zijn
     socket.on('robot created', (json) => {
@@ -61,6 +64,8 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('user disconnected')
+        // TODO if the GAME VIEW has disconnected, send message to all robots
+        // 
     });
 });
 

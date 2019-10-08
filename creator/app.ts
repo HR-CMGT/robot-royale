@@ -33,6 +33,9 @@ export class App {
 
         // this tank is destroyed! note: only works when socket id did not change
         this.socket.on("tank destroyed", () => this.showConfirmBox("was destroyed!!!", false))
+
+        // viewer refreshed
+        this.socket.on("viewer refreshed", () => this.showConfirmBox("game was ended 😱", false))
     }
 
     private showGeneratorView():void {
@@ -67,6 +70,7 @@ export class App {
         this.showConfirmBox("program was updated!", true)
     }
 
+    // test: what if the gameoverbox shows while another box is still open?
     private showConfirmBox(msg: string, allowClose:boolean): void {
         let v = new ConfirmView(msg, allowClose)
         document.body.appendChild(v)

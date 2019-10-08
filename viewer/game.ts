@@ -42,9 +42,13 @@ export class Game {
             Game.DEBUG = true
         }
 
-        this.gameObjects.push(new DebugInfo())
+        if(Game.DEBUG) {
+            this.gameObjects.push(new DebugInfo())
+        }
 
         this.socket = io()
+
+        this.socket.emit('viewer refreshed')
 
         this.socket.on('robot created', (json : string) => {
             console.log("game received a new robot")
@@ -85,13 +89,24 @@ export class Game {
 
     private updateTankProgram(data : Settings) {
         let tank : Tank = this.Tanks.find((tank) => tank.Data.id === data.id)
-        tank.updateProgram(data)
+        if(tank) {
+            tank.updateProgram(data)
+        } else {
+            // the tank died while the user updated the program
+            this.socket.emit('robot destroyed', data.socketid)
+        }
     }
 
     private updateTankConnection(data: Settings) {
         let tank: Tank = this.Tanks.find((tank) => tank.Data.id === data.id)
-        tank.Data.socketid = data.socketid
-        console.log("updated socket id to " + tank.Data.socketid)
+        if(tank) {
+            console.log("updated socket id to " + tank.Data.socketid)
+            tank.Data.socketid = data.socketid
+        } else {
+            // the tank died while the user was disconnected
+            console.log("tank died while user was disconnected")
+            this.socket.emit('robot destroyed', data.socketid)
+        }
     }
 
     private update(){
@@ -141,7 +156,7 @@ export class Game {
             this.redrawAllTankStatus()
 
             // use the tank connection id, so we can send a message to this specific tank
-            console.log("tank died: " + gameObject.Data.socketid)
+            // console.log("tank died: " + gameObject.Data.socketid)
             this.socket.emit('robot destroyed', gameObject.Data.socketid)
         }
     }

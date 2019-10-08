@@ -36,11 +36,8 @@ export class ShootAtTarget extends Behavior {
         let tanks = Game.Instance.Tanks;
         let tank;
         do {
-            if (Game.DEBUG)
-                console.log("do while...");
             tank = tanks[Math.floor(Math.random() * tanks.length)];
         } while (tank == this.BehavioralObject);
-        console.log(tank);
         return tank;
     }
 }
