@@ -5,36 +5,55 @@ import { Tank } from "./tank.js";
 import { Vector2 } from "../../vector.js";
 import { ExplosionSmall } from "../explosionsmall.js";
 
-export class Bullet extends GameObject {
+export class Rocket extends GameObject {
     
     // Field 
-    private damage : number = 20
+    private damage : number = 30
     private parentTurret : Turret
+    private target : GameObject | undefined
 
     // Properties
     public get Damage() : number        { return this.damage }
     public get ParentTurret() : GameObject    { return this.parentTurret }
     
-    constructor(tank : Tank) {
-        super("bullet")
+    constructor(tank : Tank, target : GameObject = undefined) {
+        super("rocket")
 
         this.parentTurret = tank.Turret
         this.Position = this.parentTurret.Position
         this.Rotation = this.parentTurret.Rotation 
         this.Direction = Vector2.getVectorFromAngle(this.parentTurret.Rotation)
-        this.Speed        = 5
+        this.Speed        = 3
 
-        // move the bullet in front of the barrel // TODO distance depends on tank.Data.armor
-        let dist = 40
+        // als de rocket geen target heeft meegekregen, dan zelf eentje uitzoeken
+        this.target = (target) ? target : Game.Instance.getRandomEnemy(tank)
+        
+        /*
+        if(target) {
+            console.log("rocket already has a target")
+        } else if (this.target) {
+            console.log("rocket aquired new target")
+        } else {
+            console.log("rocket didn't start with a target")
+        }
+        */
+
+        // move the rocket in front of the barrel // TODO distance depends on tank.Data.armor
+        let dist = 43
         this.Position = this.Position.add(this.Direction.scale(dist))
-
-        // different bullet graphic for different tanks
-        // if(tank.Data.armor == 2) this.Div.classList.add("rocket")
 
         this.update()
     }
 
     public update() {
+        if(this.target){
+            let difference = this.target.Position.difference(this.Position)
+            this.Direction = difference.normalize()
+            this.Rotation = this.Direction.angle()
+        } else {
+            console.log("rocket lost target")
+        }
+        
         this.Position = this.Position.add(this.Direction.scale(this.Speed))
         super.update();
 

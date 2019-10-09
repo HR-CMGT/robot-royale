@@ -16,11 +16,11 @@ export class ShootAtTarget extends Behavior {
     }
     onActivateBehavior() {
         if (Game.Instance.Tanks.length > 1) {
-            let targetObject = this.getRandomEnemy();
+            let targetObject = Game.Instance.getRandomEnemy(this.BehavioralObject);
             let behavioralComposite = new BehaviorComposite(this.BehavioralObject);
             behavioralComposite.addBehavior(new Break(this.BehavioralObject));
             behavioralComposite.addBehavior(new RotateTurretToTarget(this.BehavioralObject, targetObject));
-            behavioralComposite.addBehavior(new Shoot(this.BehavioralObject));
+            behavioralComposite.addBehavior(new Shoot(this.BehavioralObject, targetObject));
             behavioralComposite.addBehavior(new StartOff(this.BehavioralObject));
             this.activeBehavior = behavioralComposite;
             behavioralComposite.onActivateBehavior();
@@ -31,13 +31,5 @@ export class ShootAtTarget extends Behavior {
     }
     gotoNextBehavior() {
         this.activeBehavior.gotoNextBehavior();
-    }
-    getRandomEnemy() {
-        let tanks = Game.Instance.Tanks;
-        let tank;
-        do {
-            tank = tanks[Math.floor(Math.random() * tanks.length)];
-        } while (tank == this.BehavioralObject);
-        return tank;
     }
 }

@@ -14,6 +14,8 @@ export class Bullet extends GameObject {
         this.Speed = 5;
         let dist = 40;
         this.Position = this.Position.add(this.Direction.scale(dist));
+        if (tank.Data.armor == 2)
+            this.Div.classList.add("rocket");
         this.update();
     }
     get Damage() { return this.damage; }

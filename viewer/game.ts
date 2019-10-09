@@ -19,18 +19,31 @@ export class Game {
     
     // Properties
     public get AmmoBoxes() : PickUp[] { 
-        return this.gameObjects.filter(o => { return o instanceof Ammo}) as Ammo[]
+        return this.gameObjects.filter(o => o instanceof Ammo) as Ammo[]
     }
     public get RepairKits() : PickUp[] { 
-        return this.gameObjects.filter(o => { return o instanceof Health}) as Health[]
+        return this.gameObjects.filter(o => o instanceof Health) as Health[]
     }
     public get Tanks() : Tank[] { 
-        return this.gameObjects.filter(o => { return o instanceof Tank}) as Tank[]
+        return this.gameObjects.filter(o => o instanceof Tank) as Tank[]
     }
     
     public static get Instance() : Game {
         if(!this.instance) this.instance = new Game()
         return this.instance
+    }
+
+    public getRandomEnemy(excludeTank:GameObject) : GameObject | undefined {
+        let enemyTanks: GameObject[] = this.gameObjects.filter(o => (o instanceof Tank && o != excludeTank)) as Tank[]
+        // console.log("Total enemy tanks: " + enemyTanks.length)
+
+        // pick random
+        let randomTank
+        if (enemyTanks.length > 0) {
+            randomTank = enemyTanks[Math.floor(Math.random() * enemyTanks.length)]
+        } 
+        
+        return randomTank
     }
 
     AddGameObject(gameObject : GameObject) {
@@ -69,7 +82,7 @@ export class Game {
         })
 
         if(Game.DEBUG) {
-            for (let i = 0; i < 13; i++) {
+            for (let i = 0; i < 8; i++) {
                 this.addTank(this.randomSettings())
             }
         }
@@ -167,14 +180,27 @@ export class Game {
 
     // just for debugging
     private randomSettings() : Settings {
-        return {
-            id: String(Math.random() * 1000),
-            socketid: String(Math.random() * 1000),
-            color: Math.floor(Math.random() * 360),
-            nickname: "Old Billy Bob",
-            armor: Math.floor(Math.random() * 3), 
-            program: [1, 2, 3, 0, 0, 0]
+        if(Math.random() < 0.3) {
+            return {
+                id: String(Math.random() * 1000),
+                socketid: String(Math.random() * 1000),
+                color: Math.floor(Math.random() * 360),
+                nickname: "Old Billy Bob",
+                armor: 2,//Math.floor(Math.random() * 3), 
+                program: [2, 3, 0, 0, 0, 0] // ["EMPTY", "STOP AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"]
+            }
+        } else {
+            return {
+                id: String(Math.random() * 1000),
+                socketid: String(Math.random() * 1000),
+                color: Math.floor(Math.random() * 360),
+                nickname: "Old Billy Bob",
+                armor: 0,//Math.floor(Math.random() * 3),
+                program: [5, 3, 0, 0, 0, 0] // ["EMPTY", "STOP AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"]
+            }
         }
+ 
+        
     }
 
     private redrawAllTankStatus() {

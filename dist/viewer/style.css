@@ -171,6 +171,16 @@ bullet {
     height:6px;
     background-image: url("./images/bullet.png");
 }
+
+rocket {
+    display:block;
+    position: absolute;
+    width:34px;
+    height:13px;
+    background-image: url("./images/rocket.png");
+    background-size:contain;
+}
+
 ammo, repair {
     display:block;
     position: absolute;

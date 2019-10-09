@@ -32,25 +32,33 @@ export class Game {
             this.updateTankConnection(settings);
         });
         if (Game.DEBUG) {
-            for (let i = 0; i < 13; i++) {
+            for (let i = 0; i < 8; i++) {
                 this.addTank(this.randomSettings());
             }
         }
         this.update();
     }
     get AmmoBoxes() {
-        return this.gameObjects.filter(o => { return o instanceof Ammo; });
+        return this.gameObjects.filter(o => o instanceof Ammo);
     }
     get RepairKits() {
-        return this.gameObjects.filter(o => { return o instanceof Health; });
+        return this.gameObjects.filter(o => o instanceof Health);
     }
     get Tanks() {
-        return this.gameObjects.filter(o => { return o instanceof Tank; });
+        return this.gameObjects.filter(o => o instanceof Tank);
     }
     static get Instance() {
         if (!this.instance)
             this.instance = new Game();
         return this.instance;
+    }
+    getRandomEnemy(excludeTank) {
+        let enemyTanks = this.gameObjects.filter(o => (o instanceof Tank && o != excludeTank));
+        let randomTank;
+        if (enemyTanks.length > 0) {
+            randomTank = enemyTanks[Math.floor(Math.random() * enemyTanks.length)];
+        }
+        return randomTank;
     }
     AddGameObject(gameObject) {
         this.gameObjects.push(gameObject);
@@ -124,14 +132,26 @@ export class Game {
         this.gameObjects.push(b);
     }
     randomSettings() {
-        return {
-            id: String(Math.random() * 1000),
-            socketid: String(Math.random() * 1000),
-            color: Math.floor(Math.random() * 360),
-            nickname: "Old Billy Bob",
-            armor: Math.floor(Math.random() * 3),
-            program: [1, 2, 3, 0, 0, 0]
-        };
+        if (Math.random() < 0.3) {
+            return {
+                id: String(Math.random() * 1000),
+                socketid: String(Math.random() * 1000),
+                color: Math.floor(Math.random() * 360),
+                nickname: "Old Billy Bob",
+                armor: 2,
+                program: [2, 3, 0, 0, 0, 0]
+            };
+        }
+        else {
+            return {
+                id: String(Math.random() * 1000),
+                socketid: String(Math.random() * 1000),
+                color: Math.floor(Math.random() * 360),
+                nickname: "Old Billy Bob",
+                armor: 0,
+                program: [5, 3, 0, 0, 0, 0]
+            };
+        }
     }
     redrawAllTankStatus() {
         let tanks = this.Tanks;
