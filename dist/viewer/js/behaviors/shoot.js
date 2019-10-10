@@ -9,7 +9,7 @@ export class Shoot extends Behavior {
         this.lifeTime = 100;
         this.tank = behavioralObject;
         this.target = target;
-        this.fireRate = 50 + (this.tank.Data.armor * 30);
+        this.fireRate = this.tank.Data.armor == 2 ? 100 : 20;
     }
     performUpdate() {
         if (this.timer % this.fireRate === 0 && this.tank.Ammo > 0) {

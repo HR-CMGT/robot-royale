@@ -9,7 +9,7 @@ import { AnimationObject }  from "../../core/animationobject.js";
 export class Bullet extends DomObject {
     
     // Field 
-    private damage : number = 5
+    private damage : number = 15
     private parentTurret : Turret
 
     // Properties

@@ -6,7 +6,7 @@ import { AnimationObject } from "../../core/animationobject.js";
 export class Bullet extends DomObject {
     constructor(tank) {
         super("bullet");
-        this.damage = 5;
+        this.damage = 15;
         this.parentTurret = tank.Turret;
         this.Position = this.parentTurret.Position;
         this.Rotation = this.parentTurret.Rotation;

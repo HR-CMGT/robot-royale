@@ -22,7 +22,7 @@ export class Shoot extends Behavior{
         this.target = target 
         
         // fireRate afhankelijk van type tank 
-        this.fireRate = 50 + (this.tank.Data.armor * 30)
+        this.fireRate = this.tank.Data.armor == 2 ? 100 : 20
     }
 
     performUpdate(): void {
