@@ -1,6 +1,7 @@
-import { GameObject } from "../gameobject.js";
+import { GameObject } from "../core/gameobject.js";
+import { DomObject } from "../core/domobject.js";
 
-export class DebugInfo extends GameObject {
+export class DebugInfo extends DomObject {
 
     private lastUpdate = performance.now()
     private text: HTMLElement;

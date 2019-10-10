@@ -1,8 +1,8 @@
-import { GameObject } from "../gameobject.js";
-import { Vector2 } from "../vector.js";
-import { Animation } from "../interface/animation.js";
+import { Vector2 } from "../utils/vector.js";
+import { Animation } from "../utils/animation.js";
+import { DomObject } from "../core/domobject.js";
 
-export class Explosion extends GameObject {
+export class Explosion extends DomObject {
 
     private animation : Animation
 

@@ -1,6 +1,6 @@
-import { GameObject } from "../gameobject.js";
-import { Animation } from "../interface/animation.js";
-export class Explosion extends GameObject {
+import { Animation } from "../utils/animation.js";
+import { DomObject } from "../core/domobject.js";
+export class Explosion extends DomObject {
     constructor(position) {
         super("explosion");
         this.Position = position;

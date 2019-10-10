@@ -1,5 +1,5 @@
 import { Tank } from "./gameobjects/tank/tank.js";
-import { Factory } from "./factory.js";
+import { Factory } from "./core/factory.js";
 import { PickUp } from "./gameobjects/pickups/pickup.js";
 import { DebugInfo } from "./ui/debuginfo.js";
 import { Ammo } from "./gameobjects/pickups/ammo.js";

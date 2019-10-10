@@ -1,7 +1,7 @@
 import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
-import { Vector2 } from "../vector.js";
-import { GameObject } from "../gameobject.js";
+import { Vector2 } from "../utils/vector.js";
+import { GameObject } from "../core/gameobject.js";
 import { Rotate } from "./rotate.js";
 
 export class RotateToTarget extends Behavior{

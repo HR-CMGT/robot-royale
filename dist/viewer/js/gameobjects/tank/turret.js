@@ -1,4 +1,4 @@
-import { Vector2 } from "../../vector.js";
+import { Vector2 } from "../../utils/vector.js";
 import { Rotate } from "../../behaviors/rotate.js";
 import { BehavioralObject } from "../../interface/behavioralObject.js";
 export class Turret extends BehavioralObject {

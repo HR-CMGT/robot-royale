@@ -1,9 +1,9 @@
-import { GameObject } from "../gameobject.js";
 import { BehavioralIterator } from "../behavioraliterator.js";
 import { Game } from "../game.js";
 import { Tank } from "../gameobjects/tank/tank.js";
 import { Forward } from "../behaviors/forward.js";
-export class BehavioralObject extends GameObject {
+import { DomObject } from "../core/domobject.js";
+export class BehavioralObject extends DomObject {
     get Behavior() { return this.behavior; }
     set Behavior(b) { this.behavior = b; }
     get BehavioralIterator() { return this.behavioralIterator; }

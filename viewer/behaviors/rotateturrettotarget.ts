@@ -1,7 +1,7 @@
 import { Behavior } from "../interface/behavior.js";
 import { BehavioralObject } from "../interface/behavioralObject.js";
-import { Vector2 } from "../vector.js";
-import { GameObject } from "../gameobject.js";
+import { Vector2 } from "../utils/vector.js";
+import { GameObject } from "../core/gameobject.js";
 import { Tank } from "../gameobjects/tank/tank.js";
 import { Turret } from "../gameobjects/tank/turret.js";
 

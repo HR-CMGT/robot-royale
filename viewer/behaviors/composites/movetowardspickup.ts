@@ -1,8 +1,8 @@
 import { Behavior } from "../../interface/behavior.js";
 import { BehavioralObject } from "../../interface/behavioralObject.js";
 import { Game } from "../../game.js";
-import { Vector2 } from "../../vector.js";
-import { GameObject } from "../../gameobject.js";
+import { Vector2 } from "../../utils/vector.js";
+import { GameObject } from "../../core/gameobject.js";
 import { BehaviorComposite } from "./behaviorcomposite.js";
 import { RotateToTarget } from "../rotatetotarget.js";
 import { Forward } from "../forward.js";

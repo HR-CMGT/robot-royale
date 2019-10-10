@@ -1,15 +1,17 @@
-import { GameObject } from "../gameobject.js";
+import { GameObject } from "../core/gameobject.js";
 import { BehavioralIterator } from "../behavioraliterator.js";
 import { Behavior } from "./behavior.js";
 import { Game } from "../game.js";
 import { Tank } from "../gameobjects/tank/tank.js";
 import { Forward } from "../behaviors/forward.js";
+import { DomObject } from "../core/domobject.js";
+import { CanvasObject } from "../core/canvasobject.js";
 
 /**
  * This is a GameObject with the ability to give it a (or more) behavior(a). 
  * This object has a iterator which loops through all behaviors
  */
-export abstract class BehavioralObject extends GameObject{
+export abstract class BehavioralObject extends DomObject{
     
     // Fields
     protected behavioralIterator : BehavioralIterator

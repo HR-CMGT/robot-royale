@@ -1,5 +1,5 @@
-import { GameObject } from "../gameobject.js";
-export class DebugInfo extends GameObject {
+import { DomObject } from "../core/domobject.js";
+export class DebugInfo extends DomObject {
     constructor() {
         super("FPS");
         this.lastUpdate = performance.now();

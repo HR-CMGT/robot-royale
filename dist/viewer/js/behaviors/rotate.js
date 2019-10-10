@@ -1,5 +1,5 @@
 import { Behavior } from "../interface/behavior.js";
-import { Vector2 } from "../vector.js";
+import { Vector2 } from "../utils/vector.js";
 import { Game } from "../game.js";
 export class Rotate extends Behavior {
     constructor(behavioralObject, angle, rotateClockWise) {

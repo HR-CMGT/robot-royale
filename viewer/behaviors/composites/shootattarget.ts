@@ -1,7 +1,7 @@
 import { Behavior } from "../../interface/behavior.js";
 import { BehavioralObject } from "../../interface/behavioralObject.js";
 import { Game } from "../../game.js";
-import { GameObject } from "../../gameobject.js";
+import { GameObject } from "../../core/gameobject.js";
 import { BehaviorComposite } from "./behaviorcomposite.js";
 import { Shoot } from "../shoot.js";
 import { Break } from "../break.js";
@@ -53,7 +53,6 @@ export class ShootAtTarget extends Behavior{
         
         let tank : GameObject
         do {
-            // TODO GEEN LOOPS BINNEN LOOPS 
             if(Game.DEBUG) console.log("do while...")
             tank = tanks[Math.floor(Math.random() * tanks.length)]
         } while (tank == this.BehavioralObject);

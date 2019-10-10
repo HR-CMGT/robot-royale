@@ -1,9 +1,9 @@
-import { GameObject } from "../../gameobject.js";
 import { Game } from "../../game.js";
 import { Tank } from "./tank.js";
-import { Vector2 } from "../../vector.js";
+import { Vector2 } from "../../utils/vector.js";
 import { ExplosionSmall } from "../explosionsmall.js";
-export class Bullet extends GameObject {
+import { DomObject } from "../../core/domobject.js";
+export class Bullet extends DomObject {
     constructor(parent) {
         super("bullet");
         this.damage = 20;

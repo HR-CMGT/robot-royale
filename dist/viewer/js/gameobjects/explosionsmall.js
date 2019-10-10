@@ -1,10 +1,10 @@
-import { GameObject } from "../gameobject.js";
-import { Animation } from "../interface/animation.js";
-export class ExplosionSmall extends GameObject {
+import { Animation } from "../utils/animation.js";
+import { DomObject } from "../core/domobject.js";
+export class ExplosionSmall extends DomObject {
     constructor(position) {
-        super("explosion-small");
+        super("explosion-small2");
         this.Position = position;
-        this.animation = new Animation(this.Div, 58, 58, 1, 6, 7);
+        this.animation = new Animation(this.Div, 97, 97, 2, 5, 4);
         super.draw();
     }
     update() {

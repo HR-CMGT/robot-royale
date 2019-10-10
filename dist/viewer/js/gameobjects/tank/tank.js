@@ -1,13 +1,13 @@
 import { StatusBar } from "../../ui/statusbar.js";
 import { BehavioralObject } from "../../interface/behavioralObject.js";
 import { Forward } from "../../behaviors/forward.js";
-import { Vector2 } from "../../vector.js";
 import { Bullet } from "./bullet.js";
 import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
 import { Game } from "../../game.js";
-import { Factory } from "../../factory.js";
+import { Factory } from "../../core/factory.js";
 import { Explosion } from "../explosion.js";
+import { Vector2 } from "../../utils/vector.js";
 export class Tank extends BehavioralObject {
     constructor(data, status) {
         super("tank-body");

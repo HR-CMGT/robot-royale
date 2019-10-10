@@ -1,12 +1,12 @@
-import { BehavioralObject } from "./interface/behavioralObject.js";
-import { Tank } from "./gameobjects/tank/tank.js";
-import { StatusBar } from "./ui/statusbar.js";
-import { Forward } from "./behaviors/forward.js";
-import { Shoot } from "./behaviors/shoot.js";
-import { MoveTowardsPickup } from "./behaviors/composites/movetowardspickup.js";
-import { ShootAtTarget } from "./behaviors/composites/shootattarget.js";
-import { Settings } from "./interface/settings.js";
-import { BehavioralIterator } from "./behavioraliterator.js";
+import { BehavioralObject } from "../interface/behavioralObject.js";
+import { Tank } from "../gameobjects/tank/tank.js";
+import { StatusBar } from "../ui/statusbar.js";
+import { Forward } from "../behaviors/forward.js";
+import { Shoot } from "../behaviors/shoot.js";
+import { MoveTowardsPickup } from "../behaviors/composites/movetowardspickup.js";
+import { ShootAtTarget } from "../behaviors/composites/shootattarget.js";
+import { Settings } from "../interface/settings.js";
+import { BehavioralIterator } from "../behavioraliterator.js";
 
 export class Factory {
 

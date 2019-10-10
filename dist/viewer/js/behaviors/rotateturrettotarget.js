@@ -1,5 +1,5 @@
 import { Behavior } from "../interface/behavior.js";
-import { Vector2 } from "../vector.js";
+import { Vector2 } from "../utils/vector.js";
 export class RotateTurretToTarget extends Behavior {
     constructor(behavioralObject, target) {
         super(behavioralObject);

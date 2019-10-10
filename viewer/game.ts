@@ -1,6 +1,6 @@
 import { Tank } from "./gameobjects/tank/tank.js";
-import { Factory } from "./factory.js";
-import { GameObject } from "./gameobject.js";
+import { Factory } from "./core/factory.js";
+import { GameObject } from "./core/gameobject.js";
 import { PickUp } from "./gameobjects/pickups/pickup.js";
 import { DebugInfo } from "./ui/debuginfo.js";
 import { Settings } from "./interface/settings.js";

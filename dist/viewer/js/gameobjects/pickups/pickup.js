@@ -1,7 +1,7 @@
-import { GameObject } from "../../gameobject.js";
-import { Vector2 } from "../../vector.js";
+import { Vector2 } from "../../utils/vector.js";
 import { Tank } from "../tank/tank.js";
-export class PickUp extends GameObject {
+import { DomObject } from "../../core/domobject.js";
+export class PickUp extends DomObject {
     constructor(tag) {
         super(tag);
         this.ammo = 0;

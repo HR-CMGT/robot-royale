@@ -112,6 +112,13 @@ explosion-small {
     height: 58px;
     background-image: url('images/explosion-small.png');
 }
+explosion-small2 {
+    display:block;
+    position: absolute;
+    width: 97px;
+    height: 97px;
+    background-image: url('images/explosion-small2.png');
+}
 
 /* all tank bodies heights are 85% of width */
 tank-body.armor-0 {

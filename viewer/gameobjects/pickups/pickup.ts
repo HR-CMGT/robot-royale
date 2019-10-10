@@ -1,8 +1,9 @@
-import { GameObject } from "../../gameobject.js";
-import { Vector2 } from "../../vector.js";
+import { GameObject } from "../../core/gameobject.js";
+import { Vector2 } from "../../utils/vector.js";
 import { Tank } from "../tank/tank.js";
+import { DomObject } from "../../core/domobject.js";
 
-export class PickUp extends GameObject{
+export class PickUp extends DomObject{
     
     // Consts
     public static readonly MAX_PICKUPS   : number = 5
