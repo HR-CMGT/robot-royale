@@ -121,7 +121,7 @@ export class Game {
         let index = this.gameObjects.indexOf(gameObject);
         if (index > -1) {
             let objs = this.gameObjects.splice(index, 1);
-            objs[0].destroy();
+            objs[0].remove();
         }
         if (gameObject instanceof Tank) {
             this.redrawAllTankStatus();

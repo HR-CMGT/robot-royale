@@ -35,7 +35,7 @@ export class DomObject extends GameObject{
             target.Rectangle.top    <= this.Rectangle.bottom)
     }
 
-    public destroy() {
+    public remove() {
         this.div.remove()
     }
 }

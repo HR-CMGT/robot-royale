@@ -161,7 +161,7 @@ export class Game {
         let index = this.gameObjects.indexOf(gameObject)
         if(index > -1) { 
             let objs : GameObject[] = this.gameObjects.splice(index,1)
-            objs[0].destroy()
+            objs[0].remove()
         }
         
         // let the player know that this robot has died

@@ -6,6 +6,8 @@ import { AnimationObject } from "../../core/animationobject.js";
 export class Rocket extends DomObject {
     constructor(tank, target = undefined) {
         super("rocket");
+        this.LIFETIME = 150;
+        this.timer = 0;
         this.damage = 30;
         this.parentTurret = tank.Turret;
         this.Position = this.parentTurret.Position;
@@ -20,6 +22,8 @@ export class Rocket extends DomObject {
     get Damage() { return this.damage; }
     get ParentTurret() { return this.parentTurret; }
     update() {
+        if (this.timer++ >= this.LIFETIME)
+            this.destroy();
         if (this.target) {
             let difference = this.target.Position.difference(this.Position);
             this.Direction = difference.normalize();
@@ -36,8 +40,7 @@ export class Rocket extends DomObject {
     collide(collider) {
         if (collider instanceof Tank) {
             if (this.parentTurret != collider.Turret) {
-                this.CanDestroy = true;
-                Game.Instance.AddGameObject(new AnimationObject("explosion-small2", this.Position, 97, 97, 2, 5, 4));
+                this.destroy();
             }
         }
     }
@@ -46,5 +49,9 @@ export class Rocket extends DomObject {
             this.Position.Y < -this.Height ||
             this.Position.X > window.innerWidth - 200 ||
             this.Position.Y > window.innerHeight);
+    }
+    destroy() {
+        this.CanDestroy = true;
+        Game.Instance.AddGameObject(new AnimationObject("explosion-small2", this.Position, 97, 97, 2, 5, 4));
     }
 }

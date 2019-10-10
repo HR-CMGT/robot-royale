@@ -8,11 +8,13 @@ import { DomObject }        from "../../core/domobject.js";
 import { AnimationObject } from "../../core/animationobject.js";
 
 export class Rocket extends DomObject {
-    
+    private readonly LIFETIME : number = 150
+
     // Field 
-    private damage : number = 30
-    private parentTurret : Turret
-    private target : GameObject
+    private timer           : number = 0
+    private damage          : number = 30
+    private parentTurret    : Turret
+    private target          : GameObject
 
     // Properties
     public get Damage() : number        { return this.damage }
@@ -48,6 +50,9 @@ export class Rocket extends DomObject {
     }
 
     public update() {
+        // life timer
+        if(this.timer++ >= this.LIFETIME) this.destroy()
+
         if(this.target){
             let difference = this.target.Position.difference(this.Position)
             this.Direction = difference.normalize()
@@ -66,12 +71,7 @@ export class Rocket extends DomObject {
     public collide(collider : GameObject){
         if (collider instanceof Tank) {
             if(this.parentTurret != collider.Turret) {
-                // console.log("Bullet hit")
-                this.CanDestroy = true
-                // Game.Instance.AddGameObject(new ExplosionSmall(this.Position))
-                Game.Instance.AddGameObject(
-                    new AnimationObject("explosion-small2", this.Position, 97, 97, 2, 5, 4)
-                )
+                this.destroy()
             }
         }
     }
@@ -81,5 +81,13 @@ export class Rocket extends DomObject {
            this.Position.Y < -this.Height ||
            this.Position.X > window.innerWidth - 200 ||
            this.Position.Y > window.innerHeight) 
+    }
+
+    private destroy() {
+        this.CanDestroy = true
+        
+        Game.Instance.AddGameObject(
+            new AnimationObject("explosion-small2", this.Position, 97, 97, 2, 5, 4)
+        )
     }
 }

@@ -23,7 +23,7 @@ export class CanvasObject extends GameObject {
         this.context.drawImage(this.image, -this.image.width / 2, -this.image.height / 2);
         this.context.setTransform(1, 0, 0, 1, 0, 0);
     }
-    destroy() {
+    remove() {
         this.image.remove();
     }
     detectCollision(target) {

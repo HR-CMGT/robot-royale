@@ -136,10 +136,10 @@ export class Tank extends BehavioralObject{
         this.status = statusBar
     }
 
-    public destroy() {
+    public remove() {
         // console.log("Tank died")
         this.status.remove()
-        this.turret.destroy()
-        super.destroy()
+        this.turret.remove()
+        super.remove()
     }
 }

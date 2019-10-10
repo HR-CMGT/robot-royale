@@ -22,7 +22,7 @@ export class DomObject extends GameObject {
             target.Rectangle.left <= this.Rectangle.right &&
             target.Rectangle.top <= this.Rectangle.bottom);
     }
-    destroy() {
+    remove() {
         this.div.remove();
     }
 }

@@ -87,9 +87,9 @@ export class Tank extends BehavioralObject {
         this.status.remove();
         this.status = statusBar;
     }
-    destroy() {
+    remove() {
         this.status.remove();
-        this.turret.destroy();
-        super.destroy();
+        this.turret.remove();
+        super.remove();
     }
 }

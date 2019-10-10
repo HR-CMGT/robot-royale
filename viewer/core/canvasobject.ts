@@ -50,7 +50,7 @@ export class CanvasObject extends GameObject {
         this.context.setTransform(1,0,0,1,0,0);
     }
 
-    public destroy(): void {
+    public remove(): void {
         this.image.remove()
     }
     public detectCollision(target: GameObject): boolean {

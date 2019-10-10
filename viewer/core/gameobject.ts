@@ -47,7 +47,7 @@ export abstract class GameObject {
         this.draw()
     }
     
-    public abstract destroy() : void
+    public abstract remove() : void
     public abstract draw() : void
     public abstract detectCollision(target : GameObject) : boolean
 }
