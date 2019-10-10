@@ -24,14 +24,18 @@ export class App {
 
         // successful reconnect: https://socket.io/docs/client-api/#Event-‘reconnect’
         this.socket.on('reconnect', (attemptNumber:number) => {
-            console.log("game reconnected")
+            console.log("creator reconnected")
             // this tank now has a new socketid
             Settings.getInstance().socketid = this.socket.id
-            // todo send whole tank to the server??? can the server update the new connection by itself??? (server also gets user connected event)
+            // resend whole tank to the server, because socketid has changed
+            this.robotReconnected()
         })
 
         // this tank is destroyed! note: only works when socket id did not change
         this.socket.on("tank destroyed", () => this.showConfirmBox("was destroyed!!!", false))
+
+        // viewer refreshed
+        this.socket.on("viewer refreshed", () => this.showConfirmBox("game was ended 😱", false))
     }
 
     private showGeneratorView():void {
@@ -54,13 +58,19 @@ export class App {
         this.showConfirmBox("was added to the game!", true)
     }
 
-    private programUpdated(){
+    private robotReconnected(){
+        const json: string = Settings.getInstance().createJSON()
+        this.socket.emit('robot reconnected', json)
+    }
+
+    private programUpdated() {
         const json: string = Settings.getInstance().createJSON()
         console.log(json)
         this.socket.emit('robot updated', json)
         this.showConfirmBox("program was updated!", true)
     }
 
+    // test: what if the gameoverbox shows while another box is still open?
     private showConfirmBox(msg: string, allowClose:boolean): void {
         let v = new ConfirmView(msg, allowClose)
         document.body.appendChild(v)

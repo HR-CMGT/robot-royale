@@ -2,6 +2,7 @@ import { StatusBar } from "../../ui/statusbar.js";
 import { BehavioralObject } from "../../interface/behavioralObject.js";
 import { Forward } from "../../behaviors/forward.js";
 import { Bullet } from "./bullet.js";
+import { Rocket } from "./rocket.js";
 import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
 import { Settings } from "../../interface/settings.js";
@@ -74,7 +75,7 @@ export class Tank extends BehavioralObject{
         
             
         // let rad = this.Rotation / (180/Math.PI)
-        this.Direction = new Vector2(Math.random(), Math.random())
+        this.Direction = new Vector2(1 - (Math.random()*2), 1-(Math.random()*2))
         this.Rotation = this.Direction.angle()
         
         this.Speed  = (5 - (data.armor * 2)) // todo dependent on armor
@@ -88,7 +89,7 @@ export class Tank extends BehavioralObject{
     }
 
     public collide(collider : GameObject) : void {
-        if(collider instanceof Bullet) {
+        if (collider instanceof Bullet || collider instanceof Rocket) {  // todo instanceof Projectile
             if (collider.ParentTurret instanceof Turret) {
                 if(collider.ParentTurret != this.Turret) {
                     // console.log("Tank got hit!")
@@ -118,6 +119,7 @@ export class Tank extends BehavioralObject{
     }
 
     public updateProgram(data : Settings) {
+        this.data.socketid = data.socketid
         this.BehavioralIterator = Factory.CreateBehavioralIterator(this, data)
     }
     

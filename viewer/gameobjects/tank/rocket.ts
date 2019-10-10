@@ -1,0 +1,82 @@
+
+import { Game }             from "../../game.js";
+import { Turret }           from "./turret.js";
+import { Tank }             from "./tank.js";
+import { ExplosionSmall }   from "../explosionsmall.js";
+import { GameObject }       from "../../core/gameobject.js";
+import { Vector2 }          from "../../utils/vector.js";
+import { DomObject }        from "../../core/domobject.js";
+
+export class Rocket extends DomObject {
+    
+    // Field 
+    private damage : number = 30
+    private parentTurret : Turret
+    private target : GameObject
+
+    // Properties
+    public get Damage() : number        { return this.damage }
+    public get ParentTurret() : GameObject    { return this.parentTurret }
+    
+    constructor(tank : Tank, target : GameObject = undefined) {
+        super("rocket")
+
+        this.parentTurret   = tank.Turret
+        this.Position       = this.parentTurret.Position
+        this.Rotation       = this.parentTurret.Rotation 
+        this.Direction      = Vector2.getVectorFromAngle(this.parentTurret.Rotation)
+        this.Speed          = 3
+
+        // als de rocket geen target heeft meegekregen, dan zelf eentje uitzoeken
+        this.target = (target) ? target : Game.Instance.getRandomEnemy(tank)
+        
+        /*
+        if(target) {
+            console.log("rocket already has a target")
+        } else if (this.target) {
+            console.log("rocket aquired new target")
+        } else {
+            console.log("rocket didn't start with a target")
+        }
+        */
+
+        // move the rocket in front of the barrel // TODO distance depends on tank.Data.armor
+        let dist = 43
+        this.Position = this.Position.add(this.Direction.scale(dist))
+
+        this.update()
+    }
+
+    public update() {
+        if(this.target){
+            let difference = this.target.Position.difference(this.Position)
+            this.Direction = difference.normalize()
+            this.Rotation = this.Direction.angle()
+        } else {
+            console.log("rocket lost target")
+        }
+        
+        this.Position = this.Position.add(this.Direction.scale(this.Speed))
+        super.update();
+
+        if(this.isInvisible()) this.CanDestroy = true
+
+    }
+
+    public collide(collider : GameObject){
+        if (collider instanceof Tank) {
+            if(this.parentTurret != collider.Turret) {
+                // console.log("Bullet hit")
+                this.CanDestroy = true
+                Game.Instance.AddGameObject(new ExplosionSmall(this.Position))
+            }
+        }
+    }
+
+    private isInvisible() {
+        return (this.Position.X < -this.Width ||
+           this.Position.Y < -this.Height ||
+           this.Position.X > window.innerWidth - 200 ||
+           this.Position.Y > window.innerHeight) 
+    }
+}

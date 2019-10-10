@@ -10,7 +10,7 @@ import { Health } from "./gameobjects/pickups/health.js";
 export class Game {
     // static Fields
     private static instance   : Game
-    public static readonly DEBUG : boolean = true
+    public static DEBUG : boolean = false
 
     // Fields
     private gameObjects       : GameObject[]  = []
@@ -19,13 +19,13 @@ export class Game {
     
     // Properties
     public get AmmoBoxes() : PickUp[] { 
-        return this.gameObjects.filter(o => { return o instanceof Ammo}) as Ammo[]
+        return this.gameObjects.filter(o => o instanceof Ammo) as Ammo[]
     }
     public get RepairKits() : PickUp[] { 
-        return this.gameObjects.filter(o => { return o instanceof Health}) as Health[]
+        return this.gameObjects.filter(o => o instanceof Health) as Health[]
     }
     public get Tanks() : Tank[] { 
-        return this.gameObjects.filter(o => { return o instanceof Tank}) as Tank[]
+        return this.gameObjects.filter(o => o instanceof Tank) as Tank[]
     }
     
     public static get Instance() : Game {
@@ -38,9 +38,17 @@ export class Game {
     }
 
     private constructor() {
-        this.gameObjects.push(new DebugInfo())
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+            Game.DEBUG = true
+        }
+
+        if(Game.DEBUG) {
+            this.gameObjects.push(new DebugInfo())
+        }
 
         this.socket = io()
+
+        this.socket.emit('viewer refreshed')
 
         this.socket.on('robot created', (json : string) => {
             console.log("game received a new robot")
@@ -51,15 +59,38 @@ export class Game {
         this.socket.on('robot updated', (json : string) => {
             let settings = JSON.parse(json)
             console.log('viewer received new program for ' + settings.nickname)
-            this.updateTank(settings)
+            this.updateTankProgram(settings)
+        })
+
+        this.socket.on('robot reconnected', (json: string) => {
+            let settings = JSON.parse(json)
+            console.log('viewer received new socket id for ' + settings.nickname)
+            this.updateTankConnection(settings)
         })
 
         if(Game.DEBUG) {
-            for (let i = 0; i < 13; i++) {
+            for (let i = 0; i < 8; i++) {
                 this.addTank(this.randomSettings())
             }
         }
         this.update()
+    }
+
+    public getRandomEnemy(excludeTank:GameObject) : GameObject | undefined {
+        let enemyTanks: GameObject[] = this.gameObjects.filter(o => (o instanceof Tank && o != excludeTank)) as Tank[]
+        // console.log("Total enemy tanks: " + enemyTanks.length)
+
+        // pick random
+        let randomTank
+        if (enemyTanks.length > 0) {
+            randomTank = enemyTanks[Math.floor(Math.random() * enemyTanks.length)]
+        } 
+        
+        return randomTank
+    }
+
+    public addGameObject(o : GameObject) {
+        this.gameObjects.push(o)
     }
 
     private addTank(data : Settings) {
@@ -73,12 +104,26 @@ export class Game {
         this.redrawAllTankStatus()
     }
 
-    private updateTank(data : Settings) {
-        let tank : Tank = this.Tanks.find((tank) => {
-                        return tank.Data.id === data.id
-                    })
-        
-        tank.updateProgram(data)
+    private updateTankProgram(data : Settings) {
+        let tank : Tank = this.Tanks.find((tank) => tank.Data.id === data.id)
+        if(tank) {
+            tank.updateProgram(data)
+        } else {
+            // the tank died while the user updated the program
+            this.socket.emit('robot destroyed', data.socketid)
+        }
+    }
+
+    private updateTankConnection(data: Settings) {
+        let tank: Tank = this.Tanks.find((tank) => tank.Data.id === data.id)
+        if(tank) {
+            console.log("updated socket id to " + tank.Data.socketid)
+            tank.Data.socketid = data.socketid
+        } else {
+            // the tank died while the user was disconnected
+            console.log("tank died while user was disconnected")
+            this.socket.emit('robot destroyed', data.socketid)
+        }
     }
 
     private update(){
@@ -128,25 +173,36 @@ export class Game {
             this.redrawAllTankStatus()
 
             // use the tank connection id, so we can send a message to this specific tank
-            console.log("tank died: " + gameObject.Data.socketid)
+            // console.log("tank died: " + gameObject.Data.socketid)
             this.socket.emit('robot destroyed', gameObject.Data.socketid)
         }
     }
 
-    public addBullet(b : GameObject) {
-        this.gameObjects.push(b)
-    }
+    
 
     // just for debugging
     private randomSettings() : Settings {
-        return {
-            id: String(Math.random() * 1000),
-            socketid: String(Math.random() * 1000),
-            color: Math.floor(Math.random() * 360),
-            nickname: "Old Billy Bob",
-            armor: Math.floor(Math.random() * 3), 
-            program: [1, 2, 3, 0, 0, 0]
+        if(Math.random() < 0.3) {
+            return {
+                id: String(Math.random() * 1000),
+                socketid: String(Math.random() * 1000),
+                color: Math.floor(Math.random() * 360),
+                nickname: "Old Billy Bob",
+                armor: 2,//Math.floor(Math.random() * 3), 
+                program: [2, 3, 0, 0, 0, 0] // ["EMPTY", "STOP AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"]
+            }
+        } else {
+            return {
+                id: String(Math.random() * 1000),
+                socketid: String(Math.random() * 1000),
+                color: Math.floor(Math.random() * 360),
+                nickname: "Old Evil Erik",
+                armor: 0,//Math.floor(Math.random() * 3),
+                program: [2, 3, 0, 0, 0, 0] // ["EMPTY", "STOP AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"]
+            }
         }
+ 
+        
     }
 
     private redrawAllTankStatus() {

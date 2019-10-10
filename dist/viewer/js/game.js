@@ -8,8 +8,14 @@ export class Game {
     constructor() {
         this.gameObjects = [];
         this.gameover = false;
-        this.gameObjects.push(new DebugInfo());
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+            Game.DEBUG = true;
+        }
+        if (Game.DEBUG) {
+            this.gameObjects.push(new DebugInfo());
+        }
         this.socket = io();
+        this.socket.emit('viewer refreshed');
         this.socket.on('robot created', (json) => {
             console.log("game received a new robot");
             let data = JSON.parse(json);
@@ -18,23 +24,28 @@ export class Game {
         this.socket.on('robot updated', (json) => {
             let settings = JSON.parse(json);
             console.log('viewer received new program for ' + settings.nickname);
-            this.updateTank(settings);
+            this.updateTankProgram(settings);
+        });
+        this.socket.on('robot reconnected', (json) => {
+            let settings = JSON.parse(json);
+            console.log('viewer received new socket id for ' + settings.nickname);
+            this.updateTankConnection(settings);
         });
         if (Game.DEBUG) {
-            for (let i = 0; i < 13; i++) {
+            for (let i = 0; i < 8; i++) {
                 this.addTank(this.randomSettings());
             }
         }
         this.update();
     }
     get AmmoBoxes() {
-        return this.gameObjects.filter(o => { return o instanceof Ammo; });
+        return this.gameObjects.filter(o => o instanceof Ammo);
     }
     get RepairKits() {
-        return this.gameObjects.filter(o => { return o instanceof Health; });
+        return this.gameObjects.filter(o => o instanceof Health);
     }
     get Tanks() {
-        return this.gameObjects.filter(o => { return o instanceof Tank; });
+        return this.gameObjects.filter(o => o instanceof Tank);
     }
     static get Instance() {
         if (!this.instance)
@@ -44,16 +55,41 @@ export class Game {
     AddGameObject(gameObject) {
         this.gameObjects.push(gameObject);
     }
+    getRandomEnemy(excludeTank) {
+        let enemyTanks = this.gameObjects.filter(o => (o instanceof Tank && o != excludeTank));
+        let randomTank;
+        if (enemyTanks.length > 0) {
+            randomTank = enemyTanks[Math.floor(Math.random() * enemyTanks.length)];
+        }
+        return randomTank;
+    }
+    addGameObject(o) {
+        this.gameObjects.push(o);
+    }
     addTank(data) {
         let tank = Factory.CreateBehavioralObject("tank", data);
         this.gameObjects.push(tank);
         this.redrawAllTankStatus();
     }
-    updateTank(data) {
-        let tank = this.Tanks.find((tank) => {
-            return tank.Data.id === data.id;
-        });
-        tank.updateProgram(data);
+    updateTankProgram(data) {
+        let tank = this.Tanks.find((tank) => tank.Data.id === data.id);
+        if (tank) {
+            tank.updateProgram(data);
+        }
+        else {
+            this.socket.emit('robot destroyed', data.socketid);
+        }
+    }
+    updateTankConnection(data) {
+        let tank = this.Tanks.find((tank) => tank.Data.id === data.id);
+        if (tank) {
+            console.log("updated socket id to " + tank.Data.socketid);
+            tank.Data.socketid = data.socketid;
+        }
+        else {
+            console.log("tank died while user was disconnected");
+            this.socket.emit('robot destroyed', data.socketid);
+        }
     }
     update() {
         if (PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
@@ -92,22 +128,30 @@ export class Game {
         }
         if (gameObject instanceof Tank) {
             this.redrawAllTankStatus();
-            console.log("tank died: " + gameObject.Data.socketid);
             this.socket.emit('robot destroyed', gameObject.Data.socketid);
         }
     }
-    addBullet(b) {
-        this.gameObjects.push(b);
-    }
     randomSettings() {
-        return {
-            id: String(Math.random() * 1000),
-            socketid: String(Math.random() * 1000),
-            color: Math.floor(Math.random() * 360),
-            nickname: "Old Billy Bob",
-            armor: Math.floor(Math.random() * 3),
-            program: [1, 2, 3, 0, 0, 0]
-        };
+        if (Math.random() < 0.3) {
+            return {
+                id: String(Math.random() * 1000),
+                socketid: String(Math.random() * 1000),
+                color: Math.floor(Math.random() * 360),
+                nickname: "Old Billy Bob",
+                armor: 2,
+                program: [2, 3, 0, 0, 0, 0]
+            };
+        }
+        else {
+            return {
+                id: String(Math.random() * 1000),
+                socketid: String(Math.random() * 1000),
+                color: Math.floor(Math.random() * 360),
+                nickname: "Old Evil Erik",
+                armor: 0,
+                program: [2, 3, 0, 0, 0, 0]
+            };
+        }
     }
     redrawAllTankStatus() {
         let tanks = this.Tanks;
@@ -119,5 +163,5 @@ export class Game {
         }
     }
 }
-Game.DEBUG = true;
+Game.DEBUG = false;
 window.addEventListener("DOMContentLoaded", () => Game.Instance);

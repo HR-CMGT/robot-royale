@@ -1,24 +1,33 @@
 import { Game } from "../../game.js";
 import { Tank } from "./tank.js";
-import { Vector2 } from "../../utils/vector.js";
 import { ExplosionSmall } from "../explosionsmall.js";
+import { Vector2 } from "../../utils/vector.js";
 import { DomObject } from "../../core/domobject.js";
-export class Bullet extends DomObject {
-    constructor(tank) {
-        super("bullet");
-        this.damage = 5;
+export class Rocket extends DomObject {
+    constructor(tank, target = undefined) {
+        super("rocket");
+        this.damage = 30;
         this.parentTurret = tank.Turret;
         this.Position = this.parentTurret.Position;
         this.Rotation = this.parentTurret.Rotation;
         this.Direction = Vector2.getVectorFromAngle(this.parentTurret.Rotation);
-        this.Speed = 5;
-        let dist = 40;
+        this.Speed = 3;
+        this.target = (target) ? target : Game.Instance.getRandomEnemy(tank);
+        let dist = 43;
         this.Position = this.Position.add(this.Direction.scale(dist));
         this.update();
     }
     get Damage() { return this.damage; }
     get ParentTurret() { return this.parentTurret; }
     update() {
+        if (this.target) {
+            let difference = this.target.Position.difference(this.Position);
+            this.Direction = difference.normalize();
+            this.Rotation = this.Direction.angle();
+        }
+        else {
+            console.log("rocket lost target");
+        }
         this.Position = this.Position.add(this.Direction.scale(this.Speed));
         super.update();
         if (this.isInvisible())

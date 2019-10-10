@@ -2,6 +2,7 @@ import { StatusBar } from "../../ui/statusbar.js";
 import { BehavioralObject } from "../../interface/behavioralObject.js";
 import { Forward } from "../../behaviors/forward.js";
 import { Bullet } from "./bullet.js";
+import { Rocket } from "./rocket.js";
 import { PickUp } from "../pickups/pickup.js";
 import { Turret } from "./turret.js";
 import { Game } from "../../game.js";
@@ -23,7 +24,7 @@ export class Tank extends BehavioralObject {
         this.Div.classList.add(`armor-${data.armor}`);
         this.Div.style.filter = `hue-rotate(${data.color}deg)`;
         this.Position = new Vector2(Math.random() * (window.innerWidth - 300), Math.random() * (window.innerHeight - 100));
-        this.Direction = new Vector2(Math.random(), Math.random());
+        this.Direction = new Vector2(1 - (Math.random() * 2), 1 - (Math.random() * 2));
         this.Rotation = this.Direction.angle();
         this.Speed = (5 - (data.armor * 2));
         this.turret = new Turret(this);
@@ -52,7 +53,7 @@ export class Tank extends BehavioralObject {
     }
     get Turret() { return this.turret; }
     collide(collider) {
-        if (collider instanceof Bullet) {
+        if (collider instanceof Bullet || collider instanceof Rocket) {
             if (collider.ParentTurret instanceof Turret) {
                 if (collider.ParentTurret != this.Turret) {
                     this.Health -= (collider.Damage - (this.data.armor * 5));
@@ -76,6 +77,7 @@ export class Tank extends BehavioralObject {
         this.turret.update();
     }
     updateProgram(data) {
+        this.data.socketid = data.socketid;
         this.BehavioralIterator = Factory.CreateBehavioralIterator(this, data);
     }
     redrawStatus() {

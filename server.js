@@ -25,15 +25,18 @@ io.on('connection', (socket) => {
 
 
     // when the client tank gets a new socket id, we need to update it in the game too
-    socket.on('robot socket updated', (json) => {
+    socket.on('robot reconnected', (json) => {
         let debug = JSON.parse(json)
         console.log('robot socket updated ' + debug.socketid)
 
         // tell the game that there is a new robot - todo FOR VIEWER
-        io.emit('robot created', json, { for: 'everyone' });
+        io.emit('robot reconnected', json, { for: 'everyone' });
     });
 
-
+    // viewer window was refreshed - destroy all the old robots that were already running
+    socket.on('viewer refreshed', () => {
+        io.emit('viewer refreshed')
+    });
 
     // todo game moet ook de socketid updaten, want die kan veranderd zijn
     socket.on('robot created', (json) => {
@@ -61,6 +64,8 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('user disconnected')
+        // TODO if the GAME VIEW has disconnected, send message to all robots
+        // 
     });
 });
 

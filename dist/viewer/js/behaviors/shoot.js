@@ -1,12 +1,15 @@
 import { Behavior } from "../interface/behavior.js";
 import { Game } from "../game.js";
 import { Bullet } from "../gameobjects/tank/bullet.js";
+import { Rocket } from "../gameobjects/tank/rocket.js";
 export class Shoot extends Behavior {
-    constructor(behavioralObject) {
+    constructor(behavioralObject, target = undefined) {
         super(behavioralObject);
         this.fireRate = 40;
         this.lifeTime = 100;
         this.tank = behavioralObject;
+        this.target = target;
+        this.fireRate = 20 + (this.tank.Data.armor * 30);
     }
     performUpdate() {
         if (this.timer % this.fireRate === 0 && this.tank.Ammo > 0) {
@@ -16,11 +19,10 @@ export class Shoot extends Behavior {
     }
     shoot() {
         this.tank.Ammo--;
-        Game.Instance.addBullet(new Bullet(this.BehavioralObject.Turret));
+        const projectile = (this.tank.Data.armor == 2) ? new Rocket(this.tank, this.target) : new Bullet(this.tank);
+        Game.Instance.addGameObject(projectile);
     }
     onDeactivateBehavior() {
-        if (Game.DEBUG)
-            console.log("Shoot:onDeactivateBehavior");
         if (!this.tank.Turret.active)
             this.tank.Turret.active = true;
     }

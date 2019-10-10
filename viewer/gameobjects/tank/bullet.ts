@@ -9,27 +9,29 @@ import { DomObject } from "../../core/domobject.js";
 export class Bullet extends DomObject {
     
     // Field 
-    private damage : number = 20
+    private damage : number = 5
     private parentTurret : Turret
 
     // Properties
     public get Damage() : number        { return this.damage }
     public get ParentTurret() : GameObject    { return this.parentTurret }
     
-    constructor(parent : Turret) {
-        // super("./images/bullet.png") // for canvas object
+    constructor(tank : Tank) {
+            // super("./images/bullet.png") // for canvas object
         super("bullet")
-        
-        this.Position     = parent.Position
-        this.Rotation     = parent.Rotation 
-        this.Direction    = Vector2.getVectorFromAngle(parent.Rotation)
-        this.Speed        = 5
-        this.parentTurret = parent
 
-        // move the bullet in front of the barrel
-        // TODO distance depends on parent
+        this.parentTurret = tank.Turret
+        this.Position = this.parentTurret.Position
+        this.Rotation = this.parentTurret.Rotation 
+        this.Direction = Vector2.getVectorFromAngle(this.parentTurret.Rotation)
+        this.Speed        = 5
+
+        // move the bullet in front of the barrel // TODO distance depends on tank.Data.armor
         let dist = 40
         this.Position = this.Position.add(this.Direction.scale(dist))
+
+        // different bullet graphic for different tanks
+        // if(tank.Data.armor == 2) this.Div.classList.add("rocket")
 
         this.update()
     }

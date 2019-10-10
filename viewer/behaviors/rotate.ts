@@ -22,7 +22,7 @@ export class Rotate extends Behavior{
     }
 
     public onDeactivateBehavior() : void {
-        if(Game.DEBUG) console.log("new direction in Rotate:onDeactivateBehavior")
+        // if(Game.DEBUG) console.log("new direction in Rotate:onDeactivateBehavior")
         this.BehavioralObject.Direction = Vector2.getVectorFromAngle(this.BehavioralObject.Rotation)
     }
 }

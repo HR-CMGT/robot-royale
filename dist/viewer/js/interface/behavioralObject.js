@@ -1,6 +1,5 @@
 import { BehavioralIterator } from "../behavioraliterator.js";
 import { Game } from "../game.js";
-import { Tank } from "../gameobjects/tank/tank.js";
 import { Forward } from "../behaviors/forward.js";
 import { DomObject } from "../core/domobject.js";
 export class BehavioralObject extends DomObject {
@@ -21,9 +20,6 @@ export class BehavioralObject extends DomObject {
             this.behavior = new Forward(this);
         this.behavior.onActivateBehavior();
         if (Game.DEBUG) {
-            if (this instanceof Tank) {
-                console.log(this.behavior);
-            }
         }
     }
 }

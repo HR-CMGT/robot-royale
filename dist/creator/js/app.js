@@ -15,10 +15,12 @@ export class App {
             }
         });
         this.socket.on('reconnect', (attemptNumber) => {
-            console.log("game reconnected");
+            console.log("creator reconnected");
             Settings.getInstance().socketid = this.socket.id;
+            this.robotReconnected();
         });
         this.socket.on("tank destroyed", () => this.showConfirmBox("was destroyed!!!", false));
+        this.socket.on("viewer refreshed", () => this.showConfirmBox("game was ended 😱", false));
     }
     showGeneratorView() {
         let v = new GeneratorView();
@@ -36,6 +38,10 @@ export class App {
         console.log(json);
         this.socket.emit('robot created', json);
         this.showConfirmBox("was added to the game!", true);
+    }
+    robotReconnected() {
+        const json = Settings.getInstance().createJSON();
+        this.socket.emit('robot reconnected', json);
     }
     programUpdated() {
         const json = Settings.getInstance().createJSON();

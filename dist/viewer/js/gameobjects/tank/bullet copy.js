@@ -1,12 +1,12 @@
+import { GameObject } from "../../gameobject.js";
 import { Game } from "../../game.js";
 import { Tank } from "./tank.js";
-import { Vector2 } from "../../utils/vector.js";
+import { Vector2 } from "../../vector.js";
 import { ExplosionSmall } from "../explosionsmall.js";
-import { DomObject } from "../../core/domobject.js";
-export class Bullet extends DomObject {
+export class Bullet extends GameObject {
     constructor(tank) {
         super("bullet");
-        this.damage = 5;
+        this.damage = 20;
         this.parentTurret = tank.Turret;
         this.Position = this.parentTurret.Position;
         this.Rotation = this.parentTurret.Rotation;
@@ -14,6 +14,8 @@ export class Bullet extends DomObject {
         this.Speed = 5;
         let dist = 40;
         this.Position = this.Position.add(this.Direction.scale(dist));
+        if (tank.Data.armor == 2)
+            this.Div.classList.add("rocket");
         this.update();
     }
     get Damage() { return this.damage; }
