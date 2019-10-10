@@ -1,11 +1,12 @@
 import { Vector2 }      from "../utils/vector.js";
 import { DomObject }    from "./domobject.js";
+import { GameObject } from "./gameobject.js";
 
 /**
  * Animation
  */
 export class AnimationObject extends DomObject {
-
+    private parent          : GameObject
     private htmlElement     : HTMLElement
     
     private timer           : number = 0
@@ -23,8 +24,9 @@ export class AnimationObject extends DomObject {
     // Properties
     // public get isDone() : boolean { return this.done }
 
-    constructor(tag: string, position : Vector2, frameWidth: number, frameHeight: number, rows : number, columns : number, animationSpeed: number) {
+    constructor(tag: string, position : Vector2, parent : GameObject, frameWidth: number, frameHeight: number, rows : number, columns : number, animationSpeed: number) {
         super(tag)
+        this.parent         = parent
         this.htmlElement    = this.Div
         this.frameWidth     = frameWidth
         this.frameHeight    = frameHeight
@@ -50,6 +52,7 @@ export class AnimationObject extends DomObject {
                 else {
                     // end of spritesheet
                     // this.done = true
+                    this.parent.CanDestroy = true
                     this.CanDestroy = true
                 }
             }   

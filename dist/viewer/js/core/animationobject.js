@@ -1,6 +1,6 @@
 import { DomObject } from "./domobject.js";
 export class AnimationObject extends DomObject {
-    constructor(tag, position, frameWidth, frameHeight, rows, columns, animationSpeed) {
+    constructor(tag, position, parent, frameWidth, frameHeight, rows, columns, animationSpeed) {
         super(tag);
         this.timer = 0;
         this.frameWidth = 0;
@@ -10,6 +10,7 @@ export class AnimationObject extends DomObject {
         this.currentColumn = 0;
         this.rows = 0;
         this.columns = 0;
+        this.parent = parent;
         this.htmlElement = this.Div;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
@@ -29,6 +30,7 @@ export class AnimationObject extends DomObject {
                     this.currentRow++;
                 }
                 else {
+                    this.parent.CanDestroy = true;
                     this.CanDestroy = true;
                 }
             }

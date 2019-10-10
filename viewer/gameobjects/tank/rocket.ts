@@ -87,7 +87,7 @@ export class Rocket extends DomObject {
         this.CanDestroy = true
         
         Game.Instance.AddGameObject(
-            new AnimationObject("explosion-small2", this.Position, 97, 97, 2, 5, 4)
+            new AnimationObject("explosion-small2", this.Position, this, 97, 97, 2, 5, 4)
         )
     }
 }

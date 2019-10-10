@@ -11,6 +11,7 @@ import { Factory }          from "../../core/factory.js";
 import { Vector2 }          from "../../utils/vector.js";
 import { GameObject }       from "../../core/gameobject.js";
 import { AnimationObject }  from "../../core/animationobject.js";
+import { NullBehavior } from "../../behaviors/nullobject.js";
 
 export class Tank extends BehavioralObject{
     
@@ -96,9 +97,10 @@ export class Tank extends BehavioralObject{
                     this.Health -= (collider.Damage - (this.data.armor * 5)) 
     
                     if(this.health <= 0) { 
-                        this.CanDestroy = true 
+                        // this.CanDestroy = true 
+                        this.Behavior = new NullBehavior(this)
                         Game.Instance.AddGameObject(
-                            new AnimationObject("explosion", this.Position, 146, 145, 3, 3, 7)
+                            new AnimationObject("explosion", this.Position, this, 146, 145, 3, 4, 7)
                         )
 
                         collider.ParentTurret.ParentTank.Kills++

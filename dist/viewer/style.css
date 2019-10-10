@@ -103,7 +103,7 @@ explosion {
     position: absolute;
     width: 146px;
     height: 145px;
-    background-image: url('images/explosion.png');
+    background-image: url('images/explosion2.png');
 }
 explosion-small {
     display:block;
