@@ -6,6 +6,8 @@ import { DebugInfo } from "./ui/debuginfo.js";
 import { Settings } from "./interface/settings.js";
 import { Ammo } from "./gameobjects/pickups/ammo.js";
 import { Health } from "./gameobjects/pickups/health.js";
+import { Leaderboard } from "./ui/leaderboard.js";
+import { HighScore } from "./interface/highscore.js";
 
 export class Game {
     // static Fields
@@ -15,6 +17,7 @@ export class Game {
     // Fields
     private gameObjects       : GameObject[]  = []
     private socket            : SocketIOClient.Socket
+    private leaderboard       : Leaderboard
     public gameover           : boolean = false
     
     // Properties
@@ -46,6 +49,9 @@ export class Game {
             this.gameObjects.push(new DebugInfo())
         }
 
+        this.leaderboard = new Leaderboard()
+        this.setHighScore(new HighScore())
+        
         this.socket = io()
 
         this.socket.emit('viewer refreshed')
@@ -212,6 +218,25 @@ export class Game {
             tank.redrawStatus()
         }
         
+    }
+    private setHighScore(highScore: HighScore) {
+        window.localStorage.setItem('highscore', JSON.stringify(highScore));
+
+        this.leaderboard.Rank = highScore.rank
+        this.leaderboard.Kills = highScore.kills
+        this.leaderboard.Name = highScore.name
+    }
+    public checkHighScore(tank : Tank) {
+        let highscore : HighScore = JSON.parse(window.localStorage.getItem('highscore')) as HighScore
+
+        if(tank.Kills > highscore.kills) {
+            let newHighScore = new HighScore()
+            newHighScore.name = tank.Data.nickname
+            newHighScore.kills = tank.Kills
+            newHighScore.rank = Math.min(Math.floor(tank.Kills/2), 4)
+
+            this.setHighScore(newHighScore)
+        }
     }
 }
 

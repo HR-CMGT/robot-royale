@@ -11,7 +11,7 @@ import { Factory }          from "../../core/factory.js";
 import { Vector2 }          from "../../utils/vector.js";
 import { GameObject }       from "../../core/gameobject.js";
 import { AnimationObject }  from "../../core/animationobject.js";
-import { NullBehavior } from "../../behaviors/nullobject.js";
+import { NullBehavior }     from "../../behaviors/nullbehavior.js";
 
 export class Tank extends BehavioralObject{
     
@@ -32,6 +32,8 @@ export class Tank extends BehavioralObject{
     public set Health(v:number)     { 
         this.health = v       
         if(this.health > 100) this.health = 100
+        if(this.health < 0) this.health = 0
+
         this.status.Health = this.health
     }
     
@@ -93,18 +95,17 @@ export class Tank extends BehavioralObject{
         if (collider instanceof Bullet || collider instanceof Rocket) {  // todo instanceof Projectile
             if (collider.ParentTurret instanceof Turret) {
                 if(collider.ParentTurret != this.Turret) {
-                    // console.log("Tank got hit!")
                     this.Health -= (collider.Damage - (this.data.armor * 5)) 
     
                     if(this.health <= 0) { 
-                        // this.CanDestroy = true 
+                        Game.Instance.checkHighScore(this)
+                        this.health = 1000 // to prevent multiple explosions
                         this.Behavior = new NullBehavior(this)
                         Game.Instance.AddGameObject(
-                            new AnimationObject("explosion", this.Position, this, 146, 145, 3, 4, 7)
+                            new AnimationObject("explosion", this.Position, this, 146, 145, 3, 4, 6)
                         )
 
                         collider.ParentTurret.ParentTank.Kills++
-                        // console.log(Game.Instance.Tanks)
                     }
                 }
             }
@@ -130,8 +131,6 @@ export class Tank extends BehavioralObject{
     // als er een tank bij komt of weg gaat worden de statusbars opnieuw getekend
     public redrawStatus() {
         let statusBar : StatusBar = new StatusBar(this.status.Data)
-        // statusBar.Ammo = this.Ammo
-        // statusBar.LifeTime = this.LifeTime
         statusBar.Health = this.Health
         statusBar.Kills = this.Kills
         this.status.remove()
@@ -139,7 +138,6 @@ export class Tank extends BehavioralObject{
     }
 
     public remove() {
-        // console.log("Tank died")
         this.status.remove()
         this.turret.remove()
         super.remove()

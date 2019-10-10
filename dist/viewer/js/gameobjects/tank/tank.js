@@ -9,7 +9,7 @@ import { Game } from "../../game.js";
 import { Factory } from "../../core/factory.js";
 import { Vector2 } from "../../utils/vector.js";
 import { AnimationObject } from "../../core/animationobject.js";
-import { NullBehavior } from "../../behaviors/nullobject.js";
+import { NullBehavior } from "../../behaviors/nullbehavior.js";
 export class Tank extends BehavioralObject {
     constructor(data, status) {
         super("tank-body");
@@ -37,6 +37,8 @@ export class Tank extends BehavioralObject {
         this.health = v;
         if (this.health > 100)
             this.health = 100;
+        if (this.health < 0)
+            this.health = 0;
         this.status.Health = this.health;
     }
     get Ammo() { return this.ammo; }
@@ -59,8 +61,10 @@ export class Tank extends BehavioralObject {
                 if (collider.ParentTurret != this.Turret) {
                     this.Health -= (collider.Damage - (this.data.armor * 5));
                     if (this.health <= 0) {
+                        Game.Instance.checkHighScore(this);
+                        this.health = 1000;
                         this.Behavior = new NullBehavior(this);
-                        Game.Instance.AddGameObject(new AnimationObject("explosion", this.Position, this, 146, 145, 3, 4, 7));
+                        Game.Instance.AddGameObject(new AnimationObject("explosion", this.Position, this, 146, 145, 3, 4, 6));
                         collider.ParentTurret.ParentTank.Kills++;
                     }
                 }
