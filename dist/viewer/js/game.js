@@ -17,7 +17,12 @@ export class Game {
             this.gameObjects.push(new DebugInfo());
         }
         this.leaderboard = new Leaderboard();
-        this.setHighScore(new HighScore());
+        if (!window.localStorage.getItem("highscore")) {
+            this.setHighScore(new HighScore());
+        }
+        else {
+            this.showHighScore(JSON.parse(window.localStorage.getItem("highscore")));
+        }
         this.socket = io();
         this.socket.emit('viewer refreshed');
         this.socket.on('robot created', (json) => {
@@ -165,6 +170,9 @@ export class Game {
     }
     setHighScore(highScore) {
         window.localStorage.setItem('highscore', JSON.stringify(highScore));
+        this.showHighScore(highScore);
+    }
+    showHighScore(highScore) {
         this.leaderboard.Rank = highScore.rank;
         this.leaderboard.Kills = highScore.kills;
         this.leaderboard.Name = highScore.name;

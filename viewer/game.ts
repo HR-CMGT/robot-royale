@@ -50,7 +50,11 @@ export class Game {
         }
 
         this.leaderboard = new Leaderboard()
-        this.setHighScore(new HighScore())
+        if (!window.localStorage.getItem("highscore")) {
+            this.setHighScore(new HighScore())
+        } else {
+            this.showHighScore(JSON.parse(window.localStorage.getItem("highscore")) as HighScore)
+        }
         
         this.socket = io()
 
@@ -221,7 +225,9 @@ export class Game {
     }
     private setHighScore(highScore: HighScore) {
         window.localStorage.setItem('highscore', JSON.stringify(highScore));
-
+        this.showHighScore(highScore)
+    }
+    private showHighScore(highScore: HighScore) {
         this.leaderboard.Rank = highScore.rank
         this.leaderboard.Kills = highScore.kills
         this.leaderboard.Name = highScore.name
