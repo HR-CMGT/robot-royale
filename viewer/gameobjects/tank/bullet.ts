@@ -51,7 +51,7 @@ export class Bullet extends DomObject {
                 this.CanDestroy = true
                 // Game.Instance.AddGameObject(new ExplosionSmall(this.Position))
                 Game.Instance.AddGameObject(
-                    new AnimationObject("explosion-small", this.Position, 56, 56, 2, 5, 3)
+                    new AnimationObject("explosion-small", this.Position, 56, 56, 1, 6, 3)
                 )
             }
         }

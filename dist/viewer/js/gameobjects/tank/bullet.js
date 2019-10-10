@@ -28,7 +28,7 @@ export class Bullet extends DomObject {
         if (collider instanceof Tank) {
             if (this.parentTurret != collider.Turret) {
                 this.CanDestroy = true;
-                Game.Instance.AddGameObject(new AnimationObject("explosion-small", this.Position, 56, 56, 2, 5, 3));
+                Game.Instance.AddGameObject(new AnimationObject("explosion-small", this.Position, 56, 56, 1, 6, 3));
             }
         }
     }
