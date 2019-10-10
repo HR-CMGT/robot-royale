@@ -1,12 +1,15 @@
+import { Vector2 }      from "../utils/vector.js";
+import { DomObject }    from "./domobject.js";
+
 /**
  * Animation
  */
-export class Animation {
+export class AnimationObject extends DomObject {
 
     private htmlElement     : HTMLElement
     
     private timer           : number = 0
-    private done            : boolean = false
+    // private done            : boolean = false
 
     private frameWidth      : number = 0
     private frameHeight     : number = 0
@@ -18,15 +21,20 @@ export class Animation {
     private columns         : number = 0
     
     // Properties
-    public get isDone() : boolean { return this.done }
+    // public get isDone() : boolean { return this.done }
 
-    constructor(htmlElement: HTMLElement, frameWidth: number, frameHeight: number, rows : number, columns : number, animationSpeed: number) {
-        this.htmlElement    = htmlElement
+    constructor(tag: string, position : Vector2, frameWidth: number, frameHeight: number, rows : number, columns : number, animationSpeed: number) {
+        super(tag)
+        this.htmlElement    = this.Div
         this.frameWidth     = frameWidth
         this.frameHeight    = frameHeight
         this.rows           = rows
         this.columns        = columns
         this.animationSpeed = animationSpeed
+
+        this.Position       = position
+
+        super.draw()
     }
     
     public update() : void {
@@ -41,7 +49,8 @@ export class Animation {
                 }
                 else {
                     // end of spritesheet
-                    this.done = true
+                    // this.done = true
+                    this.CanDestroy = true
                 }
             }   
             this.draw()

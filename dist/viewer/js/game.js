@@ -63,9 +63,6 @@ export class Game {
         }
         return randomTank;
     }
-    addGameObject(o) {
-        this.gameObjects.push(o);
-    }
     addTank(data) {
         let tank = Factory.CreateBehavioralObject("tank", data);
         this.gameObjects.push(tank);

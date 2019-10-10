@@ -1,16 +1,16 @@
-import { StatusBar } from "../../ui/statusbar.js";
+import { Bullet }           from "./bullet.js";
+import { Rocket }           from "./rocket.js";
+import { Turret }           from "./turret.js";
+import { PickUp }           from "../pickups/pickup.js";
+import { StatusBar }        from "../../ui/statusbar.js";
 import { BehavioralObject } from "../../interface/behavioralObject.js";
-import { Forward } from "../../behaviors/forward.js";
-import { Bullet } from "./bullet.js";
-import { Rocket } from "./rocket.js";
-import { PickUp } from "../pickups/pickup.js";
-import { Turret } from "./turret.js";
-import { Settings } from "../../interface/settings.js";
-import { Game } from "../../game.js";
-import { Factory } from "../../core/factory.js";
-import { Explosion } from "../explosion.js";
-import { Vector2 } from "../../utils/vector.js";
-import { GameObject } from "../../core/gameobject.js";
+import { Forward }          from "../../behaviors/forward.js";
+import { Settings }         from "../../interface/settings.js";
+import { Game }             from "../../game.js";
+import { Factory }          from "../../core/factory.js";
+import { Vector2 }          from "../../utils/vector.js";
+import { GameObject }       from "../../core/gameobject.js";
+import { AnimationObject }  from "../../core/animationobject.js";
 
 export class Tank extends BehavioralObject{
     
@@ -97,8 +97,10 @@ export class Tank extends BehavioralObject{
     
                     if(this.health <= 0) { 
                         this.CanDestroy = true 
-                        Game.Instance.AddGameObject(new Explosion(this.Position))
-                        
+                        Game.Instance.AddGameObject(
+                            new AnimationObject("explosion", this.Position, 146, 145, 3, 3, 7)
+                        )
+
                         collider.ParentTurret.ParentTank.Kills++
                         // console.log(Game.Instance.Tanks)
                     }

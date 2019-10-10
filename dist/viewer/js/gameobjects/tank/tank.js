@@ -1,14 +1,14 @@
+import { Bullet } from "./bullet.js";
+import { Rocket } from "./rocket.js";
+import { Turret } from "./turret.js";
+import { PickUp } from "../pickups/pickup.js";
 import { StatusBar } from "../../ui/statusbar.js";
 import { BehavioralObject } from "../../interface/behavioralObject.js";
 import { Forward } from "../../behaviors/forward.js";
-import { Bullet } from "./bullet.js";
-import { Rocket } from "./rocket.js";
-import { PickUp } from "../pickups/pickup.js";
-import { Turret } from "./turret.js";
 import { Game } from "../../game.js";
 import { Factory } from "../../core/factory.js";
-import { Explosion } from "../explosion.js";
 import { Vector2 } from "../../utils/vector.js";
+import { AnimationObject } from "../../core/animationobject.js";
 export class Tank extends BehavioralObject {
     constructor(data, status) {
         super("tank-body");
@@ -59,7 +59,7 @@ export class Tank extends BehavioralObject {
                     this.Health -= (collider.Damage - (this.data.armor * 5));
                     if (this.health <= 0) {
                         this.CanDestroy = true;
-                        Game.Instance.AddGameObject(new Explosion(this.Position));
+                        Game.Instance.AddGameObject(new AnimationObject("explosion", this.Position, 146, 145, 3, 3, 7));
                         collider.ParentTurret.ParentTank.Kills++;
                     }
                 }

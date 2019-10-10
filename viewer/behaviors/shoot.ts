@@ -22,7 +22,7 @@ export class Shoot extends Behavior{
         this.target = target 
         
         // fireRate afhankelijk van type tank 
-        this.fireRate = 20 + (this.tank.Data.armor * 30)
+        this.fireRate = 50 + (this.tank.Data.armor * 30)
     }
 
     performUpdate(): void {
@@ -38,7 +38,7 @@ export class Shoot extends Behavior{
         // als heavy tank, dan projectile is homing rocket met target. als target undefined, dan bedenkt rocket zelf een target
         const projectile = (this.tank.Data.armor == 2) ? new Rocket(this.tank, this.target) : new Bullet(this.tank)
 
-        Game.Instance.addGameObject(projectile)
+        Game.Instance.AddGameObject(projectile)
     }
 
     // gets called from composite

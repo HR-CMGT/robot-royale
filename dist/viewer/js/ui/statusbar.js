@@ -20,8 +20,8 @@ export class StatusBar {
         this.rankBar = document.createElement("div");
         this.rankBar.style.backgroundImage = "url(./images/ranks/rank0.png)";
         this.bar.appendChild(this.rankBar);
-        this.bar.appendChild(this.infoBar);
         this.bar.appendChild(this.killBar);
+        this.bar.appendChild(this.infoBar);
         this.damageBar = document.createElement("div");
         this.damageBar.classList.add("damage");
         this.damageBar.style.width = "0%";

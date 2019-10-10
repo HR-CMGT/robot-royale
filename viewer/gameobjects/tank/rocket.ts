@@ -2,10 +2,10 @@
 import { Game }             from "../../game.js";
 import { Turret }           from "./turret.js";
 import { Tank }             from "./tank.js";
-import { ExplosionSmall }   from "../explosionsmall.js";
 import { GameObject }       from "../../core/gameobject.js";
 import { Vector2 }          from "../../utils/vector.js";
 import { DomObject }        from "../../core/domobject.js";
+import { AnimationObject } from "../../core/animationobject.js";
 
 export class Rocket extends DomObject {
     
@@ -68,7 +68,10 @@ export class Rocket extends DomObject {
             if(this.parentTurret != collider.Turret) {
                 // console.log("Bullet hit")
                 this.CanDestroy = true
-                Game.Instance.AddGameObject(new ExplosionSmall(this.Position))
+                // Game.Instance.AddGameObject(new ExplosionSmall(this.Position))
+                Game.Instance.AddGameObject(
+                    new AnimationObject("explosion-small2", this.Position, 97, 97, 2, 5, 4)
+                )
             }
         }
     }

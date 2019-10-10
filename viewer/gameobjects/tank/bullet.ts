@@ -1,10 +1,10 @@
-import { GameObject } from "../../core/gameobject.js";
-import { Game } from "../../game.js";
-import { Turret } from "./turret.js";
-import { Tank } from "./tank.js";
-import { Vector2 } from "../../utils/vector.js";
-import { ExplosionSmall } from "../explosionsmall.js";
-import { DomObject } from "../../core/domobject.js";
+import { GameObject }       from "../../core/gameobject.js";
+import { Game }             from "../../game.js";
+import { Turret }           from "./turret.js";
+import { Tank }             from "./tank.js";
+import { Vector2 }          from "../../utils/vector.js";
+import { DomObject }        from "../../core/domobject.js";
+import { AnimationObject }  from "../../core/animationobject.js";
 
 export class Bullet extends DomObject {
     
@@ -49,7 +49,10 @@ export class Bullet extends DomObject {
             if(this.parentTurret != collider.Turret) {
                 // console.log("Bullet hit")
                 this.CanDestroy = true
-                Game.Instance.AddGameObject(new ExplosionSmall(this.Position))
+                // Game.Instance.AddGameObject(new ExplosionSmall(this.Position))
+                Game.Instance.AddGameObject(
+                    new AnimationObject("explosion-small", this.Position, 56, 56, 2, 5, 3)
+                )
             }
         }
     }

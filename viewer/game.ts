@@ -89,10 +89,6 @@ export class Game {
         return randomTank
     }
 
-    public addGameObject(o : GameObject) {
-        this.gameObjects.push(o)
-    }
-
     private addTank(data : Settings) {
         // status bar on the right receives data
         // let bar = new StatusBar(data)

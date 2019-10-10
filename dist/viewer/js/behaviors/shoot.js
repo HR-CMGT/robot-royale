@@ -9,7 +9,7 @@ export class Shoot extends Behavior {
         this.lifeTime = 100;
         this.tank = behavioralObject;
         this.target = target;
-        this.fireRate = 20 + (this.tank.Data.armor * 30);
+        this.fireRate = 50 + (this.tank.Data.armor * 30);
     }
     performUpdate() {
         if (this.timer % this.fireRate === 0 && this.tank.Ammo > 0) {
@@ -20,7 +20,7 @@ export class Shoot extends Behavior {
     shoot() {
         this.tank.Ammo--;
         const projectile = (this.tank.Data.armor == 2) ? new Rocket(this.tank, this.target) : new Bullet(this.tank);
-        Game.Instance.addGameObject(projectile);
+        Game.Instance.AddGameObject(projectile);
     }
     onDeactivateBehavior() {
         if (!this.tank.Turret.active)

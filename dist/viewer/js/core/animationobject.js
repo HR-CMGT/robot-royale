@@ -1,4 +1,4 @@
-import { DomObject } from "../core/domobject";
+import { DomObject } from "./domobject.js";
 export class AnimationObject extends DomObject {
     constructor(tag, position, frameWidth, frameHeight, rows, columns, animationSpeed) {
         super(tag);

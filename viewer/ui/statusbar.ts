@@ -41,8 +41,8 @@ export class StatusBar {
 
         // three elements of the status bar
         this.bar.appendChild(this.rankBar)
-        this.bar.appendChild(this.infoBar)
         this.bar.appendChild(this.killBar)
+        this.bar.appendChild(this.infoBar)
 
 
         // damageBar transparant achter de info bar
