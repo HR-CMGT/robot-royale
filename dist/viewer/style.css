@@ -104,9 +104,13 @@ statusbar div:nth-child(2) {
 }
 
 statusbar div:nth-child(3) {
-    flex-basis: 20px;
-    padding-left:2px;
-    padding-top:4px;
+    flex-basis: 40px;
+    padding-left:20px;
+    line-height:120%;
+    font-size:1.0em;
+    background-repeat: no-repeat;
+    background-image: url("./images/bar_skull_ammo.png");
+    background-position-y: 2px;
 }
 
 .damage {

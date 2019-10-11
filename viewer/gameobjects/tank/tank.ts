@@ -40,7 +40,7 @@ export class Tank extends BehavioralObject{
     public get Ammo() : number      { return this.ammo      }
     public set Ammo(v : number)     { 
         this.ammo = v        
-        // this.status.Ammo = this.ammo
+        this.status.updateStatus(this.kills, this.ammo)
     }
     public get LifeTime() : number      { return this.lifeTime      }
     public set LifeTime(v : number)     { 
@@ -50,7 +50,7 @@ export class Tank extends BehavioralObject{
     public get Kills() : number      { return this.kills      }
     public set Kills(v : number)     { 
         this.kills = v     
-        this.status.Kills = this.kills
+        this.status.updateStatus(this.kills, this.ammo)
     }
     
     
@@ -132,7 +132,7 @@ export class Tank extends BehavioralObject{
     public redrawStatus() {
         let statusBar : StatusBar = new StatusBar(this.status.Data)
         statusBar.Health = this.Health
-        statusBar.Kills = this.Kills
+        statusBar.updateStatus(this.kills, this.ammo)
         this.status.remove()
         this.status = statusBar
     }

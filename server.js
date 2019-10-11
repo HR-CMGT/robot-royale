@@ -71,7 +71,8 @@ io.on('connection', (socket) => {
 
 if(debug) {
     http.listen(3000, () => {
-        console.log('listening on *:3000')
+        console.log('viewer   http://localhost:3000/viewer')
+        console.log('creator  http://localhost:3000/creator')
     })
 } else {
     var key     = fs.readFileSync('/encryption/cmgt.hr.nl.key');    // private key
@@ -85,6 +86,7 @@ if(debug) {
     };
 
     https.createServer(options, app).listen(8080, () => {
-        console.log('listening on *:8080')
+        console.log('viewer  *:8080/viewer')
+        console.log('creator *:8080/creator')
     });
 }

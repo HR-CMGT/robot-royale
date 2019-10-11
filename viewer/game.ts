@@ -193,7 +193,7 @@ export class Game {
                 id: String(Math.random() * 1000),
                 socketid: String(Math.random() * 1000),
                 color: Math.floor(Math.random() * 360),
-                nickname: "Old Billy Bob",
+                nickname: "Billy Bob",
                 armor: 2,//Math.floor(Math.random() * 3), 
                 program: [2, 3, 0, 0, 0, 0] // ["EMPTY", "STOP AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"]
             }
@@ -202,7 +202,7 @@ export class Game {
                 id: String(Math.random() * 1000),
                 socketid: String(Math.random() * 1000),
                 color: Math.floor(Math.random() * 360),
-                nickname: "Old Evil Erik",
+                nickname: "Evil Erik",
                 armor: 0,//Math.floor(Math.random() * 3),
                 program: [2, 3, 0, 0, 0, 0] // ["EMPTY", "STOP AND SHOOT", "AIM AND SHOOT", "FIND AMMO", "FIND HEALTH", "MOVE FORWARD"]
             }

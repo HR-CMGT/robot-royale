@@ -44,6 +44,7 @@ export class Tank extends BehavioralObject {
     get Ammo() { return this.ammo; }
     set Ammo(v) {
         this.ammo = v;
+        this.status.updateStatus(this.kills, this.ammo);
     }
     get LifeTime() { return this.lifeTime; }
     set LifeTime(v) {
@@ -52,7 +53,7 @@ export class Tank extends BehavioralObject {
     get Kills() { return this.kills; }
     set Kills(v) {
         this.kills = v;
-        this.status.Kills = this.kills;
+        this.status.updateStatus(this.kills, this.ammo);
     }
     get Turret() { return this.turret; }
     collide(collider) {
@@ -88,7 +89,7 @@ export class Tank extends BehavioralObject {
     redrawStatus() {
         let statusBar = new StatusBar(this.status.Data);
         statusBar.Health = this.Health;
-        statusBar.Kills = this.Kills;
+        statusBar.updateStatus(this.kills, this.ammo);
         this.status.remove();
         this.status = statusBar;
     }
