@@ -5,24 +5,11 @@ import { DebugInfo } from "./ui/debuginfo.js";
 import { Ammo } from "./gameobjects/pickups/ammo.js";
 import { Health } from "./gameobjects/pickups/health.js";
 import { Leaderboard } from "./ui/leaderboard.js";
-import { HighScore } from "./interface/highscore.js";
 export class Game {
     constructor() {
         this.gameObjects = [];
         this.gameover = false;
-        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-            Game.DEBUG = true;
-        }
-        if (Game.DEBUG) {
-            this.gameObjects.push(new DebugInfo());
-        }
         this.leaderboard = new Leaderboard();
-        if (!window.localStorage.getItem("highscore")) {
-            this.setHighScore(new HighScore());
-        }
-        else {
-            this.showHighScore(JSON.parse(window.localStorage.getItem("highscore")));
-        }
         this.socket = io();
         this.socket.emit('viewer refreshed');
         this.socket.on('robot created', (json) => {
@@ -40,11 +27,7 @@ export class Game {
             console.log('viewer received new socket id for ' + settings.nickname);
             this.updateTankConnection(settings);
         });
-        if (Game.DEBUG) {
-            for (let i = 0; i < 8; i++) {
-                this.addTank(this.randomSettings());
-            }
-        }
+        this.checkDebug();
         this.update();
     }
     get AmmoBoxes() {
@@ -63,6 +46,15 @@ export class Game {
     }
     AddGameObject(gameObject) {
         this.gameObjects.push(gameObject);
+    }
+    checkDebug() {
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+            Game.DEBUG = true;
+            this.gameObjects.push(new DebugInfo());
+            for (let i = 0; i < 10; i++) {
+                this.addTank(this.randomSettings());
+            }
+        }
     }
     getRandomEnemy(excludeTank) {
         let enemyTanks = this.gameObjects.filter(o => (o instanceof Tank && o != excludeTank));
@@ -137,6 +129,9 @@ export class Game {
             this.socket.emit('robot destroyed', gameObject.Data.socketid);
         }
     }
+    checkHighScore(t) {
+        this.leaderboard.checkHighScore(t);
+    }
     randomSettings() {
         if (Math.random() < 0.3) {
             return {
@@ -166,25 +161,6 @@ export class Game {
         });
         for (const tank of tanks) {
             tank.redrawStatus();
-        }
-    }
-    setHighScore(highScore) {
-        window.localStorage.setItem('highscore', JSON.stringify(highScore));
-        this.showHighScore(highScore);
-    }
-    showHighScore(highScore) {
-        this.leaderboard.Rank = highScore.rank;
-        this.leaderboard.Kills = highScore.kills;
-        this.leaderboard.Name = highScore.name;
-    }
-    checkHighScore(tank) {
-        let highscore = JSON.parse(window.localStorage.getItem('highscore'));
-        if (tank.Kills > highscore.kills) {
-            let newHighScore = new HighScore();
-            newHighScore.name = tank.Data.nickname;
-            newHighScore.kills = tank.Kills;
-            newHighScore.rank = Math.min(Math.floor(tank.Kills / 2), 4);
-            this.setHighScore(newHighScore);
         }
     }
 }

@@ -7,7 +7,6 @@ import { Settings } from "./interface/settings.js";
 import { Ammo } from "./gameobjects/pickups/ammo.js";
 import { Health } from "./gameobjects/pickups/health.js";
 import { Leaderboard } from "./ui/leaderboard.js";
-import { HighScore } from "./interface/highscore.js";
 
 export class Game {
     // static Fields
@@ -41,20 +40,7 @@ export class Game {
     }
 
     private constructor() {
-        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-            Game.DEBUG = true
-        }
-
-        if(Game.DEBUG) {
-            this.gameObjects.push(new DebugInfo())
-        }
-
         this.leaderboard = new Leaderboard()
-        if (!window.localStorage.getItem("highscore")) {
-            this.setHighScore(new HighScore())
-        } else {
-            this.showHighScore(JSON.parse(window.localStorage.getItem("highscore")) as HighScore)
-        }
         
         this.socket = io()
 
@@ -78,12 +64,19 @@ export class Game {
             this.updateTankConnection(settings)
         })
 
-        if(Game.DEBUG) {
-            for (let i = 0; i < 8; i++) {
+        this.checkDebug()
+        
+        this.update()
+    }
+
+    private checkDebug(){
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+            Game.DEBUG = true
+            this.gameObjects.push(new DebugInfo())
+            for (let i = 0; i < 10; i++) {
                 this.addTank(this.randomSettings())
             }
         }
-        this.update()
     }
 
     public getRandomEnemy(excludeTank:GameObject) : GameObject | undefined {
@@ -184,7 +177,9 @@ export class Game {
         }
     }
 
-    
+    public checkHighScore(t:Tank) {
+        this.leaderboard.checkHighScore(t)
+    }
 
     // just for debugging
     private randomSettings() : Settings {
@@ -223,27 +218,7 @@ export class Game {
         }
         
     }
-    private setHighScore(highScore: HighScore) {
-        window.localStorage.setItem('highscore', JSON.stringify(highScore));
-        this.showHighScore(highScore)
-    }
-    private showHighScore(highScore: HighScore) {
-        this.leaderboard.Rank = highScore.rank
-        this.leaderboard.Kills = highScore.kills
-        this.leaderboard.Name = highScore.name
-    }
-    public checkHighScore(tank : Tank) {
-        let highscore : HighScore = JSON.parse(window.localStorage.getItem('highscore')) as HighScore
-
-        if(tank.Kills > highscore.kills) {
-            let newHighScore = new HighScore()
-            newHighScore.name = tank.Data.nickname
-            newHighScore.kills = tank.Kills
-            newHighScore.rank = Math.min(Math.floor(tank.Kills/2), 4)
-
-            this.setHighScore(newHighScore)
-        }
-    }
+   
 }
 
 window.addEventListener("DOMContentLoaded", () => Game.Instance)

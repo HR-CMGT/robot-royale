@@ -10,8 +10,7 @@ export class DomObject extends GameObject {
     constructor(tag) {
         super();
         this.div = document.createElement(tag);
-        let gameview = document.querySelector("#gameview");
-        gameview.appendChild(this.div);
+        document.querySelector("#gameview").appendChild(this.div);
     }
     draw() {
         this.div.style.transform = `translate(${this.Position.X - this.Width / 2}px, ${this.Position.Y - this.Height / 2}px) rotate(${this.Rotation}deg)`;

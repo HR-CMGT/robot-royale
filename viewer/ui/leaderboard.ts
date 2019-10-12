@@ -1,39 +1,80 @@
 import { DomObject } from "../core/domobject.js";
+import { Settings } from "../interface/settings.js"
+import { Tank } from "../gameobjects/tank/tank.js"
 
 export class Leaderboard extends DomObject {
-    private rank : HTMLElement
-    private kills : HTMLElement
-    private name : HTMLElement
 
-    public set Rank(rank:number) {
-        this.rank.style.backgroundImage = `url(./images/ranks/rank${rank}.png)`
-    }
-    public set Kills(kills : number) {
-        this.kills.innerHTML = ""+kills
-    }
-    public set Name(name : string) {
-        this.name.innerHTML = name
-    }
+    private highScores: (Settings | undefined)[] = [undefined, undefined, undefined]
 
     constructor() {
         super("leaderboard")
 
-        this.Div.style.left = ((window.innerWidth - 200) / 2 - this.Div.clientWidth / 2) + "px"
+        // get the top three from cookie
+        const cookie = window.localStorage.getItem("tankroyale-scores")
+        if (cookie) {
+            this.highScores = JSON.parse(cookie)
+        }
 
-        this.name = document.createElement("div")
-        this.name.innerHTML = "Old Billy Bob"
+        // debug
+        // this.highScores[0] = this.testScore()
 
-        this.rank = document.createElement("div")
-        this.rank.style.backgroundImage = "url(./images/ranks/rank0.png)"
+        // draw 
+        this.drawHighScores()
+    }
 
-        this.kills = document.createElement("div")
-        this.kills.innerHTML = "0"
+    private drawHighScores(){
+        this.Div.innerHTML = ""
+        for(let score of this.highScores){
+            // als er nog geen hiscore is wel een leeg balkje tonen
+            this.Div.appendChild(this.getStatusBar(score))
+        }
+    }
 
-        let last = document.createElement("div")
+    private getStatusBar(score:Settings | undefined){
+        const status = document.createElement("div")
+        if(score) {
+            let rank = (score.kills) ? Math.min(Math.floor(score.kills / 2), 4) : 0
+            status.style.backgroundImage = `url(./images/ranks/rank${rank}.png)`
+            status.innerHTML = `${score.kills || 0}  ${score.nickname}`
+        }
+        
+        return status
+    }
 
-        this.Div.appendChild(this.rank)
-        this.Div.appendChild(this.kills)
-        this.Div.appendChild(this.name)
-        this.Div.appendChild(last)
+    public checkHighScore(tank: Tank) {
+        // TODO KILLS EN AMMO OOK IN DATA BIJHOUDEN
+        let score:Settings = tank.Data
+        score.kills = tank.Kills
+
+        // array sorteren op kills
+        this.highScores.push(score)
+        this.highScores.sort((a:Settings, b:Settings) => b.kills - a.kills)
+
+        // alleen eerste drie bewaren
+        if(this.highScores.length > 3) {
+           this.highScores.splice(3, this.highScores.length-3)
+        }
+
+        // magic !!!
+        // console.table(this.highScores)
+
+        this.drawHighScores()
+        this.saveHighScores()
+    }
+
+    private saveHighScores() {
+        window.localStorage.setItem('tankroyale-scores', JSON.stringify(this.highScores));
+    }
+
+    private testScore(): Settings {
+        return {
+            id: "68hjk769",
+            socketid: "67768",
+            color: 66,
+            nickname: "Captain Obvious",
+            armor: 0,
+            program: [2, 3, 0, 0, 0, 0],
+            kills: 4
+        }
     }
 }

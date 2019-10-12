@@ -50,29 +50,37 @@ h1,h2,h3,h4 {
 }
 
 leaderboard {
-    box-sizing: border-box;
+    display:flex;
     position: absolute;
-    padding:2px;
-    top: 0px;
-    width: 200px;
+    font-size:1.1em;
+    top:10px;
+    left: calc(50vw - 400px); 
+    color:white;
+    box-sizing: border-box;
+}
+
+leaderboard:before {
+    content: "";
+    position: absolute;
+    left:-130px;
+    top:2px;
+    width:120px;
     height:30px;
-    background-color: #6B9A45;
-    color: white;
-    display: flex;  
-}
-leadboard div {
-    flex: 1 0;
-}
-leaderboard div:nth-child(1) {
-    flex-basis: 25px;
+    background-image: url(./images/top3.png);
     background-size:contain;
     background-repeat: no-repeat;
-    padding:2px;
-    background-origin: content-box;
-    /* flex: 1 0; */
 }
-leaderboard div:nth-child(2) {
-    flex: 2 0;
+
+leaderboard div {
+    margin-right:3px;
+    width:200px;
+    height:30px;
+    padding-top:5px;
+    padding-left:28px;
+    background-color:rgba(0, 0, 0, 0.534);
+    background-size:20px;
+    background-repeat: no-repeat;
+    background-position: 2px 2px;
 }
 
 statusbar {
@@ -84,42 +92,45 @@ statusbar {
 }
 
 statusbar div {
-    font-size:1.2em;
     color:white;
+    font-size:1.1em;
 }
 
+/* Rank badge and kill count */
 statusbar div:nth-child(1) {
-    flex-basis: 28px;
-    background-size:contain;
+    flex-basis: 44px;
+    padding-top:5px;
+    padding-left:28px;
+    background-size:20px;
     background-repeat: no-repeat;
-    padding:2px;
-    background-origin: content-box;
+    background-position: 2px 2px;
 }
 
-
+/* ammo count */
 statusbar div:nth-child(2) {
-    flex: 1 0;
-    padding-left:2px;
-    padding-top:4px;
+    flex-basis: 36px;
+    padding-top:5px;
+    padding-left:18px;
+    background-image: url("./images/bar_ammo.png");
+    background-repeat: no-repeat;
+    background-position-y: 4px;
 }
 
+/* name */
 statusbar div:nth-child(3) {
-    flex-basis: 40px;
-    padding-left:20px;
-    line-height:120%;
-    font-size:1.0em;
-    background-repeat: no-repeat;
-    background-image: url("./images/bar_skull_ammo.png");
-    background-position-y: 2px;
+    flex: 1 0;
+    padding-top:5px;
+    padding-left:2px;
 }
 
 .damage {
     display:block;
     position: absolute;
-    background-color:rgba(255, 255, 255, 0.25);
+    background-color:rgba(0, 0, 0, 0.55);
     height:100%;
     right:0px;
     transition: width 0.2s linear;
+    z-index:-1;
 }
 
 tank-body {
@@ -240,8 +251,8 @@ repair {
     position: absolute;
     left:10px;
     bottom:10px;
-    width:7vw; height:7vw;
-    background-image: url("./images/qrcode.png");
+    width:7vw; height:9vw;
+    background-image: url("./images/qrcode_join.png");
     background-size:contain;
     background-repeat:no-repeat;
 }

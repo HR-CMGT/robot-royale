@@ -19,8 +19,7 @@ export class DomObject extends GameObject{
     constructor(tag : string) {
         super()
         this.div = document.createElement(tag)
-        let gameview = document.querySelector("#gameview")
-        gameview.appendChild(this.div)
+        document.querySelector("#gameview").appendChild(this.div)
     }
 
     public draw() {

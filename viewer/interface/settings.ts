@@ -5,4 +5,5 @@ export interface Settings {
     nickname: string
     armor:number
     program : number[]
+    kills? : number         // optional argument
 }

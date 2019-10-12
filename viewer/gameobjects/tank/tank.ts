@@ -40,7 +40,7 @@ export class Tank extends BehavioralObject{
     public get Ammo() : number      { return this.ammo      }
     public set Ammo(v : number)     { 
         this.ammo = v        
-        this.status.updateStatus(this.kills, this.ammo)
+        this.status.Ammo = v
     }
     public get LifeTime() : number      { return this.lifeTime      }
     public set LifeTime(v : number)     { 
@@ -50,9 +50,8 @@ export class Tank extends BehavioralObject{
     public get Kills() : number      { return this.kills      }
     public set Kills(v : number)     { 
         this.kills = v     
-        this.status.updateStatus(this.kills, this.ammo)
+        this.status.Kills = v
     }
-    
     
     public get Turret() : Turret    { return this.turret    }
     
@@ -129,10 +128,12 @@ export class Tank extends BehavioralObject{
     }
     
     // als er een tank bij komt of weg gaat worden de statusbars opnieuw getekend
+    // TODO rearrange instead of removing and adding the same status bar
     public redrawStatus() {
         let statusBar : StatusBar = new StatusBar(this.status.Data)
         statusBar.Health = this.Health
-        statusBar.updateStatus(this.kills, this.ammo)
+        statusBar.Ammo = this.ammo
+        statusBar.Kills = this.kills
         this.status.remove()
         this.status = statusBar
     }
