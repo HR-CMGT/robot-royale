@@ -6,7 +6,7 @@ import { AnimationObject } from "../../core/animationobject.js";
 export class Rocket extends DomObject {
     constructor(tank, target = undefined) {
         super("rocket");
-        this.LIFETIME = 150;
+        this.LIFETIME = 300;
         this.timer = 0;
         this.damage = 30;
         this.parentTurret = tank.Turret;
@@ -22,15 +22,13 @@ export class Rocket extends DomObject {
     get Damage() { return this.damage; }
     get ParentTurret() { return this.parentTurret; }
     update() {
-        if (this.timer++ >= this.LIFETIME)
-            this.destroy();
-        if (this.target) {
+        if (this.target && !this.target.CanDestroy) {
             let difference = this.target.Position.difference(this.Position);
             this.Direction = difference.normalize();
             this.Rotation = this.Direction.angle();
         }
         else {
-            console.log("rocket lost target");
+            console.log("HALPS rocket lost target");
         }
         this.Position = this.Position.add(this.Direction.scale(this.Speed));
         super.update();

@@ -11,7 +11,7 @@ export class GeneratorView extends HTMLElement {
 
     connectedCallback() {
         console.log("Building generator view")
-        this.armorlabels = ["Light Armor | Fast Speed", "Medium Armor | Medium Speed", "Heavy Armor | Low Speed"]
+        this.armorlabels = ["Low Armor | Fast | High Firerate", "Medium Armor | Medium Speed", "Heavy Armor | Slow | Missiles"]
       
         const template: HTMLTemplateElement = document.getElementById('generator-template') as HTMLTemplateElement
         this.appendChild(template.content)

@@ -8,7 +8,7 @@ import { DomObject }        from "../../core/domobject.js";
 import { AnimationObject } from "../../core/animationobject.js";
 
 export class Rocket extends DomObject {
-    private readonly LIFETIME : number = 150
+    private readonly LIFETIME : number = 300
 
     // Field 
     private timer           : number = 0
@@ -51,14 +51,14 @@ export class Rocket extends DomObject {
 
     public update() {
         // life timer
-        if(this.timer++ >= this.LIFETIME) this.destroy()
+        // if(this.timer++ >= this.LIFETIME) this.destroy()
 
-        if(this.target){
+        if(this.target && !this.target.CanDestroy){
             let difference = this.target.Position.difference(this.Position)
             this.Direction = difference.normalize()
             this.Rotation = this.Direction.angle()
         } else {
-            console.log("rocket lost target")
+            console.log("HALPS rocket lost target")
         }
         
         this.Position = this.Position.add(this.Direction.scale(this.Speed))

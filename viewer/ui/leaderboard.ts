@@ -25,7 +25,6 @@ export class Leaderboard extends DomObject {
     private drawHighScores(){
         this.Div.innerHTML = ""
         for(let score of this.highScores){
-            // als er nog geen hiscore is wel een leeg balkje tonen
             this.Div.appendChild(this.getStatusBar(score))
         }
     }
@@ -37,7 +36,6 @@ export class Leaderboard extends DomObject {
             status.style.backgroundImage = `url(./images/ranks/rank${rank}.png)`
             status.innerHTML = `${score.kills || 0}  ${score.nickname}`
         }
-        
         return status
     }
 
