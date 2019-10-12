@@ -21,6 +21,11 @@ export class App {
         });
         this.socket.on("tank destroyed", () => this.showConfirmBox("was destroyed!!!", false));
         this.socket.on("viewer refreshed", () => this.showConfirmBox("game was ended 😱", false));
+        this.resizeUI();
+    }
+    resizeUI() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
     showGeneratorView() {
         let v = new GeneratorView();

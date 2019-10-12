@@ -15,6 +15,8 @@ export class GeneratorView extends HTMLElement {
         document.body.addEventListener("settingsUpdated", () => this.render());
         this.render();
     }
+    disconnectedCallback() {
+    }
     render() {
         this.field.innerText = Settings.getInstance().nickname;
         this.label.innerText = this.armorlabels[Settings.getInstance().armor];

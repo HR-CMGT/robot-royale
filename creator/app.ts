@@ -10,6 +10,7 @@ export class App {
     constructor() {
         Settings.getInstance().init()
         this.showGeneratorView()
+
         // connection can close and reopen while the game is running (browser sleeping/tab pausing) // set timeout to prevent glitch
         this.socket = io({ timeout: 60000 })
         this.socket.on('connect', () => Settings.getInstance().socketid = this.socket.id)
@@ -36,6 +37,16 @@ export class App {
 
         // viewer refreshed
         this.socket.on("viewer refreshed", () => this.showConfirmBox("game was ended 😱", false))
+
+        // reposition footer on mobile - when url bar/bottom bar show/hides
+        // https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+        // window.addEventListener("resize", this.resizeUI) // too intensive
+        this.resizeUI()
+    }
+
+    private resizeUI() {
+        let vh = window.innerHeight * 0.01
+        document.documentElement.style.setProperty('--vh', `${vh}px`)
     }
 
     private showGeneratorView():void {
@@ -79,8 +90,3 @@ export class App {
 
 window.addEventListener("DOMContentLoaded", () => new App())
 
-/* todo recalculate flexbox when the address bar hides on ios/android
-window.onresize = function() {
-    document.body.height = window.innerHeight;
-}
-*/

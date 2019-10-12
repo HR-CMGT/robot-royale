@@ -26,8 +26,12 @@ export class GeneratorView extends HTMLElement {
         this.querySelector("#generate-btn").addEventListener("click", () => Settings.getInstance().randomize())
         this.querySelector("#confirm-btn").addEventListener("click", () => this.confirmSettings())
         document.body.addEventListener("settingsUpdated", () => this.render())
-        
+       
         this.render()
+    }
+
+    disconnectedCallback(){
+        
     }
 
     private render() : void {
@@ -38,6 +42,7 @@ export class GeneratorView extends HTMLElement {
         const hue = `hue-rotate(${Settings.getInstance().color}deg)`
         this.bg.style.filter = this.image.style.filter = this.logo.style.filter = hue
     }
+
 
     private confirmSettings(): void {
         this.dispatchEvent(new Event('confirm'))
