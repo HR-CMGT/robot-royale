@@ -65,7 +65,7 @@ export class Tank extends BehavioralObject{
 
         this.data   = data
         this.status = status
-        this.Ammo   = 10
+        this.Ammo   = (15 - (data.armor * 5)) // todo dependent on armor
 
         this.Div.classList.add(`armor-${data.armor}`)
         this.Div.style.filter = `hue-rotate(${data.color}deg)`

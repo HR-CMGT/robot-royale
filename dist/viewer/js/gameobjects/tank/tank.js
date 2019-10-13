@@ -21,7 +21,7 @@ export class Tank extends BehavioralObject {
         this.Behavior = new Forward(this);
         this.data = data;
         this.status = status;
-        this.Ammo = 10;
+        this.Ammo = (15 - (data.armor * 5));
         this.Div.classList.add(`armor-${data.armor}`);
         this.Div.style.filter = `hue-rotate(${data.color}deg)`;
         this.Position = new Vector2(Math.random() * (window.innerWidth - 300), Math.random() * (window.innerHeight - 100));

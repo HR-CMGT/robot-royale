@@ -8,7 +8,7 @@ import { DomObject }        from "../../core/domobject.js";
 import { AnimationObject } from "../../core/animationobject.js";
 
 export class Rocket extends DomObject {
-    private readonly LIFETIME : number = 300
+    private readonly LIFETIME : number = 120
 
     // Field 
     private timer           : number = 0
@@ -50,9 +50,6 @@ export class Rocket extends DomObject {
     }
 
     public update() {
-        // life timer
-        // if(this.timer++ >= this.LIFETIME) this.destroy()
-
         if(this.target && !this.target.CanDestroy){
             let difference = this.target.Position.difference(this.Position)
             this.Direction = difference.normalize()
@@ -66,6 +63,8 @@ export class Rocket extends DomObject {
 
         if(this.isInvisible()) this.CanDestroy = true
 
+        // life timer
+        if(this.timer++ >= this.LIFETIME) this.destroy()
     }
 
     public collide(collider : GameObject){

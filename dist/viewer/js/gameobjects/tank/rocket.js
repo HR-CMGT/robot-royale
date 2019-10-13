@@ -6,7 +6,7 @@ import { AnimationObject } from "../../core/animationobject.js";
 export class Rocket extends DomObject {
     constructor(tank, target = undefined) {
         super("rocket");
-        this.LIFETIME = 300;
+        this.LIFETIME = 120;
         this.timer = 0;
         this.damage = 30;
         this.parentTurret = tank.Turret;
@@ -34,6 +34,8 @@ export class Rocket extends DomObject {
         super.update();
         if (this.isInvisible())
             this.CanDestroy = true;
+        if (this.timer++ >= this.LIFETIME)
+            this.destroy();
     }
     collide(collider) {
         if (collider instanceof Tank) {
