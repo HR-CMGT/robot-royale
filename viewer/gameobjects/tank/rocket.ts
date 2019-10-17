@@ -8,7 +8,7 @@ import { DomObject }        from "../../core/domobject.js";
 import { AnimationObject } from "../../core/animationobject.js";
 
 export class Rocket extends DomObject {
-    private readonly LIFETIME : number = 120
+    private readonly LIFETIME : number = 250
 
     // Field 
     private timer           : number = 0
