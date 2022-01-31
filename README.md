@@ -54,3 +54,7 @@ Edit HTML and CSS directly in the DIST folders.
 # Links
 
 - https://socket.io
+
+# Live
+- http://145.24.222.232:8080/viewer/
+- http://145.24.222.232:8080/creator/
