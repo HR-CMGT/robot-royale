@@ -48,8 +48,8 @@ Edit HTML and CSS directly in the DIST folders.
 
 # Play
 
-- http://localhost:3000/creator to build a new robot
-- http://localhost:3000/viewer to view the battlefield
+- https://programmeren9.cmgt.hr.nl:8080/creator to build a new robot
+- https://programmeren9.cmgt.hr.nl:8080/viewer to view the battlefield
 
 # Links
 
