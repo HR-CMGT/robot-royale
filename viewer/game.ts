@@ -155,6 +155,10 @@ export class Game {
             
         }
 
+        if(this.Tanks.length < 6) {
+            this.addTank(this.randomSettings())
+        }
+
         if(!this.gameover) requestAnimationFrame(() => this.update())
     }
 

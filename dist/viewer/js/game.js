@@ -115,6 +115,9 @@ export class Game {
                 this.removeGameObject(obj);
             }
         }
+        if (this.Tanks.length < 6) {
+            this.addTank(this.randomSettings());
+        }
         if (!this.gameover)
             requestAnimationFrame(() => this.update());
     }

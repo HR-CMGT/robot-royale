@@ -1,0 +1,5 @@
+#! /bin/bash
+
+echo "Run Robot Royale in Kiosk mode"
+
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --kiosk --app=http://145.24.222.160:8080/viewer
