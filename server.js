@@ -1,11 +1,12 @@
+require('dotenv/config')
 const express       = require('express')
 const app           = express()
 const http          = require('http').createServer(app)
 const https         = require('https')
 const fs            = require('fs')
 const io            = require('socket.io')(http)
-const debug         = true
-require('dotenv/config')
+const debug         = process.env.DEBUG === 'true'
+
 
 app.use(express.static('dist'))
 
@@ -71,6 +72,7 @@ io.on('connection', (socket) => {
 });
 
 if(debug) {
+    console.log('debug mode');
     http.listen(3000, () => {
         console.log('viewer   http://localhost:3000/viewer')
         console.log('creator  http://localhost:3000/creator')
@@ -78,6 +80,7 @@ if(debug) {
 } else {
     const key     = fs.readFileSync(process.env.KEY);    // private key
     const cert    = fs.readFileSync(process.env.CERT );      // primary
+    const port   = process.env.PORT || 8080
     //const ca      = fs.readFileSync('/encryption/DigiCertCA.crt' ); // intermediate
 
     const options = {
@@ -86,8 +89,8 @@ if(debug) {
     //    ca: ca
     };
 
-    https.createServer(options, app).listen(8080, () => {
-        console.log('viewer  *:8080/viewer')
-        console.log('creator *:8080/creator')
+    https.createServer(options, app).listen(port, () => {
+        console.log(`viewer  *:${port}/viewer`)
+        console.log(`creator *:${port}/creator`)
     });
 }
