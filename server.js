@@ -99,8 +99,7 @@ if(debug) {
         console.log('server running at ' + port);
     })
     server.on('listening', () => {
-        const host = server.address().address === '::' ? 'localhost' : server.address().address; // Address could be '::' in case of IPv6, defaulting to localhost in such cases
-        console.log(`viewer  https://${host}:${server.address().port}/viewer`)
-        console.log(`creator  https://${host}:${server.address().port}/creator`)
+        console.log(`viewer  https://${process.env.HOST}:${server.address().port}/viewer`)
+        console.log(`creator  https://${process.env.HOST}:${server.address().port}/creator`)
     })
 }
