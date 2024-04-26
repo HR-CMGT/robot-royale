@@ -71,13 +71,17 @@ io.on('connection', (socket) => {
     });
 });
 
-let server
 
 if(debug) {
     console.log('debug mode');
-    server = http.listen(3000, () => {
+    const server = http.listen(3000, () => {
         // console.log('viewer   http://localhost:3000/viewer')
         // console.log('creator  http://localhost:3000/creator')
+    })
+    server.on('listening', () => {
+        const host = server.address().address === '::' ? 'localhost' : server.address().address; // Address could be '::' in case of IPv6, defaulting to localhost in such cases
+        console.log(`viewer  http://${host}:${server.address().port}/viewer`)
+        console.log(`creator  http://${host}:${server.address().port}/creator`)
     })
 } else {
     const key     = fs.readFileSync(process.env.KEY);    // private key
@@ -94,9 +98,9 @@ if(debug) {
     server = https.createServer(options, app).listen(port, () => {
         console.log('server running at ' + port);
     })
+    server.on('listening', () => {
+        const host = server.address().address === '::' ? 'localhost' : server.address().address; // Address could be '::' in case of IPv6, defaulting to localhost in such cases
+        console.log(`viewer  https://${host}:${server.address().port}/viewer`)
+        console.log(`creator  https://${host}:${server.address().port}/creator`)
+    })
 }
-server.on('listening', () => {
-    const host = server.address().address === '::' ? 'localhost' : server.address().address; // Address could be '::' in case of IPv6, defaulting to localhost in such cases
-    console.log(`viewer  https://${host}:${server.address().port}/viewer`)
-    console.log(`creator  https://${host}:${server.address().port}/creator`)
-})
