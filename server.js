@@ -5,6 +5,7 @@ const https         = require('https')
 const fs            = require('fs')
 const io            = require('socket.io')(http)
 const debug         = true
+require('dotenv/config')
 
 app.use(express.static('dist'))
 
@@ -75,13 +76,13 @@ if(debug) {
         console.log('creator  http://localhost:3000/creator')
     })
 } else {
-    var key     = fs.readFileSync('/encryption/cmgt.hr.nl.key');    // private key
-    var cert    = fs.readFileSync('/encryption/bundle.crt' );      // primary
-    //var ca      = fs.readFileSync('/encryption/DigiCertCA.crt' ); // intermediate
+    const key     = fs.readFileSync(process.env.KEY);    // private key
+    const cert    = fs.readFileSync(process.env.CERT );      // primary
+    //const ca      = fs.readFileSync('/encryption/DigiCertCA.crt' ); // intermediate
 
-    var options = {
+    const options = {
         key: key,
-        cert: cert
+        cert: cert,
     //    ca: ca
     };
 
