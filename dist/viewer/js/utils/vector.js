@@ -1,14 +1,14 @@
 export class Vector2 {
+    get X() { return this.x; }
+    set X(value) { this.x = value; }
+    get Y() { return this.y; }
+    set Y(value) { this.y = value; }
     constructor(x, y) {
         this.x = 0;
         this.y = 0;
         this.x = x;
         this.y = y;
     }
-    get X() { return this.x; }
-    set X(value) { this.x = value; }
-    get Y() { return this.y; }
-    set Y(value) { this.y = value; }
     add(v) {
         return new Vector2(this.x + v.x, this.y + v.y);
     }

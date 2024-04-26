@@ -11,26 +11,6 @@ import { Vector2 } from "../../utils/vector.js";
 import { AnimationObject } from "../../core/animationobject.js";
 import { NullBehavior } from "../../behaviors/nullbehavior.js";
 export class Tank extends BehavioralObject {
-    constructor(data, status) {
-        super("tank-body");
-        this.health = 100;
-        this.ammo = 0;
-        this.lifeTime = 0;
-        this.kills = 0;
-        this.just = 0;
-        this.Behavior = new Forward(this);
-        this.data = data;
-        this.status = status;
-        this.Ammo = (15 - (data.armor * 5));
-        this.Div.classList.add(`armor-${data.armor}`);
-        this.Div.style.filter = `hue-rotate(${data.color}deg)`;
-        this.Position = new Vector2(Math.random() * (window.innerWidth - 300), Math.random() * (window.innerHeight - 100));
-        this.Direction = new Vector2(1 - (Math.random() * 2), 1 - (Math.random() * 2));
-        this.Rotation = this.Direction.angle();
-        this.Speed = (5 - (data.armor * 2));
-        this.turret = new Turret(this);
-        this.update();
-    }
     get Data() { return this.data; }
     get Health() { return this.health; }
     set Health(v) {
@@ -56,6 +36,26 @@ export class Tank extends BehavioralObject {
         this.status.Kills = v;
     }
     get Turret() { return this.turret; }
+    constructor(data, status) {
+        super("tank-body");
+        this.health = 100;
+        this.ammo = 0;
+        this.lifeTime = 0;
+        this.kills = 0;
+        this.just = 0;
+        this.Behavior = new Forward(this);
+        this.data = data;
+        this.status = status;
+        this.Ammo = (15 - (data.armor * 5));
+        this.Div.classList.add(`armor-${data.armor}`);
+        this.Div.style.filter = `hue-rotate(${data.color}deg)`;
+        this.Position = new Vector2(Math.random() * (window.innerWidth - 300), Math.random() * (window.innerHeight - 100));
+        this.Direction = new Vector2(1 - (Math.random() * 2), 1 - (Math.random() * 2));
+        this.Rotation = this.Direction.angle();
+        this.Speed = (5 - (data.armor * 2));
+        this.turret = new Turret(this);
+        this.update();
+    }
     collide(collider) {
         if (collider instanceof Bullet || collider instanceof Rocket) {
             if (collider.ParentTurret instanceof Turret) {

@@ -1,12 +1,12 @@
 import { Randomizer } from "./randomizer.js";
 export class Settings {
-    constructor() {
-    }
     static getInstance() {
         if (!Settings.instance) {
             Settings.instance = new Settings();
         }
         return Settings.instance;
+    }
+    constructor() {
     }
     init() {
         this._id = Randomizer.generateID();

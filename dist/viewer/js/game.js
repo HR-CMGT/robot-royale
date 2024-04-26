@@ -6,6 +6,23 @@ import { Ammo } from "./gameobjects/pickups/ammo.js";
 import { Health } from "./gameobjects/pickups/health.js";
 import { Leaderboard } from "./ui/leaderboard.js";
 export class Game {
+    get AmmoBoxes() {
+        return this.gameObjects.filter(o => o instanceof Ammo);
+    }
+    get RepairKits() {
+        return this.gameObjects.filter(o => o instanceof Health);
+    }
+    get Tanks() {
+        return this.gameObjects.filter(o => o instanceof Tank);
+    }
+    static get Instance() {
+        if (!this.instance)
+            this.instance = new Game();
+        return this.instance;
+    }
+    AddGameObject(gameObject) {
+        this.gameObjects.push(gameObject);
+    }
     constructor() {
         this.gameObjects = [];
         this.gameover = false;
@@ -29,23 +46,6 @@ export class Game {
         });
         this.checkDebug();
         this.update();
-    }
-    get AmmoBoxes() {
-        return this.gameObjects.filter(o => o instanceof Ammo);
-    }
-    get RepairKits() {
-        return this.gameObjects.filter(o => o instanceof Health);
-    }
-    get Tanks() {
-        return this.gameObjects.filter(o => o instanceof Tank);
-    }
-    static get Instance() {
-        if (!this.instance)
-            this.instance = new Game();
-        return this.instance;
-    }
-    AddGameObject(gameObject) {
-        this.gameObjects.push(gameObject);
     }
     checkDebug() {
         if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {

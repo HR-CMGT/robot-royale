@@ -1,10 +1,4 @@
 export class GameObject {
-    constructor() {
-        this.speed = 0;
-        this.rotation = 0;
-        this.color = 0;
-        this.canDestroy = false;
-    }
     get Position() { return this.position; }
     set Position(v) { this.position = v; }
     get Direction() { return this.direction; }
@@ -15,6 +9,12 @@ export class GameObject {
     set CanDestroy(v) { this.canDestroy = v; }
     get Rotation() { return this.rotation; }
     set Rotation(deg) { this.rotation = deg; }
+    constructor() {
+        this.speed = 0;
+        this.rotation = 0;
+        this.color = 0;
+        this.canDestroy = false;
+    }
     collide(collider) {
     }
     update() {

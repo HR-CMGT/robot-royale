@@ -1,10 +1,10 @@
 export class Behavior {
+    get BehavioralObject() { return this.behavioralObject; }
     constructor(behavioralObject) {
         this.timer = 0;
         this.lifeTime = 0;
         this.behavioralObject = behavioralObject;
     }
-    get BehavioralObject() { return this.behavioralObject; }
     performUpdate() {
         this.timer++;
         if (this.timer >= this.lifeTime) {

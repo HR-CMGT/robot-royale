@@ -4,6 +4,8 @@ import { Vector2 } from "../../utils/vector.js";
 import { DomObject } from "../../core/domobject.js";
 import { AnimationObject } from "../../core/animationobject.js";
 export class Bullet extends DomObject {
+    get Damage() { return this.damage; }
+    get ParentTurret() { return this.parentTurret; }
     constructor(tank) {
         super("bullet");
         this.damage = 15;
@@ -16,8 +18,6 @@ export class Bullet extends DomObject {
         this.Position = this.Position.add(this.Direction.scale(dist));
         this.update();
     }
-    get Damage() { return this.damage; }
-    get ParentTurret() { return this.parentTurret; }
     update() {
         this.Position = this.Position.add(this.Direction.scale(this.Speed));
         super.update();

@@ -2,6 +2,7 @@ import { Vector2 } from "../../utils/vector.js";
 import { Rotate } from "../../behaviors/rotate.js";
 import { BehavioralObject } from "../../interface/behavioralObject.js";
 export class Turret extends BehavioralObject {
+    get ParentTank() { return this.tank; }
     constructor(tank) {
         super("tank-turret");
         this.active = true;
@@ -14,7 +15,6 @@ export class Turret extends BehavioralObject {
         this.AddBehavior(new Rotate(this, 180, true));
         this.update();
     }
-    get ParentTank() { return this.tank; }
     update() {
         this.Position = new Vector2(this.tank.Position.X, this.tank.Position.Y);
         this.Direction = this.tank.Direction;

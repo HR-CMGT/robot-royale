@@ -1,11 +1,11 @@
 import { Behavior } from "../../interface/behavior.js";
 export class BehaviorComposite extends Behavior {
+    addBehavior(b) { this.behaviors.push(b); }
     constructor(behavioralObject) {
         super(behavioralObject);
         this.currentBehaviorCounter = 0;
         this.behaviors = [];
     }
-    addBehavior(b) { this.behaviors.push(b); }
     performUpdate() {
         this.activeBehavior.performUpdate();
     }

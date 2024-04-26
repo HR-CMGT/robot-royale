@@ -4,6 +4,8 @@ import { Vector2 } from "../../utils/vector.js";
 import { DomObject } from "../../core/domobject.js";
 import { AnimationObject } from "../../core/animationobject.js";
 export class Rocket extends DomObject {
+    get Damage() { return this.damage; }
+    get ParentTurret() { return this.parentTurret; }
     constructor(tank, target = undefined) {
         super("rocket");
         this.LIFETIME = 250;
@@ -19,8 +21,6 @@ export class Rocket extends DomObject {
         this.Position = this.Position.add(this.Direction.scale(dist));
         this.update();
     }
-    get Damage() { return this.damage; }
-    get ParentTurret() { return this.parentTurret; }
     update() {
         if (this.target && !this.target.CanDestroy) {
             let difference = this.target.Position.difference(this.Position);
