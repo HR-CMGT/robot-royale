@@ -250,9 +250,9 @@ repair {
 #qrcode {
     position: absolute;
     left:10px;
-    bottom:10px;
-    width:7vw; height:9vw;
-    background-image: url("./images/qrcode_join.png");
+    bottom:110px;
+    width:5vw; height:5vw;
+    /*background-image: url("./images/qrcode_join.png");*/
     background-size:contain;
     background-repeat:no-repeat;
 }
