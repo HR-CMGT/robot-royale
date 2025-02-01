@@ -25,6 +25,12 @@ export class Game {
     }
     constructor() {
         this.gameObjects = [];
+        this.fps = 60;
+        this.fpsInterval = 1000 / this.fps;
+        this.startTime = Date.now();
+        this.now = 0;
+        this.then = Date.now();
+        this.elapsed = 0;
         this.gameover = false;
         this.leaderboard = new Leaderboard();
         this.socket = io();
@@ -90,33 +96,38 @@ export class Game {
         }
     }
     update() {
-        if (PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
-            PickUp.NUMBER_OF_PICKUPS++;
-            PickUp.DELTA_TIME_PICKUPS = 0;
-            if (Math.random() < 0.5)
-                this.gameObjects.push(new Ammo());
-            else
-                this.gameObjects.push(new Health());
-        }
-        PickUp.DELTA_TIME_PICKUPS++;
-        for (let object1 of this.gameObjects) {
-            object1.update();
-            for (let object2 of this.gameObjects) {
-                if (object1 != object2 && object1.detectCollision(object2)) {
-                    object1.collide(object2);
-                    object2.collide(object1);
+        this.now = Date.now();
+        this.elapsed = this.now - this.then;
+        if (this.elapsed > this.fpsInterval) {
+            this.then = this.now - (this.elapsed % this.fpsInterval);
+            if (PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
+                PickUp.NUMBER_OF_PICKUPS++;
+                PickUp.DELTA_TIME_PICKUPS = 0;
+                if (Math.random() < 0.5)
+                    this.gameObjects.push(new Ammo());
+                else
+                    this.gameObjects.push(new Health());
+            }
+            PickUp.DELTA_TIME_PICKUPS++;
+            for (let object1 of this.gameObjects) {
+                object1.update();
+                for (let object2 of this.gameObjects) {
+                    if (object1 != object2 && object1.detectCollision(object2)) {
+                        object1.collide(object2);
+                        object2.collide(object1);
+                    }
                 }
             }
-        }
-        for (let obj of this.gameObjects) {
-            if (obj.CanDestroy) {
-                if (obj instanceof PickUp)
-                    PickUp.NUMBER_OF_PICKUPS--;
-                this.removeGameObject(obj);
+            for (let obj of this.gameObjects) {
+                if (obj.CanDestroy) {
+                    if (obj instanceof PickUp)
+                        PickUp.NUMBER_OF_PICKUPS--;
+                    this.removeGameObject(obj);
+                }
             }
-        }
-        if (this.Tanks.length < 6) {
-            this.addTank(this.randomSettings());
+            if (this.Tanks.length < 6) {
+                this.addTank(this.randomSettings());
+            }
         }
         if (!this.gameover)
             requestAnimationFrame(() => this.update());

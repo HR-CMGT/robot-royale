@@ -17,6 +17,14 @@ export class Game {
     private gameObjects       : GameObject[]  = []
     private socket            : SocketIOClient.Socket
     private leaderboard       : Leaderboard
+
+    private fps               : number = 60
+    private fpsInterval       : number = 1000 / this.fps
+    private startTime         : number = Date.now()
+    private now               : number = 0
+    private then              : number = Date.now()
+    private elapsed           : number = 0
+
     public gameover           : boolean = false
     
     // Properties
@@ -126,38 +134,51 @@ export class Game {
     }
 
     private update(){
-        // Todo when adding a lot of tanks on runtime. error in update loop
-        if(PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
-            PickUp.NUMBER_OF_PICKUPS++
-            PickUp.DELTA_TIME_PICKUPS = 0
+        this.now = Date.now();
+        this.elapsed = this.now - this.then;
 
-            if (Math.random() < 0.5) this.gameObjects.push(new Ammo())
-            else this.gameObjects.push(new Health())
-        }
-        PickUp.DELTA_TIME_PICKUPS++
+        // if enough time has elapsed, draw the next frame
+        if (this.elapsed > this.fpsInterval) {
 
-        for (let object1 of this.gameObjects) {
-            object1.update()
-            for (let object2 of this.gameObjects) {
-                if (object1 != object2 && object1.detectCollision(object2)) {
-                    object1.collide(object2)
-                    object2.collide(object1)
-                }
-            }    
-        }
+            // Get ready for next frame by setting then=now, but also adjust for your
+            // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
+            this.then = this.now - (this.elapsed % this.fpsInterval);
 
-        // Remove all dead objects
-        for (let obj of this.gameObjects) {
-            if(obj.CanDestroy) {
-                if(obj instanceof PickUp) PickUp.NUMBER_OF_PICKUPS--
-                this.removeGameObject(obj)
+            // Put your drawing code here
+            // Todo when adding a lot of tanks on runtime. error in update loop
+            if(PickUp.NUMBER_OF_PICKUPS < PickUp.MAX_PICKUPS && PickUp.DELTA_TIME_PICKUPS > PickUp.INTERVAL_NEW_PICKUP) {
+                PickUp.NUMBER_OF_PICKUPS++
+                PickUp.DELTA_TIME_PICKUPS = 0
+
+                if (Math.random() < 0.5) this.gameObjects.push(new Ammo())
+                else this.gameObjects.push(new Health())
             }
-            
+            PickUp.DELTA_TIME_PICKUPS++
+
+            for (let object1 of this.gameObjects) {
+                object1.update()
+                for (let object2 of this.gameObjects) {
+                    if (object1 != object2 && object1.detectCollision(object2)) {
+                        object1.collide(object2)
+                        object2.collide(object1)
+                    }
+                }
+            }
+
+            // Remove all dead objects
+            for (let obj of this.gameObjects) {
+                if(obj.CanDestroy) {
+                    if(obj instanceof PickUp) PickUp.NUMBER_OF_PICKUPS--
+                    this.removeGameObject(obj)
+                }
+
+            }
+
+            if(this.Tanks.length < 6) {
+                this.addTank(this.randomSettings())
+            }
         }
 
-        if(this.Tanks.length < 6) {
-            this.addTank(this.randomSettings())
-        }
 
         if(!this.gameover) requestAnimationFrame(() => this.update())
     }

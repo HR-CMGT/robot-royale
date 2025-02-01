@@ -4,9 +4,9 @@
   "description": "Multiplayer game for programming awkward robots. The game is projected on a large floor space. Visitors can open a url on their phone to participate in the game. In the game, users program a robot. The robot battles the other robots according to its program.",
   "main": "index.js",
   "dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.17.1",
-    "socket.io": "^2.5.0"
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
   },
   "scripts": {
     "start": "node server.js"
