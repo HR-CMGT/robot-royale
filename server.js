@@ -1,15 +1,32 @@
 require('dotenv/config');
 const express = require('express');
 const app = express();
-const http = require('http').createServer(app);
-const https = require('https');
 const fs = require('fs');
 const { Server } = require('socket.io');
 const debug = process.env.DEBUG === 'true';
 
 app.use(express.static('dist'));
+const port = process.env.PORT || 8080;
 
-const io = new Server(http,  {});
+let webServer;
+if (debug) {
+    const { createServer } = require('http');
+    webServer = createServer(app);
+} else {
+    // SECURE SERVER
+    const key = fs.readFileSync(process.env.KEY);    // private key
+    const cert = fs.readFileSync(process.env.CERT);      // primary
+    //const ca      = fs.readFileSync('/encryption/DigiCertCA.crt' ); // intermediate
+
+    const options = {
+        key: key,
+        cert: cert,
+        //    ca: ca
+    };
+    const { createServer } = require('https');
+    webServer = createServer(options, app);
+}
+const io = new Server(webServer,  {});
 // the robot creator view
 app.get('/creator', function (req, res) {
     res.sendFile(__dirname + '/creator/');
@@ -70,37 +87,9 @@ io.on('connection', (socket) => {
     });
 });
 
-
-if (debug) {
-    console.log('debug mode');
-
-    // server.on('listening', () => {
-    //     const host = server.address().address === '::' ? 'localhost' : server.address().address; // Address could be '::' in case of IPv6, defaulting to localhost in such cases
-    //     console.log(`viewer  http://${host}:${server.address().port}/viewer`);
-    //     console.log(`creator  http://${host}:${server.address().port}/creator`);
-    // });
-    const server = http.listen(3000, () => {
-        const host = server.address().address === '::' ? 'localhost' : server.address().address; // Address could be '::' in case of IPv6, defaulting to localhost in such cases
-        console.log(`viewer  http://${host}:${server.address().port}/viewer`);
-        console.log(`creator  http://${host}:${server.address().port}/creator`);
-    });
-} else {
-    const key = fs.readFileSync(process.env.KEY);    // private key
-    const cert = fs.readFileSync(process.env.CERT);      // primary
-    const port = process.env.PORT || 8080;
-    //const ca      = fs.readFileSync('/encryption/DigiCertCA.crt' ); // intermediate
-
-    const options = {
-        key: key,
-        cert: cert,
-        //    ca: ca
-    };
-
-    server = https.createServer(options, app).listen(port, () => {
-        console.log('server running at ' + port);
-    });
-    server.on('listening', () => {
-        console.log(`viewer  https://${process.env.HOST}:${server.address().port}/viewer`);
-        console.log(`creator  https://${process.env.HOST}:${server.address().port}/creator`);
-    });
-}
+webServer.listen(port, () => {
+    console.log('server running at ' + port);
+    const protocol = debug ? 'http' : 'https';
+    console.log(`viewer  ${protocol}://${process.env.HOST}:${webServer.address().port}/viewer`);
+    console.log(`creator  ${protocol}://${process.env.HOST}:${webServer.address().port}/creator`);
+});
