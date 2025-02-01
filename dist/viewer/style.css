@@ -250,7 +250,7 @@ repair {
 #qrcode {
     position: absolute;
     left:10px;
-    bottom:110px;
+    bottom:83px;
     width:5vw; height:5vw;
     /*background-image: url("./images/qrcode_join.png");*/
     background-size:contain;
